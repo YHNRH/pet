@@ -33,6 +33,7 @@ import world.objects.mobs.SimpleMob
 import world.objects.trees.Apple
 import java.awt.*
 import java.awt.event.ActionListener
+import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
 import java.awt.event.MouseMotionAdapter
 import java.awt.event.MouseMotionListener
@@ -42,8 +43,8 @@ import javax.swing.Timer
 
 
 class Drawer() : JComponent(), MouseMotionListener {
-private var camera: Camera = Camera.instance()
-
+var camera: Camera = Camera.instance()
+var appState: AppState = AppState.WALK
     init {
         camera.x = frameWidth/2 + blockWidth/2
         camera.y = frameHeight/2 //250
@@ -79,11 +80,11 @@ private var camera: Camera = Camera.instance()
 
         addChunk(testChunk)
 
-        testChunk.addObject(testMob)
-        testChunk.addObject(dog)
-        testChunk.addObject(campfire)
-        testChunk.addObject(apple)
-        testChunk.addObject(appleFarm)
+        testChunk.addMob(testMob)
+        testChunk.addMob(dog)
+        testChunk.addBuilding(campfire)
+        testChunk.addBuilding(apple)
+        testChunk.addBuilding(appleFarm)
 
 //        addChunk(world.Chunk.grassChunk(1,0))
 //        addChunk(world.Chunk.grassChunk(2,0))
@@ -110,19 +111,20 @@ private var camera: Camera = Camera.instance()
         }
 //        SelectionHandler.selectedMobs.add(dog)
         SwingUtilities.invokeLater {
-            add(ToolbarButton(bottombar_tower, 133, frameHeight-35, 30, 35))
-            add(ToolbarButton(bottombar_hummer, 169, frameHeight-35, 30, 35))
-            add(ToolbarButton(bottombar_apple, 207, frameHeight-35, 30, 35))
-            add(ToolbarButton(bottombar_house, 242, frameHeight-35, 30, 35))
-            add(ToolbarButton(bottombar_shield, 280, frameHeight-35, 30, 35))
-            add(ToolbarButton(bottombar_hook, 317, frameHeight-35, 30, 35))
-            add(ToolbarButton(sidebar_back, 625, frameHeight-32, 29, 22))
-            add(ToolbarButton(sidebar_exit, 625, frameHeight - 26 - 32, 29, 21))
-            add(ToolbarButton(sidebar_info, 625, frameHeight - 60 - 30, 29, 28))
-            add(ToolbarButton(sidebar_key, 625, frameHeight-100-28, 29, 36))
+            add(ToolbarButton(this, bottombar_tower, 133, frameHeight-35, 30, 35))
+            add(ToolbarButton(this, bottombar_hummer, 169, frameHeight-35, 30, 35))
+            add(ToolbarButton(this, bottombar_apple, 207, frameHeight-35, 30, 35))
+            add(ToolbarButton(this, bottombar_house, 242, frameHeight-35, 30, 35))
+            add(ToolbarButton(this, bottombar_shield, 280, frameHeight-35, 30, 35))
+            add(ToolbarButton(this, bottombar_hook, 317, frameHeight-35, 30, 35))
+            add(ToolbarButton(this, sidebar_back, 625, frameHeight-32, 29, 22))
+            add(ToolbarButton(this, sidebar_exit, 625, frameHeight - 26 - 32, 29, 21))
+            add(ToolbarButton(this, sidebar_info, 625, frameHeight - 60 - 30, 29, 28))
+            add(ToolbarButton(this, sidebar_key, 625, frameHeight-100-28, 29, 36))
 
             for (i in 0..4){
-                add(ToolbarButton(toolbar_applefarm, 140 + (i*100), frameHeight-45 - 61, 76, 61))
+                val btn = ToolbarButton(this, toolbar_applefarm, 140 + (i*100), frameHeight-45 - 61, 76, 61)
+                add(btn)
             }
             addMouseMotionListener(this)
             addMouseListener(MouseListener(this))
@@ -139,12 +141,29 @@ private var camera: Camera = Camera.instance()
     }
 
     override fun mouseDragged(e: MouseEvent) {
-        val g = graphics
-        g.color = Color.BLUE
-        g.fillOval(e.getX(), e.getY(), 20, 20)
+//        val g = graphics
+//        g.color = Color.BLUE
+//        g.fillOval(e.getX(), e.getY(), 20, 20)
     }
 
-    override fun mouseMoved(e: MouseEvent?) {}
+    override fun mouseMoved(e: MouseEvent?) {
+        if (appState == AppState.BUILD) {
+            val y = e!!.y
+            val x = e.x
+            var calcY = -((y - camera.y - frameHeight / 2))
+            val calcX = ((x + camera.x - frameWidth / 2) - blockWidth / 2)
+            val myCoordSysX = calcX + calcY * (blockWidth / blockHeight)
+            val myCoordSysY = -(calcX / 2 - calcY)
+
+            val chunkX = if (calcX / chunkSize < 0) 0 else myCoordSysX / blockWidth / chunkSize
+            val pointX = if (calcX % chunkSize < 0) 0 else myCoordSysX / blockWidth % chunkSize
+            val chunkY = if (calcY / chunkSize < 0) 0 else myCoordSysY / blockHeight / chunkSize
+            val pointY = if (calcY % chunkSize < 0) 0 else myCoordSysY / blockHeight % chunkSize
+            BuilderHelper.getInstance().obj!!.chunkAndPoint =
+                SimpleMob.ChunkAndPoint(Chunk(Point(chunkX, chunkY)), Point(pointX, pointY))
+            println(SimpleMob.ChunkAndPoint(Chunk(Point(chunkX, chunkY)), Point(pointX, pointY)))
+        }
+    }
 
 
     //frameWidth/2, frameHeight/2,0)
@@ -160,6 +179,10 @@ private var camera: Camera = Camera.instance()
 
         Chunks.instance().chunks.forEach{
             it.value.draw(ge)
+        }
+
+        if (appState == AppState.BUILD){
+            BuilderHelper.getInstance().obj?.draw(ge)
         }
         drawToolbar(g)
 //        g.dispose()
@@ -208,41 +231,10 @@ private var camera: Camera = Camera.instance()
 
 //        val calcX = (x + camera.x - frameWidth/2)/ blockWidth
 //        val calcY = (y - camera.y - frameHeight/2) / -blockHeight
-        var calcY = -((y - camera.y - frameHeight/2))
-//        val calcX = ((x + camera.x - frameWidth/2) - blockWidth/2) / blockWidth
-        val calcX = ((x + camera.x - frameWidth/2) - blockWidth/2)
-        val myCoordSysX = calcX + calcY*(blockWidth/ blockHeight)
-        val myCoordSysY =  -(calcX/2 - calcY)
-        println("calcx $calcX")
-        println("calcY $calcY")
-        println()
-        println("myCoordSysX $myCoordSysX")
-        println("myCoordSysY $myCoordSysY")
-//        println("calcXWithOffset $calcXWithOffset")
 
-        val chunkX = if (calcX / chunkSize < 0) 0 else myCoordSysX/ blockWidth / chunkSize
-        val pointX = if (calcX % chunkSize < 0) 0 else myCoordSysX/ blockWidth % chunkSize
-        val chunkY = if (calcY / chunkSize < 0) 0 else myCoordSysY/ blockHeight / chunkSize
-        val pointY = if (calcY % chunkSize < 0) 0 else myCoordSysY/ blockHeight % chunkSize
-//        println(calcY)
+    }
 
-        println()
-        println(" point x ".plus(pointX).plus(" point y ").plus(pointY))
-        println("chunk x ".plus(chunkX).plus(" chunk y ").plus(chunkY))
-        println()
-        SelectionHandler.selectedMobs.forEach{
-//            try{
-                val objects = ArrayList<DrawableObject>()
-                Chunks.instance().chunks.forEach{
-                    objects.addAll(it.value.objects)
-                }
-            val chunk = Chunks.instance().chunks.get(Point(chunkX,chunkY))
-            val pointExist = chunk?.getNoncollisionObject(Point(pointX,pointY)) != null
-            if (chunk != null && pointExist){
-                it.move(SimpleMob.ChunkAndPoint(chunk, Point(pointX,pointY)),
-                    Chunks.instance().chunks, objects, null, Activity.WALK)
-            }
-//            } catch (e:java.lang.Exception){}
-        }
+    enum class AppState {
+        BUILD, WALK
     }
 }

@@ -13,13 +13,18 @@ class AppleFarm(override var chunkAndPoint: SimpleMob.ChunkAndPoint, override va
     }
     override var occupiedBlocks: ArrayList<SimpleMob.ChunkAndPoint> = ArrayList()
 
-    init {
+//    init {
+
+//    }
+
+    override fun setOccupiedBlocks() {
         for (x in (this.chunkAndPoint.point.getX())until (this.chunkAndPoint.point.getX()+width)){
             for (y in (this.chunkAndPoint.point.getY())until (this.chunkAndPoint.point.getY()+width)){
                 this.occupiedBlocks.add(SimpleMob.ChunkAndPoint(chunkAndPoint.chunk, Point(x,y)))
             }
         }
     }
+
 
     override fun getImage(): Image {
         return applefarm

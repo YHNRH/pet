@@ -5,6 +5,8 @@ import Consts.Companion.debugDraw
 import GraphicsExtender
 import Point
 import world.objects.DrawableObject
+import world.objects.buildings.Building
+import world.objects.mobs.Mob
 import world.objects.tiles.Grass
 import world.objects.mobs.SimpleMob
 
@@ -74,8 +76,17 @@ class Chunk(val point: Point) {
         }
     }
 
-    fun addObject(obj: DrawableObject){
+    private fun addObject(obj: DrawableObject){
         objects.add(obj)
 //        objects.put(obj.chunkAndPoint.point,obj)
+    }
+
+    fun addBuilding(building: Building){
+        building.setOccupiedBlocks()
+        addObject(building)
+    }
+
+    fun addMob(mob: Mob){
+        addObject(mob)
     }
 }

@@ -120,16 +120,22 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
 ////            -(y+chunkY* chunkSize),//смещение на пиксель
 //            blockWidth * obj.width, blockHeight * obj.height)
 
-        var calcx = (chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) -(x * blockWidth/2)
-        var calcy = blockHeight*3/2+   (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 )
-        if (obj.height != 2){
-            calcy+= blockHeight * (obj.height/2)
-        }
-        if (obj.width != 1){
-            calcx -= blockWidth/2 * (obj.width/2)
-        }
-        drawImage(obj.getImage(), calcx,
-              calcy,
+
+
+//        var calcx = (chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) -(x * blockWidth/2)
+//        var calcy = blockHeight*3/2+   (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 )
+//        if (obj.height != 2){
+//            calcy+= blockHeight * (obj.height/2)
+//        }
+//        if (obj.width != 1){
+//            calcx -= blockWidth/2 * (obj.width/2)
+//        }
+
+        var drawx = -(blockWidth*obj.width)/2 + blockWidth /2 + (chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) -(x * blockWidth/2)
+        var drawy = -blockHeight* obj.width/2 + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 )
+
+        drawImage(obj.getImage(), drawx,
+            drawy,
             blockWidth * obj.width, blockHeight * obj.height)
 
 
