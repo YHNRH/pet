@@ -17,6 +17,11 @@ import ImageHelper.Companion.sidebar_info
 import ImageHelper.Companion.sidebar_key
 import ImageHelper.Companion.toolbar
 import ImageHelper.Companion.toolbar_applefarm
+import ImageHelper.Companion.toolbar_castle
+import ImageHelper.Companion.toolbar_cattlefarm
+import ImageHelper.Companion.toolbar_hopsfarm
+import ImageHelper.Companion.toolbar_palette
+import ImageHelper.Companion.toolbar_wheatfarm
 import ImageHelper.Companion.treasurer_face_0
 import ImageHelper.Companion.treasurer_right
 import objects.*
@@ -42,9 +47,21 @@ import javax.swing.SwingUtilities
 import javax.swing.Timer
 
 
-class Drawer() : JComponent(), MouseMotionListener {
+class Drawer : JComponent(), MouseMotionListener {
 var camera: Camera = Camera.instance()
 var appState: AppState = AppState.WALK
+    companion object {
+        private var drawer: Drawer? = null
+
+        fun instance(): Drawer{
+            return if (drawer == null){
+                drawer = Drawer()
+                drawer as Drawer
+            } else {
+                drawer as Drawer
+            }
+        }
+    }
     init {
         camera.x = frameWidth/2 + blockWidth/2
         camera.y = frameHeight/2 //250
@@ -105,7 +122,7 @@ var appState: AppState = AppState.WALK
         Chunks.instance().chunks.forEach{
             it.value.objects.forEach{
                 if (it is Mob){
-                    it.behavior?.performActivity(it)
+//                    it.behavior?.performActivity(it)
                 }
             }
         }
@@ -122,8 +139,9 @@ var appState: AppState = AppState.WALK
             add(ToolbarButton(this, sidebar_info, 625, frameHeight - 60 - 30, 29, 28))
             add(ToolbarButton(this, sidebar_key, 625, frameHeight-100-28, 29, 36))
 
-            for (i in 0..4){
-                val btn = ToolbarButton(this, toolbar_applefarm, 140 + (i*100), frameHeight-45 - 61, 76, 61)
+            val btns = arrayOf(toolbar_applefarm, toolbar_wheatfarm, toolbar_cattlefarm, toolbar_hopsfarm, toolbar_castle, toolbar_palette)
+            for (i in btns.indices){
+                val btn = ToolbarButton(this, btns[i], 140 + (i*100), frameHeight-45 - 61, 76, 61)
                 add(btn)
             }
             addMouseMotionListener(this)
@@ -159,8 +177,15 @@ var appState: AppState = AppState.WALK
             val pointX = if (calcX % chunkSize < 0) 0 else myCoordSysX / blockWidth % chunkSize
             val chunkY = if (calcY / chunkSize < 0) 0 else myCoordSysY / blockHeight / chunkSize
             val pointY = if (calcY % chunkSize < 0) 0 else myCoordSysY / blockHeight % chunkSize
-            BuilderHelper.getInstance().obj!!.chunkAndPoint =
+            BuilderHelper.getInstance().setBuildingChunkAndPoint(
                 SimpleMob.ChunkAndPoint(Chunk(Point(chunkX, chunkY)), Point(pointX, pointY))
+            )
+            BuilderHelper.getInstance().getAdditional()?.forEach {
+                val offset = it.offset[BuilderHelper.getInstance().getObj()!!.direction]!!
+             it.obj.chunkAndPoint = SimpleMob.ChunkAndPoint(Chunk(Point(chunkX, chunkY)),
+                 Point(pointX+offset.getX(), pointY+offset.getY())
+             )
+            }
             println(SimpleMob.ChunkAndPoint(Chunk(Point(chunkX, chunkY)), Point(pointX, pointY)))
         }
     }
@@ -182,7 +207,10 @@ var appState: AppState = AppState.WALK
         }
 
         if (appState == AppState.BUILD){
-            BuilderHelper.getInstance().obj?.draw(ge)
+            BuilderHelper.getInstance().getAdditional()?.forEach {
+                it.obj.draw(ge)
+            }
+            BuilderHelper.getInstance().getObj()?.draw(ge)
         }
         drawToolbar(g)
 //        g.dispose()

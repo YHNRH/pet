@@ -1,13 +1,13 @@
 package world.objects.buildings
 
 import GraphicsExtender
-import ImageHelper.Companion.applefarm
+import ImageHelper.Companion.hopsfarm
 import Point
 import world.objects.BuildingDirection
 import world.objects.mobs.SimpleMob
 import java.awt.Image
 
-class AppleFarm(override var chunkAndPoint: SimpleMob.ChunkAndPoint, override var width: Int = 4, override var height: Int = 8,
+class HopsFarm(override var chunkAndPoint: SimpleMob.ChunkAndPoint, override var width: Int = 2, override var height: Int = 4,
 ) : Building {
     override var direction: BuildingDirection = BuildingDirection.LEFT
 
@@ -30,6 +30,6 @@ class AppleFarm(override var chunkAndPoint: SimpleMob.ChunkAndPoint, override va
 
 
     override fun getImage(): Image {
-        return applefarm
+        return hopsfarm
     }
 }

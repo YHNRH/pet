@@ -3,6 +3,7 @@ package world.objects
 import GraphicsExtender
 import world.objects.mobs.SimpleMob
 import java.awt.Image
+import java.awt.image.BufferedImage
 
 interface DrawableObject {
     var chunkAndPoint: SimpleMob.ChunkAndPoint

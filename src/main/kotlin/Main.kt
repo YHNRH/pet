@@ -4,7 +4,6 @@ import javax.swing.*
         fun main(args: Array<String>) {
             EventQueue.invokeLater(object : Runnable {
                 override fun run() {
-                    val drawer = Drawer()
                     val frame = JFrame("Testing")
                     frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
                     frame.isUndecorated = true
@@ -12,7 +11,7 @@ import javax.swing.*
                     frame.addKeyListener(KeyboardListener(Camera.instance()))
 //                    frame.addMouseListener(MouseListener(drawer))
 
-                    frame.add(drawer)
+                    frame.add(Drawer.instance())
 
                     frame.pack()
                     frame.isVisible = true

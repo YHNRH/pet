@@ -20,6 +20,11 @@ class Chunk(val point: Point) {
             println("Выход за размеры чанка")
             return
         }
+        for (x in 0 until obj.width){
+            for (y in 0 until obj.height){
+                nonCollissionObjects.remove(Point(obj.chunkAndPoint.point.getX()+x,obj.chunkAndPoint.point.getY()+y))
+            }
+        }
         nonCollissionObjects.put(Point(obj.chunkAndPoint.point.getX(), obj.chunkAndPoint.point.getY()), obj)
     }
 

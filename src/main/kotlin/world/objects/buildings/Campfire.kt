@@ -3,11 +3,14 @@ package world.objects.buildings
 import AnimationHelper
 import GraphicsExtender
 import ImageHelper.Companion.campfire
+import world.objects.BuildingDirection
 import world.objects.mobs.SimpleMob
 import java.awt.Image
 
-class Campfire(override var chunkAndPoint: SimpleMob.ChunkAndPoint, override var width: Int = 1, override var height: Int = 2,
+class Campfire(override var chunkAndPoint: SimpleMob.ChunkAndPoint, override var width: Int = 2, override var height: Int = 4,
 ) : Building {
+    override var direction: BuildingDirection = BuildingDirection.LEFT
+
     val animCount = 18
     override fun setOccupiedBlocks() {
                 this.occupiedBlocks.add(chunkAndPoint)

@@ -8,19 +8,26 @@ import Consts.Companion.frameWidth
 import objects.Activity
 import world.objects.Direction
 import world.objects.DrawableObject
+import world.objects.DrawableObjectPart
+import world.objects.buildings.Building
 import world.objects.mobs.Mob
 import world.objects.mobs.SimpleMob
 import java.awt.BasicStroke
 import java.awt.Color
 import java.awt.Graphics2D
 import java.awt.Image
+import java.awt.image.BufferedImage
 
 
 class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
 
     private fun drawImage(img: Image, x: Int, y: Int,
-                          width: Int, height: Int){
-        g.drawImage(img,(x - camera.x)*camera.zoom + frameWidth/2,(frameHeight - y  - height + camera.y)*camera.zoom - frameHeight/2,width*camera.zoom,height*camera.zoom,null)
+                          width: Int? = null, height: Int? = null){
+        if (width != null && height != null){
+            g.drawImage(img,(x - camera.x)*camera.zoom + frameWidth/2,(frameHeight - y  - height + camera.y)*camera.zoom - frameHeight/2,width*camera.zoom,height*camera.zoom,null)
+        } else {
+            g.drawImage(img,(x - camera.x)*camera.zoom + frameWidth/2,(frameHeight - y  - (img as BufferedImage).height + camera.y)*camera.zoom - frameHeight/2,null)
+        }
     }
 
     fun drawRect(x: Int, y: Int,
@@ -67,11 +74,31 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
         val y = obj.chunkAndPoint.point.getY()
         val chunkX = obj.chunkAndPoint.chunk.point.getX()
         val chunkY = obj.chunkAndPoint.chunk.point.getY()
-        drawImage(obj.getImage(),(chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) -(x * blockWidth/2),
-//                -(x+chunkX* chunkSize),//смещение на пиксель ,
-             y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ),
-//            -(y+chunkY* chunkSize),//смещение на пиксель
+
+
+//        drawImage(obj.getImage(),(chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) -(x * blockWidth/2),
+////                -(x+chunkX* chunkSize),//смещение на пиксель ,
+//             y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ),
+////            -(y+chunkY* chunkSize),//смещение на пиксель
+//            blockWidth * obj.width, blockHeight * obj.height)
+
+        var drawx = -(blockWidth*obj.width)/2 + blockWidth /2 + (chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) -(x * blockWidth/2)
+//        var drawy = -blockHeight* obj.width/2 + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
+        var drawy = when (obj.width ) {
+            1 -> -(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
+            2 -> -(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
+            3 -> blockWidth/2-(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
+            4 -> blockWidth/4*3-(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
+            else -> -blockHeight* obj.width/2 + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
+        }
+//        g.color = Color.YELLOW
+//        g.fillRect((drawx - camera.x)*camera.zoom + frameWidth/2,(frameHeight - drawy  - blockHeight * obj.height + camera.y)*camera.zoom - frameHeight/2,
+//            blockWidth * obj.width, blockHeight * obj.height)
+        drawImage(obj.getImage(), drawx,
+            drawy,
             blockWidth * obj.width, blockHeight * obj.height)
+
+
         if (debugDraw){
             g.color = Color.RED
 
@@ -108,37 +135,39 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
     }
 
 
-    fun drawBuilding( obj: DrawableObject){
+    fun drawBuilding( obj: Building, drawParts: ArrayList<DrawableObjectPart>? = null){
         val x = obj.chunkAndPoint.point.getX()
         val y = obj.chunkAndPoint.point.getY()
         val chunkX = obj.chunkAndPoint.chunk.point.getX()
         val chunkY = obj.chunkAndPoint.chunk.point.getY()
 
-//        drawImage(obj.getImage(),(chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) -(x * blockWidth/2),
-////                -(x+chunkX* chunkSize),//смещение на пиксель ,
-//            y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ),
-////            -(y+chunkY* chunkSize),//смещение на пиксель
-//            blockWidth * obj.width, blockHeight * obj.height)
-
-
-
-//        var calcx = (chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) -(x * blockWidth/2)
-//        var calcy = blockHeight*3/2+   (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 )
-//        if (obj.height != 2){
-//            calcy+= blockHeight * (obj.height/2)
-//        }
-//        if (obj.width != 1){
-//            calcx -= blockWidth/2 * (obj.width/2)
-//        }
-
         var drawx = -(blockWidth*obj.width)/2 + blockWidth /2 + (chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) -(x * blockWidth/2)
-        var drawy = -blockHeight* obj.width/2 + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 )
-
+//        var drawy = -blockHeight* obj.width/2 + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
+        var drawy = when (obj.width ) {
+            1 -> -(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
+            2 -> -(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
+            3 -> blockWidth/2-(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
+            4 -> blockWidth/4*3-(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
+            8 -> 60-(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
+            else -> -blockHeight* obj.width/2 + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
+        }
+//        g.color = Color.YELLOW
+//        g.fillRect((drawx - camera.x)*camera.zoom + frameWidth/2,(frameHeight - drawy  - blockHeight * obj.height + camera.y)*camera.zoom - frameHeight/2,
+//            blockWidth * obj.width, blockHeight * obj.height)
         drawImage(obj.getImage(), drawx,
             drawy,
             blockWidth * obj.width, blockHeight * obj.height)
 
+        /*
+        START drawParts
+         */
+        drawParts?.forEach {
+            drawImage(it.getImage(obj.direction),drawx + it.getOffsetX(obj.direction), drawy + it.getOffsetY(obj.direction))
+        }
 
+        /*
+        END drawParts
+         */
 
         if (debugDraw){
             g.color = Color.RED

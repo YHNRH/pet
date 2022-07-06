@@ -7,6 +7,13 @@ class ImageHelper {
             ImageIO.read(javaClass.getResource("tiles/grass/$it.png"))
         }
 
+        val farmland_unprepared: Array<BufferedImage> = Array(4) {
+            ImageIO.read(javaClass.getResource("tiles/farmland/unprepared/${it+1}.png"))
+        }
+
+
+        val trodden_ground: BufferedImage = ImageIO.read(javaClass.getResource("tiles/trodden_ground.png"))
+
         val campfire: Array<BufferedImage> = Array(18) {
             ImageIO.read(javaClass.getResource("buildings/campfire/$it.png"))
         }
@@ -144,7 +151,17 @@ class ImageHelper {
             ImageIO.read(javaClass.getResource("trees/apple/fructify/${it+1}.png"))
         }
 
-        val applefarm = ImageIO.read(javaClass.getResource("buildings/applefarm_old.png"))
+        val applefarm = ImageIO.read(javaClass.getResource("buildings/applefarm.png"))
+        val cattlefarm = ImageIO.read(javaClass.getResource("buildings/cattlefarm.png"))
+        val hopsfarm = ImageIO.read(javaClass.getResource("buildings/hopsfarm.png"))
+        val wheatfarm = ImageIO.read(javaClass.getResource("buildings/wheatfarm.png"))
+        val castle = ImageIO.read(javaClass.getResource("buildings/castle/castle.png"))
+        val palette = ImageIO.read(javaClass.getResource("buildings/palette.png"))
+
+        val castle_gate0_l = ImageIO.read(javaClass.getResource("buildings/castle/gate0_l.png"))
+        val castle_gate1_l = ImageIO.read(javaClass.getResource("buildings/castle/gate1_l.png"))
+        val castle_gate0_r = ImageIO.read(javaClass.getResource("buildings/castle/gate0_r.png"))
+        val castle_gate1_r = ImageIO.read(javaClass.getResource("buildings/castle/gate1_r.png"))
 
         val edge = ImageIO.read(javaClass.getResource("toolbar/edge.png"))
 //        val edge_right = ImageIO.read(javaClass.getResource("toolbar/edge_right.png"))
@@ -154,6 +171,24 @@ class ImageHelper {
 
         val toolbar_applefarm: Array<BufferedImage> = Array(2) {
             ImageIO.read(javaClass.getResource("toolbar/applefarm/${it}.png"))
+        }
+
+        val toolbar_castle: Array<BufferedImage> = Array(2) {
+            ImageIO.read(javaClass.getResource("toolbar/castle/${it}.png"))
+        }
+
+        val toolbar_palette: Array<BufferedImage> = Array(2) {
+            ImageIO.read(javaClass.getResource("toolbar/palette/${it}.png"))
+        }
+
+        val toolbar_cattlefarm: Array<BufferedImage> = Array(2) {
+            ImageIO.read(javaClass.getResource("toolbar/cattlefarm/${it}.png"))
+        }
+        val toolbar_hopsfarm: Array<BufferedImage> = Array(2) {
+            ImageIO.read(javaClass.getResource("toolbar/hopsfarm/${it}.png"))
+        }
+        val toolbar_wheatfarm: Array<BufferedImage> = Array(2) {
+            ImageIO.read(javaClass.getResource("toolbar/wheatfarm/${it}.png"))
         }
 
         val bottombar_apple: Array<BufferedImage> = Array(3) {

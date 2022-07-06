@@ -1,7 +1,7 @@
 class Consts{
     companion object {
-        val blockWidth = 60 //50
-        val blockHeight = 30 //50
+        val blockWidth = 30 //50
+        val blockHeight = 15 //50
         val chunkSize = 50
         val chunkWidth = chunkSize* blockWidth
         val chunkHeight = chunkSize* blockHeight

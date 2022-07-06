@@ -1,20 +1,20 @@
 package world.objects.buildings
 
 import GraphicsExtender
-import ImageHelper.Companion.applefarm
+import ImageHelper.Companion.cattlefarm
 import Point
 import world.objects.BuildingDirection
 import world.objects.mobs.SimpleMob
 import java.awt.Image
+import java.awt.image.BufferedImage
 
-class AppleFarm(override var chunkAndPoint: SimpleMob.ChunkAndPoint, override var width: Int = 4, override var height: Int = 8,
+class CattleFarm(override var chunkAndPoint: SimpleMob.ChunkAndPoint, override var width: Int = 2, override var height: Int = 4,
 ) : Building {
-    override var direction: BuildingDirection = BuildingDirection.LEFT
-
     override fun draw(ge: GraphicsExtender) {
         ge.drawBuilding(this)
     }
     override var occupiedBlocks: ArrayList<SimpleMob.ChunkAndPoint> = ArrayList()
+    override var direction: BuildingDirection = BuildingDirection.LEFT
 
 //    init {
 
@@ -29,7 +29,7 @@ class AppleFarm(override var chunkAndPoint: SimpleMob.ChunkAndPoint, override va
     }
 
 
-    override fun getImage(): Image {
-        return applefarm
+    override fun getImage(): BufferedImage {
+        return cattlefarm
     }
 }
