@@ -7,7 +7,7 @@ import world.objects.BuildingDirection
 import world.objects.mobs.SimpleMob
 import java.awt.Image
 
-class Palette(override var chunkAndPoint: SimpleMob.ChunkAndPoint, override var width: Int = 6, override var height: Int = 6,
+class Palette(override var chunkAndPoint: SimpleMob.ChunkAndPoint, override var width: Int = 4, override var height: Int = 4,
 ) : Building {
     override var direction: BuildingDirection = BuildingDirection.LEFT
 

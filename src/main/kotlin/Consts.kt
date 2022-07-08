@@ -15,7 +15,7 @@ class Consts{
 
         const val zoomStep = 1
 
-        const val debugDraw = false
+        const val debugDraw = true
 
         const val walkSpeed = 700
         const val runSpeed = 400

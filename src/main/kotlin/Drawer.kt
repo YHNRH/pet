@@ -31,10 +31,7 @@ import world.Chunks
 import world.objects.DrawableObject
 import world.objects.buildings.AppleFarm
 import world.objects.buildings.Campfire
-import world.objects.mobs.Archer
-import world.objects.mobs.Dog
-import world.objects.mobs.Mob
-import world.objects.mobs.SimpleMob
+import world.objects.mobs.*
 import world.objects.trees.Apple
 import java.awt.*
 import java.awt.event.ActionListener
@@ -67,7 +64,7 @@ var appState: AppState = AppState.WALK
         camera.y = frameHeight/2 //250
         camera.setZoom(zoomMin)
         val testChunk = Chunk.grassChunk(0,0)
-        val testMob = Archer(SimpleMob.ChunkAndPoint(testChunk,Point(16,16)))
+        val testMob = Peasant(SimpleMob.ChunkAndPoint(testChunk,Point(16,16)))
         val dog = Dog(SimpleMob.ChunkAndPoint(testChunk,Point(6,1)))
         val campfire = Campfire(SimpleMob.ChunkAndPoint(testChunk,Point(9,3)))
         val apple = Apple(SimpleMob.ChunkAndPoint(testChunk,Point(12,3)))

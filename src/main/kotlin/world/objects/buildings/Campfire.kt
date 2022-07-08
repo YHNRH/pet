@@ -7,7 +7,7 @@ import world.objects.BuildingDirection
 import world.objects.mobs.SimpleMob
 import java.awt.Image
 
-class Campfire(override var chunkAndPoint: SimpleMob.ChunkAndPoint, override var width: Int = 2, override var height: Int = 4,
+class Campfire(override var chunkAndPoint: SimpleMob.ChunkAndPoint, override var width: Int = 1, override var height: Int = 2,
 ) : Building {
     override var direction: BuildingDirection = BuildingDirection.LEFT
 

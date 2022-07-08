@@ -15,7 +15,7 @@ import world.objects.mobs.SimpleMob
 import java.awt.Image
 import java.awt.image.BufferedImage
 
-class Castle(override var chunkAndPoint: SimpleMob.ChunkAndPoint, override var width: Int = 8, override var height: Int = 16) : Building {
+class Castle(override var chunkAndPoint: SimpleMob.ChunkAndPoint, override var width: Int = 6, override var height: Int = 12) : Building {
     override var direction: BuildingDirection = BuildingDirection.LEFT
 
     override fun setOccupiedBlocks() {

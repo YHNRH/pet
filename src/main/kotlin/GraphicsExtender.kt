@@ -89,6 +89,8 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
             2 -> -(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
             3 -> blockWidth/2-(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
             4 -> blockWidth/4*3-(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
+            6 -> blockWidth*5/4-(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
+            8 -> 60-(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
             else -> -blockHeight* obj.width/2 + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
         }
 //        g.color = Color.YELLOW
@@ -148,6 +150,7 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
             2 -> -(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
             3 -> blockWidth/2-(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
             4 -> blockWidth/4*3-(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
+            6 -> blockWidth*5/4-(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
             8 -> 60-(blockHeight* obj.width/2) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
             else -> -blockHeight* obj.width/2 + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
         }

@@ -81,6 +81,59 @@ class ImageHelper {
             ImageIO.read(javaClass.getResource("archer/left_bottom/walk/${it+1}.png"))
         }
 
+        val farmer_walk_bottom: Array<BufferedImage> = Array(8) {
+            ImageIO.read(javaClass.getResource("farmer/bottom/walk/${it+1}.png"))
+        }
+        val farmer_walk_top: Array<BufferedImage> = Array(8) {
+
+            ImageIO.read(javaClass.getResource("farmer/top/walk/${it+1}.png"))
+        }
+        val farmer_walk_left: Array<BufferedImage> = Array(8) {
+            ImageIO.read(javaClass.getResource("farmer/left/walk/${it+1}.png"))
+        }
+        val farmer_walk_right: Array<BufferedImage> = Array(8) {
+            ImageIO.read(javaClass.getResource("farmer/right/walk/${it+1}.png"))
+        }
+        val farmer_walk_right_top: Array<BufferedImage> = Array(8) {
+            ImageIO.read(javaClass.getResource("farmer/right_top/walk/${it+1}.png"))
+        }
+        val farmer_walk_right_bottom: Array<BufferedImage> = Array(8) {
+            ImageIO.read(javaClass.getResource("farmer/right_bottom/walk/${it+1}.png"))
+        }
+        val farmer_walk_left_top: Array<BufferedImage> = Array(8) {
+            ImageIO.read(javaClass.getResource("farmer/left_top/walk/${it+1}.png"))
+        }
+        val farmer_walk_left_bottom: Array<BufferedImage> = Array(8) {
+            ImageIO.read(javaClass.getResource("farmer/left_bottom/walk/${it+1}.png"))
+        }
+
+
+        val peasant_walk_bottom: Array<BufferedImage> = Array(8) {
+            ImageIO.read(javaClass.getResource("peasant/bottom/walk/${it+1}.png"))
+        }
+        val peasant_walk_top: Array<BufferedImage> = Array(8) {
+
+            ImageIO.read(javaClass.getResource("peasant/top/walk/${it+1}.png"))
+        }
+        val peasant_walk_left: Array<BufferedImage> = Array(8) {
+            ImageIO.read(javaClass.getResource("peasant/left/walk/${it+1}.png"))
+        }
+        val peasant_walk_right: Array<BufferedImage> = Array(8) {
+            ImageIO.read(javaClass.getResource("peasant/right/walk/${it+1}.png"))
+        }
+        val peasant_walk_right_top: Array<BufferedImage> = Array(8) {
+            ImageIO.read(javaClass.getResource("peasant/right_top/walk/${it+1}.png"))
+        }
+        val peasant_walk_right_bottom: Array<BufferedImage> = Array(8) {
+            ImageIO.read(javaClass.getResource("peasant/right_bottom/walk/${it+1}.png"))
+        }
+        val peasant_walk_left_top: Array<BufferedImage> = Array(8) {
+            ImageIO.read(javaClass.getResource("peasant/left_top/walk/${it+1}.png"))
+        }
+        val peasant_walk_left_bottom: Array<BufferedImage> = Array(8) {
+            ImageIO.read(javaClass.getResource("peasant/left_bottom/walk/${it+1}.png"))
+        }
+
 
         val archer_rest_0: Array<BufferedImage> = Array(16) {
             ImageIO.read(javaClass.getResource("archer/rest/rest_0/${it+1}.png"))

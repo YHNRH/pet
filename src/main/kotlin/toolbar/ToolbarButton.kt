@@ -77,23 +77,23 @@ class ToolbarButton(val drawer: Drawer,private val imgArray: Array<BufferedImage
                     toolbar_castle -> {
                         drawer.appState = Drawer.AppState.BUILD
                         val offset = HashMap<BuildingDirection, Point>()
-                        offset.put(BuildingDirection.LEFT, Point(0,-3))
-                        offset.put(BuildingDirection.RIGHT, Point(-3,0))
+                        offset.put(BuildingDirection.LEFT, Point(0,-4))
+                        offset.put(BuildingDirection.RIGHT, Point(-4,0))
                         val pallete = AdditionalBuilding(Palette(SimpleMob.ChunkAndPoint(Chunk(Point(0,0)), Point(0,0))), offset)
 
                         val offset_TG = HashMap<BuildingDirection, Point>()
-                        offset_TG.put(BuildingDirection.LEFT, Point(-4,0))
-                        offset_TG.put(BuildingDirection.RIGHT, Point(0,-4))
+                        offset_TG.put(BuildingDirection.LEFT, Point(-6,0))
+                        offset_TG.put(BuildingDirection.RIGHT, Point(0,-6))
                         val troddenGround = AdditionalBuilding(TroddenGround(SimpleMob.ChunkAndPoint(Chunk(Point(0,0)), Point(0,0))), offset_TG)
 
                         val offset_CF = HashMap<BuildingDirection, Point>()
-                        offset_CF.put(BuildingDirection.LEFT, Point(-3,1))
-                        offset_CF.put(BuildingDirection.RIGHT, Point(1,-3))
+                        offset_CF.put(BuildingDirection.LEFT, Point(-4,2))
+                        offset_CF.put(BuildingDirection.RIGHT, Point(2,-4))
                         val campfire = AdditionalBuilding(Campfire(SimpleMob.ChunkAndPoint(Chunk(Point(0,0)), Point(0,0))), offset_CF)
 
                         BuilderHelper.getInstance().setBuilding(
                             Castle(SimpleMob.ChunkAndPoint(Chunk(Point(0,0)), Point(0,0))),
-                            arrayListOf(pallete, troddenGround, campfire)
+                            arrayListOf(pallete, troddenGround)//, campfire)
                         )
                     }
 
