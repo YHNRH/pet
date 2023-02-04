@@ -57,14 +57,30 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
 
         array.forEach {
             for (i in 0..it.size-2){
+//                drawLine(
+//                    it.get(i).chunk.point.getX() * chunkWidth + it.get(i).point.getX() * blockWidth + blockWidth / 2,
+//                    it.get(i).chunk.point.getY() * chunkHeight + it.get(i).point.getY() * blockHeight - blockHeight / 2,
+//                    it.get(i + 1).chunk.point.getX() * chunkWidth + it.get(i + 1).point.getX() * blockWidth + blockWidth / 2 ,
+//                    it.get(i + 1).chunk.point.getY() * chunkHeight + it.get(i + 1).point.getY() * blockHeight - blockHeight / 2,
+//                )
                 drawLine(
-                    it.get(i).chunk.point.getX() * chunkWidth + it.get(i).point.getX() * blockWidth + blockWidth / 2,
-                    it.get(i).chunk.point.getY() * chunkHeight + it.get(i).point.getY() * blockHeight - blockHeight / 2,
-                    it.get(i + 1).chunk.point.getX() * chunkWidth + it.get(i + 1).point.getX() * blockWidth + blockWidth / 2 ,
-                    it.get(i + 1).chunk.point.getY() * chunkHeight + it.get(i + 1).point.getY() * blockHeight - blockHeight / 2,
+                    (it.get(i).chunk.point.getX()*chunkWidth/2) - (it.get(i).chunk.point.getY()* chunkWidth/2 )+ it.get(i).point.getX()*blockWidth-(it.get(i).point.getY() * blockWidth/2) -( it.get(i).point.getX() * blockWidth/2)+ blockWidth/2,
+                    (it.get(i).chunk.point.getX()*chunkHeight/2) + (it.get(i).chunk.point.getY()* chunkHeight/2 ) + it.get(i).point.getY()* blockHeight - (it.get(i).point.getY() * blockHeight/2) + blockHeight/2 + ( it.get(i).point.getX() * blockHeight/2) ,
+                    (it.get(i+1).chunk.point.getX()*chunkWidth/2) - (it.get(i + 1).chunk.point.getY()* chunkWidth/2 )+ it.get(i + 1).point.getX()*blockWidth-(it.get(i+1).point.getY() * blockWidth/2) -( it.get(i+1).point.getX() * blockWidth/2) + blockWidth/2,
+                    (it.get(i +1).chunk.point.getX()*chunkHeight/2) + (it.get(i + 1 ).chunk.point.getY()* chunkHeight/2 ) + it.get(i+1).point.getY()* blockHeight - (it.get(i+1).point.getY() * blockHeight/2) + blockHeight/2 + ( it.get(i+1).point.getX() * blockHeight/2),
                 )
-
-
+//                drawLine(
+//                    it.get(i).chunk.point.getX() * chunkWidth + it.get(i).point.getX() * blockWidth - blockWidth / 2,
+//                    it.get(i).chunk.point.getY() * chunkHeight + it.get(i).point.getY() * blockHeight  + it.get(i).point.getX() * (blockHeight) - blockHeight / 2,
+//                    it.get(i + 1).chunk.point.getX() * chunkWidth + it.get(i + 1).point.getX() * blockWidth - blockWidth / 2 ,
+//                    it.get(i + 1).chunk.point.getY() * chunkHeight + it.get(i + 1).point.getY() * blockHeight + it.get(i + 1).point.getX() * (blockHeight) - blockHeight / 2,
+//                )
+//                drawLine(
+//                    it.get(i).chunk.point.getX() * chunkWidth + it.get(i).point.getX() * blockWidth - blockWidth / 2,
+//                    it.get(i).chunk.point.getY() * chunkHeight + it.get(i).point.getY() * blockHeight  + it.get(i).point.getX() * (blockHeight) - blockHeight / 2,
+//                    it.get(i + 1).chunk.point.getX() * chunkWidth + it.get(i + 1).point.getX() * blockWidth - blockWidth / 2 ,
+//                    it.get(i + 1).chunk.point.getY() * chunkHeight + it.get(i + 1).point.getY() * blockHeight + it.get(i + 1).point.getX() * (blockHeight) - blockHeight / 2,
+//                )
             }
         }
     }
@@ -102,6 +118,8 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
 
 
         if (debugDraw){
+
+            //Отрисовка границ блока
             g.color = Color.RED
 
             drawLine((chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) -(x * blockWidth/2),
