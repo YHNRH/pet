@@ -60,9 +60,8 @@ class Chunk(val point: Point) {
 
 
         // По идее, для объектов, которые занимают много блоков (например здания), надо смотреть не chunkAndPoint, а (наверное) блок из occupiedBlock с бОльшим X и меньшим Y
-        objects.sortByDescending { it.chunkAndPoint.point.getY()  }
-        objects.sortByDescending { it.chunkAndPoint.point.getX()  }
-
+        objects.sortByDescending { it.occupiedBlocks.minByOrNull { it.point.getY() }?.point?.getY() }
+        objects.sortByDescending { it.occupiedBlocks.maxByOrNull { it.point.getX() }?.point?.getX()  }
 
 
         objects.forEach{
@@ -101,7 +100,7 @@ class Chunk(val point: Point) {
         building.setOccupiedBlocks()
         addObject(building)
     }
-    
+
     fun addMob(mob: Mob){
         addObject(mob)
     }
