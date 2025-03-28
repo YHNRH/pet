@@ -4,7 +4,7 @@ import world.objects.Direction
 import world.objects.mobs.Dog
 import world.objects.mobs.Mob
 
-class PeeBehavior(var nextActivityBehavior: ActivityBehavior?) : ActivityBehavior {
+class PeeBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavior(nextActivityBehavior) {
     override fun performActivity(mob: Mob) {
         if (mob.direction == Direction.LEFT_TOP){
             (mob as Dog).pee(this)
@@ -20,5 +20,9 @@ class PeeBehavior(var nextActivityBehavior: ActivityBehavior?) : ActivityBehavio
 //        }
 //        val t = Timer(Random.nextInt(3000,5000), task)
 //        t.start()
+    }
+
+    override fun forceStop() {
+        TODO("Not yet implemented")
     }
 }

@@ -10,7 +10,7 @@ import world.objects.mobs.Mob
 import world.objects.mobs.SimpleMob
 import kotlin.random.Random
 
-class RunBehavior(var nextActivityBehavior: ActivityBehavior?) : ActivityBehavior {
+class RunBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavior(nextActivityBehavior)  {
     override fun performActivity(mob: Mob) {
         val activity = Activity.RUN
         var rndX = Random.nextInt(-10, 10)
@@ -43,9 +43,9 @@ class RunBehavior(var nextActivityBehavior: ActivityBehavior?) : ActivityBehavio
             Chunks.instance().chunks.forEach{
                 objects.addAll(it.value.objects)
             }
-            mob.move(
-                SimpleMob.ChunkAndPoint(chunk, Point(rndX,rndY)),
-                Chunks.instance().chunks, objects , this, activity)
+      //      mob.move(
+     //           SimpleMob.ChunkAndPoint(chunk, Point(rndX,rndY)),
+    //            Chunks.instance().chunks, objects , this, activity)
         } else {
             performActivity(mob)
         }
@@ -53,5 +53,9 @@ class RunBehavior(var nextActivityBehavior: ActivityBehavior?) : ActivityBehavio
 
     override fun nextActivity(mob: Mob) {
         nextActivityBehavior?.performActivity(mob)
+    }
+
+    override fun forceStop() {
+        TODO("Not yet implemented")
     }
 }

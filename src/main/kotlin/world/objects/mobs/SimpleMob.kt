@@ -9,6 +9,7 @@ import Consts.Companion.walkSpeed
 import GraphicsExtender
 import Point
 import objects.Activity
+import world.ChunkAndPoint
 import world.objects.Direction
 import world.objects.DrawableObject
 import world.objects.mobs.activityBehaviors.ActivityBehavior
@@ -18,10 +19,10 @@ import kotlin.math.abs
 
 abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
                          override var width: Int,
-                         override var height: Int
+                         override var height: Double
 ) : Mob {
-    var timer: Timer? = null
-    var pathForDebugDraw: ArrayList<ArrayList<ChunkAndPoint>> = ArrayList()
+//    var timer: Timer? = null
+    override var pathForDebugDraw: ArrayList<ArrayList<ChunkAndPoint>> = ArrayList()
     override var occupiedBlocks: ArrayList<ChunkAndPoint> = ArrayList()
 
     init {
@@ -32,128 +33,134 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
         }
     }
 
-    override fun move(
-        chunkAndPoint: ChunkAndPoint,
-        chunks: HashMap<Point, Chunk>,
-        objects: ArrayList<DrawableObject>,
-        caller: ActivityBehavior?,
-        activity: Activity
-    ) {
-        timer?.stop()
-        this.activity = activity
-            step = 0
+    fun addBehavior(behavior: ActivityBehavior){
+        this.behavior?.forceStop()
+        this.behavior = behavior
+        behavior.performActivity(this)
+    }
 
-
-            val chunksX =if (this.chunkAndPoint.chunk.point.getX() >= chunkAndPoint.chunk.point.getX()){
-                this.chunkAndPoint.chunk.point.getX()downTo chunkAndPoint.chunk.point.getX()
-            } else {
-                this.chunkAndPoint.chunk.point.getX()..chunkAndPoint.chunk.point.getX()
-            }
-
-            val chunksY =if (this.chunkAndPoint.chunk.point.getY() >= chunkAndPoint.chunk.point.getY()){
-                this.chunkAndPoint.chunk.point.getY()downTo chunkAndPoint.chunk.point.getY()
-            } else {
-                this.chunkAndPoint.chunk.point.getY()..chunkAndPoint.chunk.point.getY()
-            }
-
-
-            val chunksToSearch = HashMap<Point, Chunk>()
-
-            chunksX.forEach{ x ->
-                chunksY.forEach{y ->
-                    val foundedChunk =  chunks.get(Point(x, y))
-                    if (foundedChunk != null){
-                        chunksToSearch.put(Point(x, y), foundedChunk)
-                    }
-                }
-            }
-            println("chunksToSearch size " + chunksToSearch.size)
-            val t = Thread{
-                try{
-                    val shortestPath = getShortestPath(chunkAndPoint,chunksToSearch, objects)
-
-                pathForDebugDraw.add(shortestPath)
-                var index = 0
-
-                val taskPerformer = ActionListener {
-                    try{
-                        if (this.chunkAndPoint.point.getX() > shortestPath[index].point.getX()){
-
-                            direction = if (this.chunkAndPoint.point.getY() > shortestPath[index].point.getY()){
-                                Direction.BOTTOM
-                            } else if (this.chunkAndPoint.point.getY() < shortestPath[index].point.getY()){
-                                Direction.LEFT
-                            } else {
-                                Direction.LEFT_BOTTOM
-                            }
-                        } else if (this.chunkAndPoint.point.getX() < shortestPath[index].point.getX()){
-
-                            direction = if (this.chunkAndPoint.point.getY() > shortestPath[index].point.getY()){
-                                Direction.RIGHT
-
-                            } else if (this.chunkAndPoint.point.getY() < shortestPath[index].point.getY()){
-                                Direction.TOP
-                            } else {
-                                Direction.RIGHT_TOP
-                            }
-                        } else {
-                            direction = if (this.chunkAndPoint.point.getY() > shortestPath[index].point.getY()){
-                                Direction.RIGHT_BOTTOM
-                            } else {
-                                Direction.LEFT_TOP
-                            }
-                        }
-                        if (step == animSizes.get(activity)!!-1){
-                            this.chunkAndPoint.point = shortestPath[index].point
-                            this.chunkAndPoint.chunk = shortestPath[index].chunk
-                            this.occupiedBlocks.clear()
-                            for (x in (this.chunkAndPoint.point.getX())until(this.chunkAndPoint.point.getX()+width/2)){
-                                for (y in (this.chunkAndPoint.point.getY())until(this.chunkAndPoint.point.getY()+width/2)){
-                                    this.occupiedBlocks.add(ChunkAndPoint(this.chunkAndPoint.chunk, Point(x,y)))
-                                }
-                            }
-                            index++
-                            step = 0
-                        } else {
-                            step++
-                        }
-
-                    } catch (e : Throwable){
-                        e.printStackTrace()
-                        timer?.stop()
-                        this.activity = Activity.STAND
-
-                        caller?.nextActivity(this)
-                        step = 0
-                        this.pathForDebugDraw.clear()
-                    }
-                }
-                val speed = when(this.activity){
-                    Activity.WALK -> walkSpeed
-                    Activity.RUN -> runSpeed
-                    else  -> walkSpeed
-                }
-                    val delay = when (activity){
-                        Activity.RUN -> speed/ animSizes[activity]!!
-                        Activity.WALK -> speed/ animSizes[activity]!!
-                        else -> speed/ animSizes[activity]!!
-                    }
-                timer = Timer(delay, taskPerformer)
-
-                timer?.start()
-                } catch (e: Throwable){
-                    e.printStackTrace()
-                    this.activity = Activity.STAND
-                    step = 0
-                    caller?.performActivity(this)
-                    this.pathForDebugDraw.clear()
-                }
-            }
-            t.start()
-//            this.chunk = chunk
-//            this.point = point
-
-        }
+//    override fun move(
+//        chunkAndPoint: ChunkAndPoint,
+//        chunks: HashMap<Point, Chunk>,
+//        objects: ArrayList<DrawableObject>,
+//        caller: ActivityBehavior?,
+//        activity: Activity
+//    ) {
+//        timer?.stop()
+//        this.activity = activity
+//            step = 0
+//
+//
+//            val chunksX =if (this.chunkAndPoint.chunk.point.getX() >= chunkAndPoint.chunk.point.getX()){
+//                this.chunkAndPoint.chunk.point.getX()downTo chunkAndPoint.chunk.point.getX()
+//            } else {
+//                this.chunkAndPoint.chunk.point.getX()..chunkAndPoint.chunk.point.getX()
+//            }
+//
+//            val chunksY =if (this.chunkAndPoint.chunk.point.getY() >= chunkAndPoint.chunk.point.getY()){
+//                this.chunkAndPoint.chunk.point.getY()downTo chunkAndPoint.chunk.point.getY()
+//            } else {
+//                this.chunkAndPoint.chunk.point.getY()..chunkAndPoint.chunk.point.getY()
+//            }
+//
+//
+//            val chunksToSearch = HashMap<Point, Chunk>()
+//
+//            chunksX.forEach{ x ->
+//                chunksY.forEach{y ->
+//                    val foundedChunk =  chunks.get(Point(x, y))
+//                    if (foundedChunk != null){
+//                        chunksToSearch.put(Point(x, y), foundedChunk)
+//                    }
+//                }
+//            }
+//            println("chunksToSearch size " + chunksToSearch.size)
+//            val t = Thread{
+//                try{
+//                    val shortestPath = getShortestPath(chunkAndPoint,chunksToSearch, objects)
+//
+//                pathForDebugDraw.add(shortestPath)
+//                var index = 0
+//
+//                val taskPerformer = ActionListener {
+//                    try{
+//                        if (this.chunkAndPoint.point.getX() > shortestPath[index].point.getX()){
+//
+//                            direction = if (this.chunkAndPoint.point.getY() > shortestPath[index].point.getY()){
+//                                Direction.BOTTOM
+//                            } else if (this.chunkAndPoint.point.getY() < shortestPath[index].point.getY()){
+//                                Direction.LEFT
+//                            } else {
+//                                Direction.LEFT_BOTTOM
+//                            }
+//                        } else if (this.chunkAndPoint.point.getX() < shortestPath[index].point.getX()){
+//
+//                            direction = if (this.chunkAndPoint.point.getY() > shortestPath[index].point.getY()){
+//                                Direction.RIGHT
+//
+//                            } else if (this.chunkAndPoint.point.getY() < shortestPath[index].point.getY()){
+//                                Direction.TOP
+//                            } else {
+//                                Direction.RIGHT_TOP
+//                            }
+//                        } else {
+//                            direction = if (this.chunkAndPoint.point.getY() > shortestPath[index].point.getY()){
+//                                Direction.RIGHT_BOTTOM
+//                            } else {
+//                                Direction.LEFT_TOP
+//                            }
+//                        }
+//                        if (step == animSizes.get(activity)!!-1){
+//                            this.chunkAndPoint.point = shortestPath[index].point
+//                            this.chunkAndPoint.chunk = shortestPath[index].chunk
+//                            this.occupiedBlocks.clear()
+//                            for (x in (this.chunkAndPoint.point.getX())until(this.chunkAndPoint.point.getX()+width/2)){
+//                                for (y in (this.chunkAndPoint.point.getY())until(this.chunkAndPoint.point.getY()+width/2)){
+//                                    this.occupiedBlocks.add(ChunkAndPoint(this.chunkAndPoint.chunk, Point(x,y)))
+//                                }
+//                            }
+//                            index++
+//                            step = 0
+//                        } else {
+//                            step++
+//                        }
+//
+//                    } catch (e : Throwable){
+//                        e.printStackTrace()
+//                        timer?.stop()
+//                        this.activity = Activity.STAND
+//
+//                        caller?.nextActivity(this)
+//                        step = 0
+//                        this.pathForDebugDraw.clear()
+//                    }
+//                }
+//                val speed = when(this.activity){
+//                    Activity.WALK -> walkSpeed
+//                    Activity.RUN -> runSpeed
+//                    else  -> walkSpeed
+//                }
+//                    val delay = when (activity){
+//                        Activity.RUN -> speed/ animSizes[activity]!!
+//                        Activity.WALK -> speed/ animSizes[activity]!!
+//                        else -> speed/ animSizes[activity]!!
+//                    }
+//                timer = Timer(delay, taskPerformer)
+//
+//                timer?.start()
+//                } catch (e: Throwable){
+//                    e.printStackTrace()
+//                    this.activity = Activity.STAND
+//                    step = 0
+//                    caller?.performActivity(this)
+//                    this.pathForDebugDraw.clear()
+//                }
+//            }
+//            t.start()
+////            this.chunk = chunk
+////            this.point = point
+//
+//        }
 
 //        fun availableMoves_old(chunk: world.Chunk, point: Point, chunks: HashMap<Point, world.Chunk>): ArrayList<Point> {
 //            var moves = ArrayList<Point>()
@@ -431,14 +438,14 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
 //
 //    }
 
-    fun getShortestPath(destination: ChunkAndPoint, chunks: HashMap<Point, Chunk>, mobs:ArrayList<DrawableObject>): ArrayList<ChunkAndPoint>{
-        var astar = AStar()
-        var path = astar.astar(this.chunkAndPoint, destination)
-        var test = ArrayList<ArrayList<ChunkAndPoint>>()
-        test.add(path)
-        this.pathForDebugDraw = test
-        return path
-    }
+//    fun getShortestPath(destination: ChunkAndPoint, chunks: HashMap<Point, Chunk>, mobs:ArrayList<DrawableObject>): ArrayList<ChunkAndPoint>{
+//        var astar = AStar()
+//        var path = astar.astar(this.chunkAndPoint, destination)
+//        var test = ArrayList<ArrayList<ChunkAndPoint>>()
+//        test.add(path)
+//        this.pathForDebugDraw = test
+//        return path
+//    }
 
 //    fun getShortestPath_old(destination: ChunkAndPoint, chunks: HashMap<Point, Chunk>, mobs:ArrayList<DrawableObject>): ArrayList<ChunkAndPoint> {
 //        val timeStart = System.currentTimeMillis()
@@ -583,30 +590,4 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
         }
 //        ge.drawMob(troll, this.chunkAndPoint.point.getX(),this.chunkAndPoint.point.getY(),this.chunkAndPoint.chunk.point.getX(),this.chunkAndPoint.chunk.point.getY(), width, height)
     }
-
-    class ChunkAndPoint(var chunk: Chunk, var point: Point){
-
-        override fun toString(): String {
-            return chunk.toString().plus(" ").plus(point.toString())
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-            if (other !is ChunkAndPoint) {
-                return false
-            }
-            return this.point.getX() == other.point.getX() && this.point.getY() == other.point.getY() && this.chunk.point.getX() == other.chunk.point.getX() && this.chunk.point.getY() == other.chunk.point.getY()
-        }
-
-        override fun hashCode(): Int {
-            var result = chunk.hashCode()
-            result = 31 * result + point.hashCode()
-            return result
-        }
-    }
-
-
-
 }

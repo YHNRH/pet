@@ -1,3 +1,4 @@
+import world.ChunkAndPoint
 import world.objects.BuildingDirection
 import world.objects.buildings.AdditionalBuilding
 import world.objects.buildings.Building
@@ -16,7 +17,7 @@ class BuilderHelper {
         return additional
     }
 
-    fun setBuildingChunkAndPoint(cap: SimpleMob.ChunkAndPoint){
+    fun setBuildingChunkAndPoint(cap: ChunkAndPoint){
         this.obj?.chunkAndPoint = cap
     }
 

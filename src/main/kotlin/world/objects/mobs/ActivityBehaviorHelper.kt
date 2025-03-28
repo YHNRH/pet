@@ -10,9 +10,9 @@ class ActivityBehaviorHelper {
 //            val stand  = StandBehavior(walk)
             val rest  = RestBehavior(run)
             val pee  = PeeBehavior(rest)
-            val walk  = WalkBehavior(pee)
+        //    val walk  = WalkBehavior(pee)
 
-            run.nextActivityBehavior = walk
+            run.nextActivityBehavior = rest//walk
             return run
         }
     }

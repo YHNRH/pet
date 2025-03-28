@@ -10,7 +10,7 @@ import kotlin.random.Random
 import kotlin.reflect.typeOf
 
 
-class StandBehavior(var nextActivityBehavior: ActivityBehavior?) : ActivityBehavior {
+class StandBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavior(nextActivityBehavior) {
     override fun performActivity(mob: Mob) {
 //        mob.activity = Activity.STAND
 //        val t = Timer(Random.nextInt(2000,5000)){
@@ -22,5 +22,9 @@ class StandBehavior(var nextActivityBehavior: ActivityBehavior?) : ActivityBehav
 
     override fun nextActivity(mob: Mob) {
         nextActivityBehavior?.performActivity(mob)
+    }
+
+    override fun forceStop() {
+        TODO("Not yet implemented")
     }
 }

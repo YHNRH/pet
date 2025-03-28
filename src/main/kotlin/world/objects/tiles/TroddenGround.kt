@@ -2,6 +2,7 @@ package world.objects.tiles
 
 import GraphicsExtender
 import ImageHelper.Companion.trodden_ground
+import world.ChunkAndPoint
 import world.objects.BuildingDirection
 import world.objects.DrawableObject
 import world.objects.buildings.Building
@@ -9,14 +10,14 @@ import world.objects.mobs.SimpleMob
 import java.awt.Image
 import kotlin.random.Random
 
-class TroddenGround(override var chunkAndPoint: SimpleMob.ChunkAndPoint, override var height: Int = 6, override var width: Int = 6) :
+class TroddenGround(override var chunkAndPoint: ChunkAndPoint, override var height: Double = 6.0, override var width: Int = 6) :
     DrawableObject {
     //    override fun draw(g: Graphics) {
 //        g.drawImage(grass,x*blockWidth,frameHeight-y* blockHeight, null)
 //        g.color = Color.RED
 //        g.drawRect(x*Consts.blockWidth,frameHeight-y* blockHeight, blockWidth, blockHeight)
 //    }
-    override var occupiedBlocks: ArrayList<SimpleMob.ChunkAndPoint> = ArrayList()
+    override var occupiedBlocks: ArrayList<ChunkAndPoint> = ArrayList()
 
 
     override fun draw(ge: GraphicsExtender) {

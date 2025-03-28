@@ -1,5 +1,6 @@
 package world.objects.buildings
 
+import world.ChunkAndPoint
 import world.objects.BuildingDirection
 import world.objects.DrawableObject
 

@@ -2,8 +2,10 @@ package world.objects.mobs.activityBehaviors
 
 import world.objects.mobs.Mob
 
-interface ActivityBehavior {
+abstract class ActivityBehavior( var nextActivityBehavior: ActivityBehavior? ) {
 
-    fun performActivity(mob: Mob)
-    fun nextActivity(mob: Mob)
+    abstract fun performActivity(mob: Mob)
+    abstract  fun nextActivity(mob: Mob)
+
+    abstract fun forceStop()
 }

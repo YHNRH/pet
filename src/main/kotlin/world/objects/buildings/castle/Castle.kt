@@ -7,25 +7,28 @@ import ImageHelper.Companion.castle_gate0_r
 import ImageHelper.Companion.castle_gate1_l
 import ImageHelper.Companion.castle_gate1_r
 import Point
+import world.ChunkAndPoint
 import world.objects.BuildingDirection
 import world.objects.DrawableObject
 import world.objects.DrawableObjectPart
 import world.objects.buildings.Building
+import world.objects.buildings.Palette
 import world.objects.mobs.SimpleMob
 import java.awt.Image
 import java.awt.image.BufferedImage
 
-class Castle(override var chunkAndPoint: SimpleMob.ChunkAndPoint, override var width: Int = 6, override var height: Int = 12) : Building {
+class Castle(override var chunkAndPoint: ChunkAndPoint, override var width: Int = 6, override var height: Double = 12.0) : Building {
     override var direction: BuildingDirection = BuildingDirection.LEFT
 
     override fun setOccupiedBlocks() {
         for (x in (this.chunkAndPoint.point.getX())until (this.chunkAndPoint.point.getX()+width)){
             for (y in (this.chunkAndPoint.point.getY())until (this.chunkAndPoint.point.getY()+width)){
-                this.occupiedBlocks.add(SimpleMob.ChunkAndPoint(chunkAndPoint.chunk, Point(x,y)))
+                this.occupiedBlocks.add(ChunkAndPoint(chunkAndPoint.chunk, Point(x,y)))
             }
         }
     }
     val drawParts = ArrayList<DrawableObjectPart>()
+    val palettes =   ArrayList<Palette>()
 
     init {
         val gate0Imgs = HashMap<BuildingDirection, BufferedImage>()
@@ -71,5 +74,5 @@ class Castle(override var chunkAndPoint: SimpleMob.ChunkAndPoint, override var w
         return castle
     }
 
-    override var occupiedBlocks: ArrayList<SimpleMob.ChunkAndPoint> = ArrayList()
+    override var occupiedBlocks: ArrayList<ChunkAndPoint> = ArrayList()
 }
