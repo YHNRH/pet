@@ -9,18 +9,15 @@ import ImageHelper.Companion.farmland_wheat_grown
 import ImageHelper.Companion.farmland_wheat_halfgrown
 import ImageHelper.Companion.farmland_wheat_seeded
 import ImageHelper.Companion.farmland_wheat_sheaf
-import objects.Activity
 import world.ChunkAndPoint
-import world.objects.Direction
-import world.objects.DrawableObject
-import world.objects.mobs.SimpleMob
+import world.objects.IDrawableObject
 import java.awt.Image
 import java.awt.event.ActionListener
 import javax.swing.Timer
 import kotlin.random.Random
 
 class Farmland (override var chunkAndPoint: ChunkAndPoint, override var height: Double = 1.0, override var width: Int = 1) :
-    DrawableObject {
+    IDrawableObject {
     //    override fun draw(g: Graphics) {
 //        g.drawImage(grass,x*blockWidth,frameHeight-y* blockHeight, null)
 //        g.color = Color.RED

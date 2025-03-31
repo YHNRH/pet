@@ -4,7 +4,6 @@ import Point
 import world.ChunkAndPoint
 import world.Chunks
 import world.objects.buildings.GenericBuilding
-import world.objects.mobs.SimpleMob
 import world.objects.mobs.Woodcutter
 import world.objects.mobs.activityBehaviors.ChopLogBehavior
 import world.objects.mobs.activityBehaviors.ChopTreeBehavior

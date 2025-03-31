@@ -23,7 +23,6 @@ import objects.Activity
 import world.ChunkAndPoint
 import world.objects.Direction
 import world.objects.mobs.activityBehaviors.ActivityBehavior
-import world.objects.mobs.activityBehaviors.WalkBehavior
 import java.awt.Image
 import java.awt.event.ActionListener
 import javax.swing.Timer

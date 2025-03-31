@@ -1,22 +1,15 @@
 package world.objects.trees
 
 import GraphicsExtender
-import ImageHelper.Companion.apple_fructify
 import ImageHelper.Companion.chestnut_full
 import ImageHelper.Companion.chestnut_full_fall
-import objects.Activity
 import world.ChunkAndPoint
 import world.objects.BuildingDirection
-import world.objects.buildings.Building
-import world.objects.mobs.SimpleMob
 import java.awt.Image
-import java.awt.event.ActionListener
-import javax.swing.Timer
-import kotlin.random.Random
 
 class Chestnut (override var chunkAndPoint: ChunkAndPoint, override var width: Int = 6, override var height: Double = 12.0,
 
-) : Tree {
+) : ITree {
 
     override var direction = BuildingDirection.LEFT
 

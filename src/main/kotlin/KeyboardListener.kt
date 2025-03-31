@@ -3,7 +3,6 @@ import Consts.Companion.zoomStep
 import world.Chunk
 import world.ChunkAndPoint
 import world.objects.BuildingDirection
-import world.objects.mobs.SimpleMob
 import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
 

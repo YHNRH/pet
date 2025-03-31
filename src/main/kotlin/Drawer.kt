@@ -3,7 +3,6 @@ import Consts.Companion.blockWidth
 import Consts.Companion.chunkSize
 import Consts.Companion.frameHeight
 import Consts.Companion.frameWidth
-import Consts.Companion.zoomMin
 import ImageHelper.Companion.bottombar_apple
 import ImageHelper.Companion.bottombar_hook
 import ImageHelper.Companion.bottombar_house
@@ -26,7 +25,6 @@ import ImageHelper.Companion.toolbar_woodcutter_hut
 import ImageHelper.Companion.treasurer_face_0
 import ImageHelper.Companion.treasurer_right
 import managers.CastleManager
-import managers.FarmManager
 import toolbar.ToolbarButton
 import world.Chunk
 import world.ChunkAndPoint
@@ -123,7 +121,7 @@ var appState: AppState = AppState.WALK
 
         Chunks.instance().chunks.forEach{
             it.value.objects.forEach{
-                if (it is Mob){
+                if (it is IMob){
 //                    it.behavior?.performActivity(it)
                 }
             }

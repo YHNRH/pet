@@ -1,14 +1,6 @@
 package world.objects.mobs
 
 import GraphicsExtender
-import ImageHelper.Companion.archer_walk_bottom
-import ImageHelper.Companion.archer_walk_left
-import ImageHelper.Companion.archer_walk_left_bottom
-import ImageHelper.Companion.archer_walk_left_top
-import ImageHelper.Companion.archer_walk_right
-import ImageHelper.Companion.archer_walk_right_bottom
-import ImageHelper.Companion.archer_walk_right_top
-import ImageHelper.Companion.archer_walk_top
 import ImageHelper.Companion.bear_wheat_size
 import ImageHelper.Companion.cut_size
 import ImageHelper.Companion.farmer_bear_wheat_bottom

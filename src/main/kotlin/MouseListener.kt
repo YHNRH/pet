@@ -1,14 +1,9 @@
-import Consts.Companion.blockHeight
-import Consts.Companion.blockWidth
-import Consts.Companion.chunkSize
-import Consts.Companion.frameHeight
 import ImageHelper.Companion.woodcutter_hut
 import managers.CastleManager
-import managers.FarmManager
 import world.ChunkAndPoint
 import world.Chunks
-import world.objects.DrawableObject
-import world.objects.buildings.Building
+import world.objects.IDrawableObject
+import world.objects.buildings.IBuilding
 import world.objects.buildings.GenericBuilding
 import world.objects.buildings.Palette
 import world.objects.buildings.WheatFarm
@@ -28,7 +23,7 @@ class MouseListener(private val drawer:Drawer, private val castleManager: Castle
                 Drawer.AppState.WALK -> {
 
                     SelectionHandler.selectedMobs.forEach{
-                        val objects = ArrayList<DrawableObject>()
+                        val objects = ArrayList<IDrawableObject>()
                         Chunks.instance().chunks.forEach{
                             objects.addAll(it.value.objects)
                         }
@@ -46,7 +41,7 @@ class MouseListener(private val drawer:Drawer, private val castleManager: Castle
                     val obj = BuilderHelper.getInstance().getObj()!!
                     Chunks.instance().chunks.get(obj.chunkAndPoint.chunk.point)?.addBuilding(obj)
                     BuilderHelper.getInstance().getAdditional()?.forEach {
-                        if (it.obj is Building){
+                        if (it.obj is IBuilding){
                             Chunks.instance().chunks.get(it.obj.chunkAndPoint.chunk.point)?.addBuilding(it.obj)
                         } else {
                             Chunks.instance().chunks.get(it.obj.chunkAndPoint.chunk.point)?.addNonCollision(it.obj)

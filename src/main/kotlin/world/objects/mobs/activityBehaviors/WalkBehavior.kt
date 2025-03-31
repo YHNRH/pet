@@ -9,26 +9,26 @@ import world.Chunk
 import world.ChunkAndPoint
 import world.Chunks
 import world.objects.Direction
-import world.objects.DrawableObject
-import world.objects.mobs.Mob
+import world.objects.IDrawableObject
+import world.objects.mobs.IMob
 import java.awt.event.ActionListener
 import javax.swing.Timer
 
 class WalkBehavior(
     nextActivityBehavior: ActivityBehavior?,
     var destination: ChunkAndPoint,
-    private val collisionObjects: ArrayList<DrawableObject>,
+    private val collisionObjects: ArrayList<IDrawableObject>,
     var skip: () -> Boolean = { false },
     var activity: Activity = Activity.WALK,
     var afterFunction: () -> Unit = {},
-    private val removeLastElement: Int = 0
+   // private val removeLastElement: Int = 0
 ) : ActivityBehavior(nextActivityBehavior) {
 
     var timer: Timer? = null
 
     var t: Thread? = null
 
-    override fun performActivity(mob: Mob) {
+    override fun performActivity(mob: IMob) {
         if (!skip()) {
             timer?.stop()
             mob.activity = activity
@@ -61,7 +61,7 @@ class WalkBehavior(
             println("chunksToSearch size " + chunksToSearch.size)
             t = Thread {
                 try {
-                    val shortestPath = getShortestPath(destination, mob, removeLastElement, collisionObjects/*),chunksToSearch*/)
+                    val shortestPath = getShortestPath(destination, mob,  collisionObjects/*),chunksToSearch*/)
 
                     mob.pathForDebugDraw.add(shortestPath)
                     var index = 0
@@ -201,19 +201,20 @@ class WalkBehavior(
 //    }
     private fun getShortestPath(
         destination: ChunkAndPoint,
-        mob: Mob,
-        removeLastElement: Int,
-        collisionObjects: ArrayList<DrawableObject>
+        IMob: IMob,
+      //  removeLastElement: Int,
+        collisionObjects: ArrayList<IDrawableObject>
     ): ArrayList<ChunkAndPoint> {
-        var path = AStar().astar(mob.chunkAndPoint, destination, collisionObjects)
-        path = path.dropLast(removeLastElement) as ArrayList<ChunkAndPoint>
+        var path = AStar().astar(IMob.chunkAndPoint, destination, collisionObjects)
+        //path = path.dropLast(removeLastElement)
+
         val test = ArrayList<ArrayList<ChunkAndPoint>>()
         test.add(path)
-        mob.pathForDebugDraw = test
+        IMob.pathForDebugDraw = test
         return path
     }
 
-    override fun nextActivity(mob: Mob) {
+    override fun nextActivity(mob: IMob) {
         nextActivityBehavior?.performActivity(mob)
     }
 }

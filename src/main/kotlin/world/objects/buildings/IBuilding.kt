@@ -1,10 +1,9 @@
 package world.objects.buildings
 
-import world.ChunkAndPoint
 import world.objects.BuildingDirection
-import world.objects.DrawableObject
+import world.objects.IDrawableObject
 
-interface Building: DrawableObject {
+interface IBuilding: IDrawableObject {
     var direction: BuildingDirection
     fun setOccupiedBlocks()
 }

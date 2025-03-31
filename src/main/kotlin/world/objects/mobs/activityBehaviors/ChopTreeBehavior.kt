@@ -3,18 +3,16 @@ package world.objects.mobs.activityBehaviors
 import Consts.Companion.restAnimSpeed
 import objects.Activity
 import world.Chunks
-import world.objects.mobs.Mob
+import world.objects.mobs.IMob
 import world.objects.mobs.Woodcutter
-import world.objects.trees.Chestnut
-import world.objects.trees.Tree
+import world.objects.trees.ITree
 import world.objects.trees.TreeState
 import java.awt.event.ActionListener
 import javax.swing.Timer
-import kotlin.random.Random
 
 class ChopTreeBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavior(nextActivityBehavior) {
 
-    override fun performActivity(mob: Mob) {
+    override fun performActivity(mob: IMob) {
         mob as Woodcutter
         if (mob.tree == null){
             mob.tree = Chunks.instance().chunks.get(mob.chunkAndPoint.chunk.point)!!.getTrees()[0]
@@ -29,7 +27,7 @@ class ChopTreeBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavi
         }
     }
 
-    override fun nextActivity(mob: Mob) {
+    override fun nextActivity(mob: IMob) {
         nextActivityBehavior?.performActivity(mob)
     }
 
@@ -37,8 +35,8 @@ class ChopTreeBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavi
         TODO("Not yet implemented")
     }
 
-    private class ChopBehavior(nextActivityBehavior: ActivityBehavior, tree: Tree): ActivityBehavior(nextActivityBehavior){
-        override fun performActivity(mob: Mob) {
+    private class ChopBehavior(nextActivityBehavior: ActivityBehavior, tree: ITree): ActivityBehavior(nextActivityBehavior){
+        override fun performActivity(mob: IMob) {
             mob as Woodcutter
             mob.activity = Activity.CHOP_TREE
             mob.step = 0
@@ -76,7 +74,7 @@ class ChopTreeBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavi
             t.start()
         }
 
-        override fun nextActivity(mob: Mob) {
+        override fun nextActivity(mob: IMob) {
             nextActivityBehavior?.performActivity(mob)
         }
 

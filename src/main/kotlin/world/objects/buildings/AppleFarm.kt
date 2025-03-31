@@ -5,11 +5,10 @@ import ImageHelper.Companion.applefarm
 import Point
 import world.ChunkAndPoint
 import world.objects.BuildingDirection
-import world.objects.mobs.SimpleMob
 import java.awt.Image
 
 class AppleFarm(override var chunkAndPoint: ChunkAndPoint, override var width: Int = 4, override var height: Double = 8.0,
-) : Building {
+) : IBuilding {
     override var direction: BuildingDirection = BuildingDirection.LEFT
 
     override fun draw(ge: GraphicsExtender) {

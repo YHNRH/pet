@@ -33,7 +33,7 @@ import objects.Activity
 import world.ChunkAndPoint
 import world.objects.Direction
 import world.objects.mobs.activityBehaviors.ActivityBehavior
-import world.objects.trees.Tree
+import world.objects.trees.ITree
 import java.awt.Image
 
 class Woodcutter(chunkAndPoint: ChunkAndPoint, width: Int = 3, height: Double = 6.0, override var direction: Direction = Direction.BOTTOM,
@@ -41,7 +41,7 @@ class Woodcutter(chunkAndPoint: ChunkAndPoint, width: Int = 3, height: Double = 
                  override var step: Int = 0
 ) : SimpleMob(chunkAndPoint, width, height) {
 
-    var tree: Tree? = null
+    var tree: ITree? = null
 
     override fun draw(ge: GraphicsExtender) {
         super.draw(ge)

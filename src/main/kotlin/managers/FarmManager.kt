@@ -1,15 +1,11 @@
 package managers
 
-import Drawer
 import Point
-import objects.Activity
 import world.ChunkAndPoint
 import world.Chunks
 
 import world.objects.buildings.WheatFarm
-import world.objects.buildings.castle.Castle
 import world.objects.mobs.Farmer
-import world.objects.mobs.SimpleMob
 import world.objects.mobs.activityBehaviors.*
 import world.objects.tiles.Farmland
 

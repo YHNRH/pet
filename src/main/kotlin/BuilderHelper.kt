@@ -1,15 +1,14 @@
 import world.ChunkAndPoint
 import world.objects.BuildingDirection
 import world.objects.buildings.AdditionalBuilding
-import world.objects.buildings.Building
-import world.objects.mobs.SimpleMob
+import world.objects.buildings.IBuilding
 
 class BuilderHelper {
 
-    private var obj: Building? = null
+    private var obj: IBuilding? = null
     private var additional: ArrayList<AdditionalBuilding>? = null
 
-    fun getObj(): Building? {
+    fun getObj(): IBuilding? {
         return obj
     }
 
@@ -25,7 +24,7 @@ class BuilderHelper {
         this.obj?.direction = direction
     }
 
-    fun setBuilding(obj: Building, additional: ArrayList<AdditionalBuilding>? = null){
+    fun setBuilding(obj: IBuilding, additional: ArrayList<AdditionalBuilding>? = null){
         this.obj = obj
         this.additional = additional
     }

@@ -2,13 +2,13 @@ package world.objects.mobs.activityBehaviors
 
 import Consts.Companion.restAnimSpeed
 import objects.Activity
-import world.objects.mobs.Mob
+import world.objects.mobs.IMob
 import world.objects.tiles.Farmland
 import java.awt.event.ActionListener
 import javax.swing.Timer
 
 class CultivateBehavior(nextActivityBehavior: ActivityBehavior?, private var farmland: Farmland, var skip: ()-> Boolean = {false}) : ActivityBehavior(nextActivityBehavior)  {
-    override fun performActivity(mob: Mob) {
+    override fun performActivity(mob: IMob) {
         if (!skip()){
             mob.activity = Activity.CULTIVATE
             mob.step = 0
@@ -27,7 +27,7 @@ class CultivateBehavior(nextActivityBehavior: ActivityBehavior?, private var far
         } else {nextActivity(mob)}
     }
 
-    override fun nextActivity(mob: Mob) {
+    override fun nextActivity(mob: IMob) {
         nextActivityBehavior?.performActivity(mob)
     }
 

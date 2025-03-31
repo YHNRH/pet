@@ -1,8 +1,8 @@
 package world.objects.trees
 
-import world.objects.buildings.Building
+import world.objects.buildings.IBuilding
 
-interface Tree: Building {
+interface ITree: IBuilding {
     var state: TreeState
     val fallCount: Int
     var step: Int

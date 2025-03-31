@@ -2,17 +2,15 @@ package world.objects.mobs.activityBehaviors
 
 import Consts.Companion.restAnimSpeed
 import objects.Activity
-import world.Chunks
-import world.objects.mobs.Mob
+import world.objects.mobs.IMob
 import world.objects.mobs.Woodcutter
-import world.objects.trees.Tree
-import world.objects.trees.TreeState
+import world.objects.trees.ITree
 import java.awt.event.ActionListener
 import javax.swing.Timer
 
 class ChopLogBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavior(nextActivityBehavior) {
 
-    override fun performActivity(mob: Mob) {
+    override fun performActivity(mob: IMob) {
         mob as Woodcutter
             if (mob.tree != null) {
 //                val chop =
@@ -24,7 +22,7 @@ class ChopLogBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavio
         }
 
 
-    override fun nextActivity(mob: Mob) {
+    override fun nextActivity(mob: IMob) {
         nextActivityBehavior?.performActivity(mob)
     }
 
@@ -32,9 +30,9 @@ class ChopLogBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavio
         TODO("Not yet implemented")
     }
 
-    private class ChopBehavior(nextActivityBehavior: ActivityBehavior, tree: Tree) :
+    private class ChopBehavior(nextActivityBehavior: ActivityBehavior, tree: ITree) :
         ActivityBehavior(nextActivityBehavior) {
-        override fun performActivity(mob: Mob) {
+        override fun performActivity(mob: IMob) {
             mob as Woodcutter
             mob.activity = Activity.CHOP_LOG
             mob.step = 0
@@ -58,7 +56,7 @@ class ChopLogBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavio
             t.start()
         }
 
-        override fun nextActivity(mob: Mob) {
+        override fun nextActivity(mob: IMob) {
             nextActivityBehavior?.performActivity(mob)
         }
 

@@ -5,14 +5,12 @@ import ImageHelper.Companion.apple_fructify
 import Point
 import world.ChunkAndPoint
 import world.objects.BuildingDirection
-import world.objects.buildings.Building
-import world.objects.mobs.SimpleMob
 import java.awt.Image
 
 class Apple (override var chunkAndPoint: ChunkAndPoint, override var width: Int = 4, override var height: Double = 8.0,
 
 ) :
-    Tree
+    ITree
 {
     override var state = TreeState.FULL
     override val fallCount = 1

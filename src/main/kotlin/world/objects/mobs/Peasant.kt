@@ -1,22 +1,6 @@
 package world.objects.mobs
 
 import GraphicsExtender
-import ImageHelper.Companion.archer_walk_bottom
-import ImageHelper.Companion.archer_walk_left
-import ImageHelper.Companion.archer_walk_left_bottom
-import ImageHelper.Companion.archer_walk_left_top
-import ImageHelper.Companion.archer_walk_right
-import ImageHelper.Companion.archer_walk_right_bottom
-import ImageHelper.Companion.archer_walk_right_top
-import ImageHelper.Companion.archer_walk_top
-import ImageHelper.Companion.farmer_walk_bottom
-import ImageHelper.Companion.farmer_walk_left
-import ImageHelper.Companion.farmer_walk_left_bottom
-import ImageHelper.Companion.farmer_walk_left_top
-import ImageHelper.Companion.farmer_walk_right
-import ImageHelper.Companion.farmer_walk_right_bottom
-import ImageHelper.Companion.farmer_walk_right_top
-import ImageHelper.Companion.farmer_walk_top
 import ImageHelper.Companion.peasant_walk_bottom
 import ImageHelper.Companion.peasant_walk_left
 import ImageHelper.Companion.peasant_walk_left_bottom

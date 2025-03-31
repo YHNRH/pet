@@ -1,7 +1,7 @@
-import world.objects.mobs.Mob
+import world.objects.mobs.IMob
 
 class SelectionHandler {
     companion object{
-        val selectedMobs = ArrayList<Mob>();
+        val selectedMobs = ArrayList<IMob>();
     }
 }

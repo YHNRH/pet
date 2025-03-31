@@ -2,12 +2,12 @@ package world.objects.mobs.activityBehaviors
 
 import Consts.Companion.restAnimSpeed
 import objects.Activity
-import world.objects.mobs.Mob
+import world.objects.mobs.IMob
 import java.awt.event.ActionListener
 import javax.swing.Timer
 
 class RestContiniousBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavior(nextActivityBehavior)  {
-    override fun performActivity(mob: Mob) {
+    override fun performActivity(mob: IMob) {
         val task: ActionListener?
         var speed = restAnimSpeed
         mob.activity = Activity.REST
@@ -25,7 +25,7 @@ class RestContiniousBehavior(nextActivityBehavior: ActivityBehavior?) : Activity
         t.start()
     }
 
-    override fun nextActivity(mob: Mob) {
+    override fun nextActivity(mob: IMob) {
         nextActivityBehavior?.performActivity(mob)
     }
 

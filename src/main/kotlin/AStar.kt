@@ -1,5 +1,5 @@
 import world.ChunkAndPoint
-import world.objects.DrawableObject
+import world.objects.IDrawableObject
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -43,7 +43,7 @@ class AStar {
         return res
     }
 
-    fun astar(s :ChunkAndPoint, g : ChunkAndPoint, collisionObjects: ArrayList<DrawableObject>): ArrayList<ChunkAndPoint> {
+    fun astar(s :ChunkAndPoint, g : ChunkAndPoint, collisionObjects: ArrayList<IDrawableObject>): ArrayList<ChunkAndPoint> {
 
 
         val start = Node(s)

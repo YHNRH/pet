@@ -1,26 +1,15 @@
 package world.objects.mobs
 
-import AStar
-import world.Chunk
-import Consts.Companion.chunkSize
 import Consts.Companion.debugDraw
-import Consts.Companion.runSpeed
-import Consts.Companion.walkSpeed
 import GraphicsExtender
 import Point
-import objects.Activity
 import world.ChunkAndPoint
-import world.objects.Direction
-import world.objects.DrawableObject
 import world.objects.mobs.activityBehaviors.ActivityBehavior
-import java.awt.event.ActionListener
-import javax.swing.Timer
-import kotlin.math.abs
 
 abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
                          override var width: Int,
                          override var height: Double
-) : Mob {
+) : IMob {
 //    var timer: Timer? = null
     override var pathForDebugDraw: ArrayList<ArrayList<ChunkAndPoint>> = ArrayList()
     override var occupiedBlocks: ArrayList<ChunkAndPoint> = ArrayList()

@@ -2,15 +2,12 @@ package world.objects.mobs.activityBehaviors
 
 import Consts.Companion.restAnimSpeed
 import objects.Activity
-import world.objects.Direction
-import world.objects.mobs.Dog
-import world.objects.mobs.Mob
+import world.objects.mobs.IMob
 import java.awt.event.ActionListener
 import javax.swing.Timer
-import kotlin.random.Random
 
 class RestBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavior(nextActivityBehavior)  {
-    override fun performActivity(mob: Mob) {
+    override fun performActivity(mob: IMob) {
         val task: ActionListener?
         var speed = restAnimSpeed
         if (mob.activity != Activity.REST){
@@ -48,7 +45,7 @@ class RestBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavior(n
 ////        t.start()
 //    }
 
-    override fun nextActivity(mob: Mob) {
+    override fun nextActivity(mob: IMob) {
 //        val task = ActionListener {
             nextActivityBehavior?.performActivity(mob)
 //            (it.source as Timer).stop()

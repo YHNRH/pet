@@ -9,13 +9,12 @@ import Point
 import world.ChunkAndPoint
 import world.objects.BuildingDirection
 import world.objects.DrawableObjectPart
-import world.objects.mobs.SimpleMob
 import java.awt.Image
 import java.awt.image.BufferedImage
 import java.lang.Exception
 
 class Palette(override var chunkAndPoint: ChunkAndPoint, override var width: Int = 4, override var height: Double = 4.0,
-) : Building {
+) : IBuilding {
     override var direction: BuildingDirection = BuildingDirection.LEFT
     val drawParts = ArrayList<DrawableObjectPart>()
     val goods:ArrayList<PalleteGood> = ArrayList()

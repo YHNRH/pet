@@ -5,15 +5,13 @@ import ImageHelper.Companion.wheatfarm
 import Point
 import world.ChunkAndPoint
 import world.objects.BuildingDirection
-import world.objects.DrawableObject
-import world.objects.mobs.SimpleMob
-import world.objects.tiles.Farmland
+import world.objects.IDrawableObject
 import java.awt.Image
 
 class WheatFarm(override var chunkAndPoint: ChunkAndPoint, override var width: Int = 3, override var height: Double = 6.0,
-) : Building {
+) : IBuilding {
     override var direction: BuildingDirection = BuildingDirection.LEFT
-    val farmlands  = ArrayList<DrawableObject>()
+    val farmlands  = ArrayList<IDrawableObject>()
     override fun draw(ge: GraphicsExtender) {
         ge.drawBuilding(this)
     }

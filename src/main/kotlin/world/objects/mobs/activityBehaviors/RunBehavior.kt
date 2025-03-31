@@ -4,14 +4,12 @@ import Consts.Companion.chunkSize
 import Point
 import objects.Activity
 import world.Chunks
-import world.objects.Direction
-import world.objects.DrawableObject
-import world.objects.mobs.Mob
-import world.objects.mobs.SimpleMob
+import world.objects.IDrawableObject
+import world.objects.mobs.IMob
 import kotlin.random.Random
 
 class RunBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavior(nextActivityBehavior)  {
-    override fun performActivity(mob: Mob) {
+    override fun performActivity(mob: IMob) {
         val activity = Activity.RUN
         var rndX = Random.nextInt(-10, 10)
         var rndY = Random.nextInt(-10, 10)
@@ -39,7 +37,7 @@ class RunBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavior(ne
         val chunk = Chunks.instance().chunks.get(Point(chunkX,chunkY))
         val pointExist = chunk?.getNoncollisionObject(Point(rndX,rndY)) != null
         if (chunk != null && pointExist){
-            val objects = ArrayList<DrawableObject>()
+            val objects = ArrayList<IDrawableObject>()
             Chunks.instance().chunks.forEach{
                 objects.addAll(it.value.objects)
             }
@@ -51,7 +49,7 @@ class RunBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavior(ne
         }
     }
 
-    override fun nextActivity(mob: Mob) {
+    override fun nextActivity(mob: IMob) {
         nextActivityBehavior?.performActivity(mob)
     }
 

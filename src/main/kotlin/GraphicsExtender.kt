@@ -8,11 +8,10 @@ import Consts.Companion.frameWidth
 import objects.Activity
 import world.ChunkAndPoint
 import world.objects.Direction
-import world.objects.DrawableObject
+import world.objects.IDrawableObject
 import world.objects.DrawableObjectPart
-import world.objects.buildings.Building
-import world.objects.mobs.Mob
-import world.objects.mobs.SimpleMob
+import world.objects.buildings.IBuilding
+import world.objects.mobs.IMob
 import java.awt.BasicStroke
 import java.awt.Color
 import java.awt.Graphics2D
@@ -80,7 +79,7 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
         }
     }
 
-    fun drawBlock( obj: DrawableObject){
+    fun drawBlock( obj: IDrawableObject){
         val x = obj.chunkAndPoint.point.getX()
         val y = obj.chunkAndPoint.point.getY()
         val chunkX = obj.chunkAndPoint.chunk.point.getX()
@@ -151,7 +150,7 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
     }
 
 
-    fun drawBuilding( obj: Building, drawParts: ArrayList<DrawableObjectPart>? = null){
+    fun drawBuilding(obj: IBuilding, drawParts: ArrayList<DrawableObjectPart>? = null){
         val x = obj.chunkAndPoint.point.getX()
         val y = obj.chunkAndPoint.point.getY()
         val chunkX = obj.chunkAndPoint.chunk.point.getX()
@@ -228,7 +227,7 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
         }
     }
 
-    fun drawTree( obj: DrawableObject){
+    fun drawTree( obj: IDrawableObject){
         val x = obj.chunkAndPoint.point.getX()
         val y = obj.chunkAndPoint.point.getY()
         val chunkX = obj.chunkAndPoint.chunk.point.getX()
@@ -298,7 +297,7 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
     }
 
 
-    fun drawMob(mob: Mob){
+    fun drawMob(mob: IMob){
         val chunkX = mob.chunkAndPoint.chunk.point.getX()
         val chunkY = mob.chunkAndPoint.chunk.point.getY()
         val x = mob.chunkAndPoint.point.getX()

@@ -3,12 +3,12 @@ package world.objects.tiles
 import GraphicsExtender
 import ImageHelper.Companion.grass_tiles
 import world.ChunkAndPoint
-import world.objects.DrawableObject
+import world.objects.IDrawableObject
 import java.awt.Image
 import kotlin.random.Random
 
 class Grass(override var chunkAndPoint: ChunkAndPoint, override var height: Double = 1.0, override var width: Int =1) :
-    DrawableObject {
+    IDrawableObject {
 //    override fun draw(g: Graphics) {
 //        g.drawImage(grass,x*blockWidth,frameHeight-y* blockHeight, null)
 //        g.color = Color.RED

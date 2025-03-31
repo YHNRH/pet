@@ -1,14 +1,8 @@
 package world.objects.mobs.activityBehaviors
 
-import objects.Activity
-import world.Chunk
 import world.ChunkAndPoint
-import world.Chunks
-import world.objects.Direction
-import world.objects.mobs.Mob
-import world.objects.mobs.SimpleMob
+import world.objects.mobs.IMob
 import world.objects.tiles.Farmland
-import javax.swing.Timer
 
 class SowBehavior(
     nextActivityBehavior: ActivityBehavior?,
@@ -17,7 +11,7 @@ class SowBehavior(
     var farmland: Farmland
 ) : ActivityBehavior(nextActivityBehavior) {
 
-    override fun performActivity(mob: Mob) {
+    override fun performActivity(mob: IMob) {
         if (!skip() && destination != mob.chunkAndPoint) {
         //    WalkBehavior(this, destination, { false }, Activity.SOW).performActivity(mob)
         } else {
@@ -25,7 +19,7 @@ class SowBehavior(
         }
     }
 
-    override fun nextActivity(mob: Mob) {
+    override fun nextActivity(mob: IMob) {
         if (!skip()) {
             farmland.nextPhase()
         }

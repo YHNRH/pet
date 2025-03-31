@@ -9,15 +9,12 @@ import ImageHelper.Companion.castle_gate1_r
 import Point
 import world.ChunkAndPoint
 import world.objects.BuildingDirection
-import world.objects.DrawableObject
 import world.objects.DrawableObjectPart
-import world.objects.buildings.Building
+import world.objects.buildings.IBuilding
 import world.objects.buildings.Palette
-import world.objects.mobs.SimpleMob
-import java.awt.Image
 import java.awt.image.BufferedImage
 
-class Castle(override var chunkAndPoint: ChunkAndPoint, override var width: Int = 6, override var height: Double = 12.0) : Building {
+class Castle(override var chunkAndPoint: ChunkAndPoint, override var width: Int = 6, override var height: Double = 12.0) : IBuilding {
     override var direction: BuildingDirection = BuildingDirection.LEFT
 
     override fun setOccupiedBlocks() {

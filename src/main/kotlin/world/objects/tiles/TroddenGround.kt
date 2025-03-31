@@ -3,15 +3,11 @@ package world.objects.tiles
 import GraphicsExtender
 import ImageHelper.Companion.trodden_ground
 import world.ChunkAndPoint
-import world.objects.BuildingDirection
-import world.objects.DrawableObject
-import world.objects.buildings.Building
-import world.objects.mobs.SimpleMob
+import world.objects.IDrawableObject
 import java.awt.Image
-import kotlin.random.Random
 
 class TroddenGround(override var chunkAndPoint: ChunkAndPoint, override var height: Double = 6.0, override var width: Int = 6) :
-    DrawableObject {
+    IDrawableObject {
     //    override fun draw(g: Graphics) {
 //        g.drawImage(grass,x*blockWidth,frameHeight-y* blockHeight, null)
 //        g.color = Color.RED

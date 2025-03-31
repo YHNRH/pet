@@ -5,12 +5,10 @@ import ImageHelper.Companion.cattlefarm
 import Point
 import world.ChunkAndPoint
 import world.objects.BuildingDirection
-import world.objects.mobs.SimpleMob
-import java.awt.Image
 import java.awt.image.BufferedImage
 
 class CattleFarm(override var chunkAndPoint: ChunkAndPoint, override var width: Int = 2, override var height: Double = 4.0,
-) : Building {
+) : IBuilding {
     override fun draw(ge: GraphicsExtender) {
         ge.drawBuilding(this)
     }

@@ -2,10 +2,10 @@ package world.objects.mobs.activityBehaviors
 
 import world.objects.Direction
 import world.objects.mobs.Dog
-import world.objects.mobs.Mob
+import world.objects.mobs.IMob
 
 class PeeBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavior(nextActivityBehavior) {
-    override fun performActivity(mob: Mob) {
+    override fun performActivity(mob: IMob) {
         if (mob.direction == Direction.LEFT_TOP){
             (mob as Dog).pee(this)
         } else {
@@ -13,7 +13,7 @@ class PeeBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavior(ne
         }
     }
 
-    override fun nextActivity(mob: Mob) {
+    override fun nextActivity(mob: IMob) {
 //        val task = ActionListener {
         nextActivityBehavior?.performActivity(mob)
 //            (it.source as Timer).stop()
