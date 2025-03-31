@@ -2,6 +2,7 @@ package world
 
 import Point
 
+@Deprecated("Добавить chunk в класс Point")
 class ChunkAndPoint(var chunk: Chunk, var point: Point){
 
     override fun toString(): String {
