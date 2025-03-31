@@ -1,9 +1,8 @@
 package managers
 
-import Point
-import world.ChunkAndPoint
 import world.Chunks
-
+import world.MapPoint
+import world.Point
 import world.objects.buildings.WheatFarm
 import world.objects.mobs.Farmer
 import world.objects.mobs.activityBehaviors.*
@@ -12,12 +11,9 @@ import world.objects.tiles.Farmland
 class FarmManager(val castleManager: CastleManager) {
     fun createWorker(farm: WheatFarm) {
         val farmer = Farmer(
-            ChunkAndPoint(
-            castleManager.castle!!.chunkAndPoint.chunk, Point(
-                    castleManager.castle!!.chunkAndPoint.point.getX()-2,castleManager.castle!!.chunkAndPoint.point.getY()+2)
-            )
+            MapPoint(castleManager.castle!!.point.getX()-2,castleManager.castle!!.point.getY()+2, castleManager.castle!!.point.chunk)
         )
-        Chunks.instance().chunks.get(castleManager.castle?.chunkAndPoint?.chunk?.point)?.addMob(farmer)
+        Chunks.instance().chunks.get(castleManager.castle?.point?.chunk as Point)?.addMob(farmer)
        // val toFarm =    WalkBehavior(null,farm.chunkAndPoint)
         //val toCastle =  WalkBehavior(toFarm,castle!!.chunkAndPoint)
         val rest =      RestBehavior(null)
@@ -45,7 +41,7 @@ class FarmManager(val castleManager: CastleManager) {
 
         // Засеивание
         farm.farmlands.forEach {
-            val sow = SowBehavior(null, it.chunkAndPoint, { (it as Farmland).growingPhase != 1 }, it as Farmland)
+            val sow = SowBehavior(null, it.point, { (it as Farmland).growingPhase != 1 }, it as Farmland)
             if (buff?.nextActivityBehavior == null){
                 buff?.nextActivityBehavior = sow
             } else {
@@ -109,6 +105,6 @@ class FarmManager(val castleManager: CastleManager) {
 
 
         //sowBuff?.nextActivityBehavior = WalkBehavior(rest,farm.chunkAndPoint)
-       // castle!!.chunkAndPoint.chunk.addMob(Farmer(SimpleMob.ChunkAndPoint(castle!!.chunkAndPoint.chunk, Point(castle!!.chunkAndPoint.point.getX()+5,castle!!.chunkAndPoint.point.getY()+5))))
+       // castle!!.chunkAndPoint.chunk.addMob(Farmer(SimpleMob.ChunkAndPoint(castle!!.chunkAndPoint.chunk, world.Point(castle!!.chunkAndPoint.point.getX()+5,castle!!.chunkAndPoint.point.getY()+5))))
     }
 }

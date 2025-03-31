@@ -2,22 +2,21 @@ package world.objects.mobs
 
 import Consts.Companion.debugDraw
 import GraphicsExtender
-import Point
-import world.ChunkAndPoint
+import world.MapPoint
 import world.objects.mobs.activityBehaviors.ActivityBehavior
 
-abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
+abstract class SimpleMob(override var point: MapPoint,
                          override var width: Int,
                          override var height: Double
 ) : IMob {
 //    var timer: Timer? = null
-    override var pathForDebugDraw: ArrayList<ArrayList<ChunkAndPoint>> = ArrayList()
-    override var occupiedBlocks: ArrayList<ChunkAndPoint> = ArrayList()
+    override var pathForDebugDraw: ArrayList<ArrayList<MapPoint>> = ArrayList()
+    override var occupiedBlocks: ArrayList<MapPoint> = ArrayList()
 
     init {
-        for (x in (this.chunkAndPoint.point.getX())until (this.chunkAndPoint.point.getX()+width/2)){
-            for (y in (this.chunkAndPoint.point.getY())until (this.chunkAndPoint.point.getY()+width/2)){
-                this.occupiedBlocks.add(ChunkAndPoint(chunkAndPoint.chunk, Point(x, y)))
+        for (x in (this.point.getX())until (this.point.getX()+width/2)){
+            for (y in (this.point.getY())until (this.point.getY()+width/2)){
+                this.occupiedBlocks.add(MapPoint(x, y, point.chunk))
             }
         }
     }
@@ -30,7 +29,7 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
 
 //    override fun move(
 //        chunkAndPoint: ChunkAndPoint,
-//        chunks: HashMap<Point, Chunk>,
+//        chunks: HashMap<world.Point, Chunk>,
 //        objects: ArrayList<DrawableObject>,
 //        caller: ActivityBehavior?,
 //        activity: Activity
@@ -53,13 +52,13 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
 //            }
 //
 //
-//            val chunksToSearch = HashMap<Point, Chunk>()
+//            val chunksToSearch = HashMap<world.Point, Chunk>()
 //
 //            chunksX.forEach{ x ->
 //                chunksY.forEach{y ->
-//                    val foundedChunk =  chunks.get(Point(x, y))
+//                    val foundedChunk =  chunks.get(world.Point(x, y))
 //                    if (foundedChunk != null){
-//                        chunksToSearch.put(Point(x, y), foundedChunk)
+//                        chunksToSearch.put(world.Point(x, y), foundedChunk)
 //                    }
 //                }
 //            }
@@ -105,7 +104,7 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
 //                            this.occupiedBlocks.clear()
 //                            for (x in (this.chunkAndPoint.point.getX())until(this.chunkAndPoint.point.getX()+width/2)){
 //                                for (y in (this.chunkAndPoint.point.getY())until(this.chunkAndPoint.point.getY()+width/2)){
-//                                    this.occupiedBlocks.add(ChunkAndPoint(this.chunkAndPoint.chunk, Point(x,y)))
+//                                    this.occupiedBlocks.add(ChunkAndPoint(this.chunkAndPoint.chunk, world.Point(x,y)))
 //                                }
 //                            }
 //                            index++
@@ -151,57 +150,57 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
 //
 //        }
 
-//        fun availableMoves_old(chunk: world.Chunk, point: Point, chunks: HashMap<Point, world.Chunk>): ArrayList<Point> {
-//            var moves = ArrayList<Point>()
+//        fun availableMoves_old(chunk: world.Chunk, point: world.Point, chunks: HashMap<world.Point, world.Chunk>): ArrayList<world.Point> {
+//            var moves = ArrayList<world.Point>()
 //            if (point.getX()>0){ //влево
-//                moves.add(Point(point.getX()-1, point.getY()))
+//                moves.add(world.Point(point.getX()-1, point.getY()))
 //            }
 //
 //            if (point.getX()>0 && point.getY()< chunkSize-1){ //влево вверх
-//                moves.add(Point(point.getX()-1, point.getY() + 1))
+//                moves.add(world.Point(point.getX()-1, point.getY() + 1))
 //            }
 //
 //
 //            if (point.getX()>0 && point.getY()>0){ //влево вниз
-//                moves.add(Point(point.getX()-1, point.getY() - 1))
+//                moves.add(world.Point(point.getX()-1, point.getY() - 1))
 //            }
 //
 //            if (point.getX()<chunkSize-1){ //вправо
-//                moves.add(Point(point.getX()+1, point.getY()))
+//                moves.add(world.Point(point.getX()+1, point.getY()))
 //            }
 //
 //            if (point.getX()<chunkSize-1 && point.getY()< chunkSize-1){ //вправо вверх
-//                moves.add(Point(point.getX()+1, point.getY()+1))
+//                moves.add(world.Point(point.getX()+1, point.getY()+1))
 //            }
 //
 //            if (point.getX()<chunkSize-1 && point.getY()>0){ //вправо вниз
-//                moves.add(Point(point.getX()+1, point.getY()-1))
+//                moves.add(world.Point(point.getX()+1, point.getY()-1))
 //            }
 //
 //
 //            if (point.getY()>0){ // вниз
-//                moves.add(Point(point.getX(), point.getY()-1))
+//                moves.add(world.Point(point.getX(), point.getY()-1))
 //            }
 //
 //
 //            if (point.getY()< chunkSize-1){ // вверх
-//                moves.add(Point(point.getX(), point.getY()+1))
+//                moves.add(world.Point(point.getX(), point.getY()+1))
 //            }
 //            return moves
 //        }
 
-//    fun availableMoves(chunkAndPoint: ChunkAndPoint, chunks: HashMap<Point, Chunk>, mobs: ArrayList<DrawableObject>): ArrayList<ChunkAndPoint> {
+//    fun availableMoves(chunkAndPoint: ChunkAndPoint, chunks: HashMap<world.Point, Chunk>, mobs: ArrayList<DrawableObject>): ArrayList<ChunkAndPoint> {
 //        var moves = ArrayList<ChunkAndPoint>()
 //        if (chunkAndPoint.point.getX()>0){ //влево
 //            moves.add(
 //                ChunkAndPoint(chunkAndPoint.chunk,
-//                    Point(chunkAndPoint.point.getX()-1, chunkAndPoint.point.getY())
+//                    world.Point(chunkAndPoint.point.getX()-1, chunkAndPoint.point.getY())
 //                )
 //            )
-//        } else if (chunks[Point(chunkAndPoint.chunk.point.getX() - 1, chunkAndPoint.chunk.point.getY())] != null){
+//        } else if (chunks[world.Point(chunkAndPoint.chunk.point.getX() - 1, chunkAndPoint.chunk.point.getY())] != null){
 //            moves.add(
-//                ChunkAndPoint(chunks[Point(chunkAndPoint.chunk.point.getX()-1, chunkAndPoint.chunk.point.getY())]!!,
-//                    Point(
+//                ChunkAndPoint(chunks[world.Point(chunkAndPoint.chunk.point.getX()-1, chunkAndPoint.chunk.point.getY())]!!,
+//                    world.Point(
 //                chunkSize-1, chunkAndPoint.point.getY())
 //                )
 //            )
@@ -210,28 +209,28 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
 //        if (chunkAndPoint.point.getX()>0 && chunkAndPoint.point.getY()< chunkSize-1){ //влево вверх
 //            moves.add(
 //                ChunkAndPoint(chunkAndPoint.chunk,
-//                    Point(chunkAndPoint.point.getX()-1, chunkAndPoint.point.getY() + 1)
+//                    world.Point(chunkAndPoint.point.getX()-1, chunkAndPoint.point.getY() + 1)
 //                )
 //            )
-//        } else if (chunks[Point(chunkAndPoint.chunk.point.getX() - 1, chunkAndPoint.chunk.point.getY())] != null && chunkAndPoint.point.getY()< chunkSize-1 && chunkAndPoint.point.getX() == 0){ // влево вверх в левый чанк
+//        } else if (chunks[world.Point(chunkAndPoint.chunk.point.getX() - 1, chunkAndPoint.chunk.point.getY())] != null && chunkAndPoint.point.getY()< chunkSize-1 && chunkAndPoint.point.getX() == 0){ // влево вверх в левый чанк
 //            moves.add(
-//                ChunkAndPoint(chunks[Point(chunkAndPoint.chunk.point.getX()-1, chunkAndPoint.chunk.point.getY())]!!,
-//                    Point(
+//                ChunkAndPoint(chunks[world.Point(chunkAndPoint.chunk.point.getX()-1, chunkAndPoint.chunk.point.getY())]!!,
+//                    world.Point(
 //                chunkSize-1, chunkAndPoint.point.getY() + 1)
 //                )
 //            )
-//        } else if (chunks[Point(chunkAndPoint.chunk.point.getX(), chunkAndPoint.chunk.point.getY() + 1)] != null && chunkAndPoint.point.getY() == chunkSize-1 && chunkAndPoint.point.getX() > 0) { // влево вверх в верхний чанк
+//        } else if (chunks[world.Point(chunkAndPoint.chunk.point.getX(), chunkAndPoint.chunk.point.getY() + 1)] != null && chunkAndPoint.point.getY() == chunkSize-1 && chunkAndPoint.point.getX() > 0) { // влево вверх в верхний чанк
 //            moves.add(
-//                ChunkAndPoint(chunks[Point(chunkAndPoint.chunk.point.getX(), chunkAndPoint.chunk.point.getY()+1)]!!,
-//                    Point(
+//                ChunkAndPoint(chunks[world.Point(chunkAndPoint.chunk.point.getX(), chunkAndPoint.chunk.point.getY()+1)]!!,
+//                    world.Point(
 //                chunkAndPoint.point.getX()-1, 0)
 //                )
 //            )
 //        }
-//        else if (chunks[Point(chunkAndPoint.chunk.point.getX() - 1, chunkAndPoint.chunk.point.getY() + 1)] != null && chunkAndPoint.point.getY() == chunkSize-1 && chunkAndPoint.point.getX() == 0) { // влево вверх в левый верхний чанк
+//        else if (chunks[world.Point(chunkAndPoint.chunk.point.getX() - 1, chunkAndPoint.chunk.point.getY() + 1)] != null && chunkAndPoint.point.getY() == chunkSize-1 && chunkAndPoint.point.getX() == 0) { // влево вверх в левый верхний чанк
 //            moves.add(
-//                ChunkAndPoint(chunks[Point(chunkAndPoint.chunk.point.getX()-1, chunkAndPoint.chunk.point.getY()+1)]!!,
-//                    Point(
+//                ChunkAndPoint(chunks[world.Point(chunkAndPoint.chunk.point.getX()-1, chunkAndPoint.chunk.point.getY()+1)]!!,
+//                    world.Point(
 //                chunkSize-1, 0)
 //                )
 //            )
@@ -240,13 +239,13 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
 //        if (chunkAndPoint.point.getX()>0 && chunkAndPoint.point.getY()>0){ //влево вниз
 //            moves.add(
 //                ChunkAndPoint(chunkAndPoint.chunk,
-//                    Point(chunkAndPoint.point.getX()-1, chunkAndPoint.point.getY() - 1)
+//                    world.Point(chunkAndPoint.point.getX()-1, chunkAndPoint.point.getY() - 1)
 //                )
 //            )
-//        } else if (chunks[Point(chunkAndPoint.chunk.point.getX() - 1, chunkAndPoint.chunk.point.getY())] != null && chunkAndPoint.point.getY()>0){ // влево вниз в левый чанк
+//        } else if (chunks[world.Point(chunkAndPoint.chunk.point.getX() - 1, chunkAndPoint.chunk.point.getY())] != null && chunkAndPoint.point.getY()>0){ // влево вниз в левый чанк
 //            moves.add(
-//                ChunkAndPoint(chunks[Point(chunkAndPoint.chunk.point.getX()-1, chunkAndPoint.chunk.point.getY())]!!,
-//                    Point(
+//                ChunkAndPoint(chunks[world.Point(chunkAndPoint.chunk.point.getX()-1, chunkAndPoint.chunk.point.getY())]!!,
+//                    world.Point(
 //                chunkSize-1, chunkAndPoint.point.getY() - 1)
 //                )
 //            )
@@ -259,13 +258,13 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
 //        if (chunkAndPoint.point.getX()<chunkSize-1){ //вправо
 //            moves.add(
 //                ChunkAndPoint(chunkAndPoint.chunk,
-//                    Point(chunkAndPoint.point.getX()+1, chunkAndPoint.point.getY())
+//                    world.Point(chunkAndPoint.point.getX()+1, chunkAndPoint.point.getY())
 //                )
 //            )
-//        } else if (chunks[Point(chunkAndPoint.chunk.point.getX() + 1, chunkAndPoint.chunk.point.getY())] != null){
+//        } else if (chunks[world.Point(chunkAndPoint.chunk.point.getX() + 1, chunkAndPoint.chunk.point.getY())] != null){
 //            moves.add(
-//                ChunkAndPoint(chunks[Point(chunkAndPoint.chunk.point.getX()+1, chunkAndPoint.chunk.point.getY())]!!,
-//                    Point(0,chunkAndPoint.point.getY())
+//                ChunkAndPoint(chunks[world.Point(chunkAndPoint.chunk.point.getX()+1, chunkAndPoint.chunk.point.getY())]!!,
+//                    world.Point(0,chunkAndPoint.point.getY())
 //                )
 //            )
 //        }
@@ -274,13 +273,13 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
 //        if (chunkAndPoint.point.getX()<chunkSize-1 && chunkAndPoint.point.getY()< chunkSize-1){ //вправо вверх
 //            moves.add(
 //                ChunkAndPoint(chunkAndPoint.chunk,
-//                    Point(chunkAndPoint.point.getX()+1, chunkAndPoint.point.getY()+1)
+//                    world.Point(chunkAndPoint.point.getX()+1, chunkAndPoint.point.getY()+1)
 //                )
 //            )
-//        } else if (chunks[Point(chunkAndPoint.chunk.point.getX() + 1, chunkAndPoint.chunk.point.getY())] != null && chunkAndPoint.point.getY()< chunkSize-1){ //вправо вверх в правый чанк
+//        } else if (chunks[world.Point(chunkAndPoint.chunk.point.getX() + 1, chunkAndPoint.chunk.point.getY())] != null && chunkAndPoint.point.getY()< chunkSize-1){ //вправо вверх в правый чанк
 //            moves.add(
-//                ChunkAndPoint(chunks[Point(chunkAndPoint.chunk.point.getX()+1, chunkAndPoint.chunk.point.getY())]!!,
-//                    Point(
+//                ChunkAndPoint(chunks[world.Point(chunkAndPoint.chunk.point.getX()+1, chunkAndPoint.chunk.point.getY())]!!,
+//                    world.Point(
 //                0, chunkAndPoint.point.getY()+1)
 //                )
 //            )
@@ -292,13 +291,13 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
 //        if (chunkAndPoint.point.getX()<chunkSize-1 && chunkAndPoint.point.getY()>0){ //вправо вниз
 //            moves.add(
 //                ChunkAndPoint(chunkAndPoint.chunk,
-//                    Point(chunkAndPoint.point.getX()+1, chunkAndPoint.point.getY()-1)
+//                    world.Point(chunkAndPoint.point.getX()+1, chunkAndPoint.point.getY()-1)
 //                )
 //            )
-//        } else if (chunks[Point(chunkAndPoint.chunk.point.getX() + 1, chunkAndPoint.chunk.point.getY())] != null && chunkAndPoint.point.getY()>0){ //вправо вниз в правый чанк
+//        } else if (chunks[world.Point(chunkAndPoint.chunk.point.getX() + 1, chunkAndPoint.chunk.point.getY())] != null && chunkAndPoint.point.getY()>0){ //вправо вниз в правый чанк
 //            moves.add(
-//                ChunkAndPoint(chunks[Point(chunkAndPoint.chunk.point.getX()+1, chunkAndPoint.chunk.point.getY())]!!,
-//                    Point(
+//                ChunkAndPoint(chunks[world.Point(chunkAndPoint.chunk.point.getX()+1, chunkAndPoint.chunk.point.getY())]!!,
+//                    world.Point(
 //                0, chunkAndPoint.point.getY()-1)
 //                )
 //            )
@@ -312,13 +311,13 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
 //        if (chunkAndPoint.point.getY()>0){ // вниз
 //            moves.add(
 //                ChunkAndPoint(chunkAndPoint.chunk,
-//                    Point(chunkAndPoint.point.getX(), chunkAndPoint.point.getY()-1)
+//                    world.Point(chunkAndPoint.point.getX(), chunkAndPoint.point.getY()-1)
 //                )
 //            )
-//        } else if (chunks[Point(chunkAndPoint.chunk.point.getX(), chunkAndPoint.chunk.point.getY() - 1)] != null){
+//        } else if (chunks[world.Point(chunkAndPoint.chunk.point.getX(), chunkAndPoint.chunk.point.getY() - 1)] != null){
 //            moves.add(
-//                ChunkAndPoint(chunks[Point(chunkAndPoint.chunk.point.getX(), chunkAndPoint.chunk.point.getY()-1)]!!,
-//                    Point(chunkAndPoint.point.getX(), chunkSize-1)
+//                ChunkAndPoint(chunks[world.Point(chunkAndPoint.chunk.point.getX(), chunkAndPoint.chunk.point.getY()-1)]!!,
+//                    world.Point(chunkAndPoint.point.getX(), chunkSize-1)
 //                )
 //            )
 //
@@ -328,13 +327,13 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
 //        if (chunkAndPoint.point.getY()< chunkSize-1){ // вверх
 //            moves.add(
 //                ChunkAndPoint(chunkAndPoint.chunk,
-//                    Point(chunkAndPoint.point.getX(), chunkAndPoint.point.getY()+1)
+//                    world.Point(chunkAndPoint.point.getX(), chunkAndPoint.point.getY()+1)
 //                )
 //            )
-//        } else if (chunks[Point(chunkAndPoint.chunk.point.getX(), chunkAndPoint.chunk.point.getY() + 1)] != null){
+//        } else if (chunks[world.Point(chunkAndPoint.chunk.point.getX(), chunkAndPoint.chunk.point.getY() + 1)] != null){
 //            moves.add(
-//                ChunkAndPoint(chunks[Point(chunkAndPoint.chunk.point.getX(), chunkAndPoint.chunk.point.getY()+1)]!!,
-//                    Point(chunkAndPoint.point.getX(), 0)
+//                ChunkAndPoint(chunks[world.Point(chunkAndPoint.chunk.point.getX(), chunkAndPoint.chunk.point.getY()+1)]!!,
+//                    world.Point(chunkAndPoint.point.getX(), 0)
 //                )
 //            )
 //        }
@@ -345,13 +344,13 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
 //            val occupiedSize = ArrayList<ChunkAndPoint>()
 //            for (x in (move.point.getX())until(move.point.getX()+width/2)){
 //                for (y in (move.point.getY())until(move.point.getY()+width/2)){
-//                    occupiedSize.add(ChunkAndPoint(move.chunk, Point(x,y)))
+//                    occupiedSize.add(ChunkAndPoint(move.chunk, world.Point(x,y)))
 //                }
 //            }
 ////
 ////            for (x in move.point.getX()..move.point.getX() + width-1){
 ////                for (y in move.point.getY()..move.point.getY() + height-1){
-////                    occupiedSize.add(ChunkAndPoint(move.chunk, Point(x, y)));
+////                    occupiedSize.add(ChunkAndPoint(move.chunk, world.Point(x, y)));
 ////                }
 ////            }
 //            // Необходима доработка коллизии по чанкам
@@ -362,7 +361,7 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
 //
 ////                    for (x in mob.chunkAndPoint.point.getX() until mob.chunkAndPoint.point.getX() + width){
 ////                        for (y in mob.chunkAndPoint.point.getY() until mob.chunkAndPoint.point.getY() + height){
-////                            mobOccupiedSize.add(ChunkAndPoint(mob.chunkAndPoint.chunk, Point(x, y)));
+////                            mobOccupiedSize.add(ChunkAndPoint(mob.chunkAndPoint.chunk, world.Point(x, y)));
 ////                        }
 ////                    }
 //
@@ -382,7 +381,7 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
 //    }
 
 
-//    fun getOptimalMove(path:ArrayList<ChunkAndPoint>, chunks: HashMap<Point, Chunk>, destination: ChunkAndPoint, mobs:ArrayList<DrawableObject> ): ArrayList<ChunkAndPoint> {
+//    fun getOptimalMove(path:ArrayList<ChunkAndPoint>, chunks: HashMap<world.Point, Chunk>, destination: ChunkAndPoint, mobs:ArrayList<DrawableObject> ): ArrayList<ChunkAndPoint> {
 //        val availableMoves = availableMoves(path.last(), chunks, mobs)
 //        val optimalMoves = ArrayList<ChunkAndPoint>()
 //        if (availableMoves.contains(destination)){
@@ -427,7 +426,7 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
 //
 //    }
 
-//    fun getShortestPath(destination: ChunkAndPoint, chunks: HashMap<Point, Chunk>, mobs:ArrayList<DrawableObject>): ArrayList<ChunkAndPoint>{
+//    fun getShortestPath(destination: ChunkAndPoint, chunks: HashMap<world.Point, Chunk>, mobs:ArrayList<DrawableObject>): ArrayList<ChunkAndPoint>{
 //        var astar = AStar()
 //        var path = astar.astar(this.chunkAndPoint, destination)
 //        var test = ArrayList<ArrayList<ChunkAndPoint>>()
@@ -436,7 +435,7 @@ abstract class SimpleMob(override var chunkAndPoint: ChunkAndPoint,
 //        return path
 //    }
 
-//    fun getShortestPath_old(destination: ChunkAndPoint, chunks: HashMap<Point, Chunk>, mobs:ArrayList<DrawableObject>): ArrayList<ChunkAndPoint> {
+//    fun getShortestPath_old(destination: ChunkAndPoint, chunks: HashMap<world.Point, Chunk>, mobs:ArrayList<DrawableObject>): ArrayList<ChunkAndPoint> {
 //        val timeStart = System.currentTimeMillis()
 //        var pathes = ArrayList<ArrayList<ChunkAndPoint>>()
 //        val firstPoint = ArrayList<ChunkAndPoint>()

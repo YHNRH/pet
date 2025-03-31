@@ -1,4 +1,6 @@
-class Point(private val x: Int, private val y: Int) {
+package world
+
+abstract class Point(private val x: Int, private val y: Int)  {
 
 
     fun getX(): Int {
@@ -24,6 +26,6 @@ class Point(private val x: Int, private val y: Int) {
     }
 
     override fun toString(): String {
-        return "($x, $y)"
+        return "${this::class}($x, $y)"
     }
 }

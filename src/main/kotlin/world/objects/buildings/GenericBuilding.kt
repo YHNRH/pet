@@ -1,13 +1,13 @@
 package world.objects.buildings
 
 import GraphicsExtender
-import world.ChunkAndPoint
+import world.MapPoint
 import world.objects.BuildingDirection
 import java.awt.Image
 import java.awt.image.BufferedImage
 
 class GenericBuilding(
-    override var chunkAndPoint: ChunkAndPoint,
+    override var point: MapPoint,
     override var width: Int,
     override var height: Double,
     val image : BufferedImage
@@ -24,5 +24,5 @@ class GenericBuilding(
         return this.image
     }
 
-    override var occupiedBlocks: ArrayList<ChunkAndPoint> = ArrayList()
+    override var occupiedBlocks: ArrayList<MapPoint> = ArrayList()
 }

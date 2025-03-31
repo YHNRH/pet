@@ -6,21 +6,20 @@ import ImageHelper.Companion.castle_gate0_l
 import ImageHelper.Companion.castle_gate0_r
 import ImageHelper.Companion.castle_gate1_l
 import ImageHelper.Companion.castle_gate1_r
-import Point
-import world.ChunkAndPoint
+import world.MapPoint
 import world.objects.BuildingDirection
 import world.objects.DrawableObjectPart
 import world.objects.buildings.IBuilding
 import world.objects.buildings.Palette
 import java.awt.image.BufferedImage
 
-class Castle(override var chunkAndPoint: ChunkAndPoint, override var width: Int = 6, override var height: Double = 12.0) : IBuilding {
+class Castle(override var point: MapPoint, override var width: Int = 6, override var height: Double = 12.0) : IBuilding {
     override var direction: BuildingDirection = BuildingDirection.LEFT
 
     override fun setOccupiedBlocks() {
-        for (x in (this.chunkAndPoint.point.getX())until (this.chunkAndPoint.point.getX()+width)){
-            for (y in (this.chunkAndPoint.point.getY())until (this.chunkAndPoint.point.getY()+width)){
-                this.occupiedBlocks.add(ChunkAndPoint(chunkAndPoint.chunk, Point(x,y)))
+        for (x in (this.point.getX())until (this.point.getX()+width)){
+            for (y in (this.point.getY())until (this.point.getY()+width)){
+                this.occupiedBlocks.add(MapPoint(x,y, point.chunk))
             }
         }
     }
@@ -71,5 +70,5 @@ class Castle(override var chunkAndPoint: ChunkAndPoint, override var width: Int 
         return castle
     }
 
-    override var occupiedBlocks: ArrayList<ChunkAndPoint> = ArrayList()
+    override var occupiedBlocks: ArrayList<MapPoint> = ArrayList()
 }

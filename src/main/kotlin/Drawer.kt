@@ -26,9 +26,7 @@ import ImageHelper.Companion.treasurer_face_0
 import ImageHelper.Companion.treasurer_right
 import managers.CastleManager
 import toolbar.ToolbarButton
-import world.Chunk
-import world.ChunkAndPoint
-import world.Chunks
+import world.*
 import world.objects.buildings.AppleFarm
 import world.objects.buildings.Campfire
 import world.objects.mobs.*
@@ -64,22 +62,22 @@ var appState: AppState = AppState.WALK
         //camera.setZoom(zoomMin)
         val castleManager = CastleManager()
         val testChunk = Chunk.grassChunk(0,0)
-        val testMob = Woodcutter(ChunkAndPoint(testChunk,Point(0,0)))
-        val dog = Dog(ChunkAndPoint(testChunk,Point(6,1)))
-        val campfire = Campfire(ChunkAndPoint(testChunk,Point(9,3)))
-        val apple = Apple(ChunkAndPoint(testChunk, Point(12, 3)))
-        val chestnut = Chestnut(ChunkAndPoint(testChunk,Point(25,5)))
-        val appleFarm = AppleFarm(ChunkAndPoint(testChunk,Point(12,8)))
-//        val secondMob = SimpleMob(SimpleMob.ChunkAndPoint(testChunk,Point(3,5)),3 , 3)
-//        val thirdMob = objects.mobs.SimpleMob(objects.mobs.SimpleMob.ChunkAndPoint(testChunk,Point(4,5)), Point(0,0))
-//        val fourthMob = objects.mobs.SimpleMob(objects.mobs.SimpleMob.ChunkAndPoint(testChunk,Point(5,4)), Point(0,0))
-//        val a1 = objects.mobs.SimpleMob(objects.mobs.SimpleMob.ChunkAndPoint(testChunk,Point(5,3)), Point(0,0))
-//        val a2 = objects.mobs.SimpleMob(objects.mobs.SimpleMob.ChunkAndPoint(testChunk,Point(5,2)), Point(0,0))
-//        val a3 = objects.mobs.SimpleMob(objects.mobs.SimpleMob.ChunkAndPoint(testChunk,Point(5,1)), Point(0,0))
-//        val a4 = objects.mobs.SimpleMob(objects.mobs.SimpleMob.ChunkAndPoint(testChunk,Point(5,0)), Point(0,0))
-//        val a5 = objects.mobs.SimpleMob(objects.mobs.SimpleMob.ChunkAndPoint(testChunk,Point(5,5)), Point(0,0))
-//        val a6 = objects.mobs.SimpleMob(objects.mobs.SimpleMob.ChunkAndPoint(testChunk,Point(0,5)), Point(0,0))
-//        val a7 = objects.mobs.SimpleMob(objects.mobs.SimpleMob.ChunkAndPoint(testChunk,Point(1,5)), Point(0,0))
+        val testMob = Woodcutter(MapPoint(0,0, testChunk))
+        val dog = Dog(MapPoint(6,1, testChunk))
+        val campfire = Campfire(MapPoint(9,3, testChunk))
+        val apple = Apple(MapPoint(12, 3, testChunk))
+        val chestnut = Chestnut(MapPoint(25,5, testChunk))
+        val appleFarm = AppleFarm(MapPoint(12,8,testChunk ))
+//        val secondMob = SimpleMob(SimpleMob.ChunkAndPoint(testChunk,world.Point(3,5)),3 , 3)
+//        val thirdMob = objects.mobs.SimpleMob(objects.mobs.SimpleMob.ChunkAndPoint(testChunk,world.Point(4,5)), world.Point(0,0))
+//        val fourthMob = objects.mobs.SimpleMob(objects.mobs.SimpleMob.ChunkAndPoint(testChunk,world.Point(5,4)), world.Point(0,0))
+//        val a1 = objects.mobs.SimpleMob(objects.mobs.SimpleMob.ChunkAndPoint(testChunk,world.Point(5,3)), world.Point(0,0))
+//        val a2 = objects.mobs.SimpleMob(objects.mobs.SimpleMob.ChunkAndPoint(testChunk,world.Point(5,2)), world.Point(0,0))
+//        val a3 = objects.mobs.SimpleMob(objects.mobs.SimpleMob.ChunkAndPoint(testChunk,world.Point(5,1)), world.Point(0,0))
+//        val a4 = objects.mobs.SimpleMob(objects.mobs.SimpleMob.ChunkAndPoint(testChunk,world.Point(5,0)), world.Point(0,0))
+//        val a5 = objects.mobs.SimpleMob(objects.mobs.SimpleMob.ChunkAndPoint(testChunk,world.Point(5,5)), world.Point(0,0))
+//        val a6 = objects.mobs.SimpleMob(objects.mobs.SimpleMob.ChunkAndPoint(testChunk,world.Point(0,5)), world.Point(0,0))
+//        val a7 = objects.mobs.SimpleMob(objects.mobs.SimpleMob.ChunkAndPoint(testChunk,world.Point(1,5)), world.Point(0,0))
 //        addMob(secondMob)
 //        addMob(thirdMob)
 //        addMob(fourthMob)
@@ -168,19 +166,14 @@ var appState: AppState = AppState.WALK
         if (e != null) {
             if (appState == AppState.BUILD) {
                 val point = getPointByMouseXY(e.x, e.y)
-                val chunkPoint = Point(0,0)//mockup
+                //val chunkPoint = MapPoint(0,0, null)//mockup
 
-                BuilderHelper.getInstance().setBuildingChunkAndPoint(
-                    ChunkAndPoint(Chunk(chunkPoint), point)
-                )
+                BuilderHelper.getInstance().setBuildingPoint(point)
                 BuilderHelper.getInstance().getAdditional()?.forEach {
                     val offset = it.offset[BuilderHelper.getInstance().getObj()!!.direction]!!
-                    it.obj.chunkAndPoint = ChunkAndPoint(
-                        Chunk(chunkPoint),
-                        Point(point.getX() + offset.getX(), point.getY() + offset.getY())
-                    )
+                    it.obj.point = MapPoint(point.getX() + offset.getX(), point.getY() + offset.getY(), Chunk(0,0))
                 }
-                //println(SimpleMob.ChunkAndPoint(Chunk(Point(chunkX, chunkY)), Point(pointX, pointY)))
+                //println(SimpleMob.ChunkAndPoint(Chunk(world.Point(chunkX, chunkY)), world.Point(pointX, pointY)))
             }
         }
     }
@@ -244,7 +237,7 @@ var appState: AppState = AppState.WALK
     }
 
     fun addChunk(c: Chunk){
-        Chunks.instance().chunks[Point(c.point.getX(),c.point.getY())] = c
+        Chunks.instance().chunks[SimplePoint(c.getX(),c.getY())] = c
     }
 
 
@@ -261,7 +254,7 @@ var appState: AppState = AppState.WALK
 
     }
 
-    fun getPointByMouseXY(x: Int,y: Int): Point{
+    fun getPointByMouseXY(x: Int,y: Int): MapPoint {
         var calcY = -((y / camera.zoom - camera.y  - frameHeight))  // Вычитаем FrameHeight для того, чтобы инвертировать y
         val calcX = ((x + camera.x * camera.zoom ) - blockWidth*camera.zoom/2) / camera.zoom
         val myCoordSysX = calcX + calcY*(blockWidth/ blockHeight)
@@ -271,7 +264,7 @@ var appState: AppState = AppState.WALK
         val chunkY = if (calcY / chunkSize < 0) 0 else myCoordSysY/ (blockHeight*camera.zoom) / chunkSize
         val pointY = if (calcY % chunkSize < 0) 0 else myCoordSysY/ (blockHeight) % chunkSize
 
-        return Point(pointX, pointY)
+        return MapPoint(pointX, pointY, Chunk (chunkX, chunkY))
     }
 
     enum class AppState {

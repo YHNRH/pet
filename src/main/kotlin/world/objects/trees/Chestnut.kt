@@ -3,13 +3,11 @@ package world.objects.trees
 import GraphicsExtender
 import ImageHelper.Companion.chestnut_full
 import ImageHelper.Companion.chestnut_full_fall
-import world.ChunkAndPoint
+import world.MapPoint
 import world.objects.BuildingDirection
 import java.awt.Image
 
-class Chestnut (override var chunkAndPoint: ChunkAndPoint, override var width: Int = 6, override var height: Double = 12.0,
-
-) : ITree {
+class Chestnut (override var point: MapPoint, override var width: Int = 6, override var height: Double = 12.0) : ITree {
 
     override var direction = BuildingDirection.LEFT
 
@@ -18,7 +16,7 @@ class Chestnut (override var chunkAndPoint: ChunkAndPoint, override var width: I
     override val fallCount: Int = 10
     override var step = 0
     override fun setOccupiedBlocks() {
-        occupiedBlocks.add(chunkAndPoint)
+        occupiedBlocks.add(point)
     }
 
     val animCount = 13
@@ -28,7 +26,7 @@ class Chestnut (override var chunkAndPoint: ChunkAndPoint, override var width: I
     }
 
 
-    override var occupiedBlocks: ArrayList<ChunkAndPoint> = ArrayList()
+    override var occupiedBlocks: ArrayList<MapPoint> = ArrayList()
 
 
     override fun getImage(): Image {

@@ -1,7 +1,7 @@
 import Consts.Companion.cameraStep
 import Consts.Companion.zoomStep
 import world.Chunk
-import world.ChunkAndPoint
+import world.MapPoint
 import world.objects.BuildingDirection
 import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
@@ -48,16 +48,14 @@ class KeyboardListener(val camera: Camera): KeyListener {
                 }
 
 
-                val chunkX = obj.chunkAndPoint.chunk.point.getX()
-                val chunkY = obj.chunkAndPoint.chunk.point.getY()
-                val pointX = obj.chunkAndPoint.point.getX()
-                val pointY = obj.chunkAndPoint.point.getY()
+                val chunkX = obj.point.chunk.getX()
+                val chunkY = obj.point.chunk.getY()
+                val pointX = obj.point.getX()
+                val pointY = obj.point.getY()
                 BuilderHelper.getInstance().getAdditional()?.forEach {
                     val offset = it.offset[BuilderHelper.getInstance().getObj()!!.direction]!!
-                    it.obj.chunkAndPoint = ChunkAndPoint(
-                        Chunk(Point(chunkX, chunkY)),
-                        Point(pointX+offset.getX(), pointY+offset.getY())
-                    )
+                    it.obj.point = MapPoint(pointX+offset.getX(), pointY+offset.getY(), Chunk(chunkX, chunkY))
+
                 }
 
             }

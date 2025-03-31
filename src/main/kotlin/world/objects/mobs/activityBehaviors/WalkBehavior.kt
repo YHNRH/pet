@@ -3,11 +3,11 @@ package world.objects.mobs.activityBehaviors
 import AStar
 import Consts.Companion.runSpeed
 import Consts.Companion.walkSpeed
-import Point
+import world.MapPoint
 import objects.Activity
 import world.Chunk
-import world.ChunkAndPoint
 import world.Chunks
+import world.SimplePoint
 import world.objects.Direction
 import world.objects.IDrawableObject
 import world.objects.mobs.IMob
@@ -16,7 +16,7 @@ import javax.swing.Timer
 
 class WalkBehavior(
     nextActivityBehavior: ActivityBehavior?,
-    var destination: ChunkAndPoint,
+    var destination: MapPoint,
     private val collisionObjects: ArrayList<IDrawableObject>,
     var skip: () -> Boolean = { false },
     var activity: Activity = Activity.WALK,
@@ -35,26 +35,26 @@ class WalkBehavior(
             mob.step = 0
 
 
-            val chunksX = if (mob.chunkAndPoint.chunk.point.getX() >= destination.chunk.point.getX()) {
-                mob.chunkAndPoint.chunk.point.getX() downTo destination.chunk.point.getX()
+            val chunksX = if (mob.point.chunk.getX() >= destination.chunk.getX()) {
+                mob.point.chunk.getX() downTo destination.chunk.getX()
             } else {
-                mob.chunkAndPoint.chunk.point.getX()..destination.chunk.point.getX()
+                mob.point.chunk.getX()..destination.chunk.getX()
             }
 
-            val chunksY = if (mob.chunkAndPoint.chunk.point.getY() >= destination.chunk.point.getY()) {
-                mob.chunkAndPoint.chunk.point.getY() downTo destination.chunk.point.getY()
+            val chunksY = if (mob.point.chunk.getY() >= destination.chunk.getY()) {
+                mob.point.chunk.getY() downTo destination.chunk.getY()
             } else {
-                mob.chunkAndPoint.chunk.point.getY()..destination.chunk.point.getY()
+                mob.point.chunk.getY()..destination.chunk.getY()
             }
 
 
-            val chunksToSearch = HashMap<Point, Chunk>()
+            val chunksToSearch = HashMap<MapPoint, Chunk>()
 
             chunksX.forEach { x ->
                 chunksY.forEach { y ->
-                    val foundedChunk = Chunks.instance().chunks.get(Point(x, y))
+                    val foundedChunk = Chunks.instance().chunks.get(SimplePoint(x, y))
                     if (foundedChunk != null) {
-                        chunksToSearch.put(Point(x, y), foundedChunk)
+                        chunksToSearch.put(MapPoint(x, y, foundedChunk), foundedChunk)
                     }
                 }
             }
@@ -68,42 +68,41 @@ class WalkBehavior(
 
                     val taskPerformer = ActionListener {
                         try {
-                            if (mob.chunkAndPoint.point.getX() > shortestPath[index].point.getX()) {
+                            if (mob.point.getX() > shortestPath[index].getX()) {
 
-                                mob.direction = if (mob.chunkAndPoint.point.getY() > shortestPath[index].point.getY()) {
+                                mob.direction = if (mob.point.getY() > shortestPath[index].getY()) {
                                     Direction.BOTTOM
-                                } else if (mob.chunkAndPoint.point.getY() < shortestPath[index].point.getY()) {
+                                } else if (mob.point.getY() < shortestPath[index].getY()) {
                                     Direction.LEFT
                                 } else {
                                     Direction.LEFT_BOTTOM
                                 }
-                            } else if (mob.chunkAndPoint.point.getX() < shortestPath[index].point.getX()) {
+                            } else if (mob.point.getX() < shortestPath[index].getX()) {
 
-                                mob.direction = if (mob.chunkAndPoint.point.getY() > shortestPath[index].point.getY()) {
+                                mob.direction = if (mob.point.getY() > shortestPath[index].getY()) {
                                     Direction.RIGHT
 
-                                } else if (mob.chunkAndPoint.point.getY() < shortestPath[index].point.getY()) {
+                                } else if (mob.point.getY() < shortestPath[index].getY()) {
                                     Direction.TOP
                                 } else {
                                     Direction.RIGHT_TOP
                                 }
                             } else {
-                                mob.direction = if (mob.chunkAndPoint.point.getY() > shortestPath[index].point.getY()) {
+                                mob.direction = if (mob.point.getY() > shortestPath[index].getY()) {
                                     Direction.RIGHT_BOTTOM
                                 } else {
                                     Direction.LEFT_TOP
                                 }
                             }
                             if (mob.step == mob.animSizes.get(activity)!! - 1) {
-                                mob.chunkAndPoint.point = shortestPath[index].point
-                                mob.chunkAndPoint.chunk = shortestPath[index].chunk
+                                mob.point = shortestPath[index]
+                                //mob.point.chunk = shortestPath[index].chunk
                                 mob.occupiedBlocks.clear()
-                                for (x in (mob.chunkAndPoint.point.getX()) until (mob.chunkAndPoint.point.getX() + mob.width / 2)) {
-                                    for (y in (mob.chunkAndPoint.point.getY()) until (mob.chunkAndPoint.point.getY() + mob.width / 2)) {
+                                for (x in (mob.point.getX()) until (mob.point.getX() + mob.width / 2)) {
+                                    for (y in (mob.point.getY()) until (mob.point.getY() + mob.width / 2)) {
                                         mob.occupiedBlocks.add(
-                                            ChunkAndPoint(
-                                                mob.chunkAndPoint.chunk,
-                                                Point(x, y)
+                                            MapPoint(
+                                                x, y, mob.point.chunk
                                             )
                                         )
                                     }
@@ -186,31 +185,31 @@ class WalkBehavior(
 //        } else {
 //            rndY += mob.chunkAndPoint.point.getY()
 //        }
-//        val chunk = Chunks.instance().chunks.get(Point(chunkX,chunkY))
-//        val pointExist = chunk?.getNoncollisionObject(Point(rndX,rndY)) != null
+//        val chunk = Chunks.instance().chunks.get(world.Point(chunkX,chunkY))
+//        val pointExist = chunk?.getNoncollisionObject(world.Point(rndX,rndY)) != null
 //        if (chunk != null && pointExist){
 //            val objects = ArrayList<DrawableObject>()
 //            Chunks.instance().chunks.forEach{
 //                objects.addAll(it.value.objects)
 //            }
-//            mob.move(SimpleMob.ChunkAndPoint(chunk, Point(rndX,rndY)),
+//            mob.move(SimpleMob.ChunkAndPoint(chunk, world.Point(rndX,rndY)),
 //                Chunks.instance().chunks, objects , this, activity)
 //        } else {
 //            nextActivity(mob)
 //        }
 //    }
     private fun getShortestPath(
-        destination: ChunkAndPoint,
-        IMob: IMob,
+        destination: MapPoint,
+        mob: IMob,
       //  removeLastElement: Int,
         collisionObjects: ArrayList<IDrawableObject>
-    ): ArrayList<ChunkAndPoint> {
-        var path = AStar().astar(IMob.chunkAndPoint, destination, collisionObjects)
+    ): ArrayList<MapPoint> {
+        val path = AStar().astar(mob.point, destination, collisionObjects)
         //path = path.dropLast(removeLastElement)
 
-        val test = ArrayList<ArrayList<ChunkAndPoint>>()
+        val test = ArrayList<ArrayList<MapPoint>>()
         test.add(path)
-        IMob.pathForDebugDraw = test
+        mob.pathForDebugDraw = test
         return path
     }
 

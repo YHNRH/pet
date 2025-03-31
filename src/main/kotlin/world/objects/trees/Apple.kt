@@ -2,14 +2,13 @@ package world.objects.trees
 
 import GraphicsExtender
 import ImageHelper.Companion.apple_fructify
-import Point
-import world.ChunkAndPoint
+import world.MapPoint
 import world.objects.BuildingDirection
 import java.awt.Image
 
-class Apple (override var chunkAndPoint: ChunkAndPoint, override var width: Int = 4, override var height: Double = 8.0,
+class Apple (override var point: MapPoint, override var width: Int = 4, override var height: Double = 8.0,
 
-) :
+             ) :
     ITree
 {
     override var state = TreeState.FULL
@@ -25,10 +24,10 @@ class Apple (override var chunkAndPoint: ChunkAndPoint, override var width: Int 
     }
 
     override fun setOccupiedBlocks() {
-        this.occupiedBlocks.add(ChunkAndPoint(chunkAndPoint.chunk, Point(chunkAndPoint.point.getX()+1, chunkAndPoint.point.getY())))
+        this.occupiedBlocks.add(MapPoint(point.getX()+1, point.getY(), point.chunk))
     }
 
-    override var occupiedBlocks: ArrayList<ChunkAndPoint> = ArrayList()
+    override var occupiedBlocks: ArrayList<MapPoint> = ArrayList()
 
 
     override fun getImage(): Image {

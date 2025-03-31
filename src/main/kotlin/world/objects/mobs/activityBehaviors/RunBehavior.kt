@@ -1,9 +1,10 @@
 package world.objects.mobs.activityBehaviors
 
 import Consts.Companion.chunkSize
-import Point
+import world.MapPoint
 import objects.Activity
 import world.Chunks
+import world.SimplePoint
 import world.objects.IDrawableObject
 import world.objects.mobs.IMob
 import kotlin.random.Random
@@ -15,34 +16,34 @@ class RunBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavior(ne
         var rndY = Random.nextInt(-10, 10)
         var chunkX = 0
         var chunkY = 0
-        if (mob.chunkAndPoint.point.getX() + rndX >= chunkSize){
-            rndX = (mob.chunkAndPoint.point.getX() + rndX) % chunkSize
+        if (mob.point.getX() + rndX >= chunkSize){
+            rndX = (mob.point.getX() + rndX) % chunkSize
             chunkX++
-        } else if (mob.chunkAndPoint.point.getX() + rndX < 0){
-            rndX += chunkSize + mob.chunkAndPoint.point.getX()
+        } else if (mob.point.getX() + rndX < 0){
+            rndX += chunkSize + mob.point.getX()
             chunkX--
         } else {
-            rndX += mob.chunkAndPoint.point.getX()
+            rndX += mob.point.getX()
         }
 
-        if (mob.chunkAndPoint.point.getY() + rndY >= chunkSize){
-            rndY =  (mob.chunkAndPoint.point.getY() + rndY) % chunkSize
+        if (mob.point.getY() + rndY >= chunkSize){
+            rndY =  (mob.point.getY() + rndY) % chunkSize
             chunkY++
-        } else if (mob.chunkAndPoint.point.getY() + rndY < 0){
-            rndY -= chunkSize + mob.chunkAndPoint.point.getY()
+        } else if (mob.point.getY() + rndY < 0){
+            rndY -= chunkSize + mob.point.getY()
             chunkY--
         } else {
-            rndY += mob.chunkAndPoint.point.getY()
+            rndY += mob.point.getY()
         }
-        val chunk = Chunks.instance().chunks.get(Point(chunkX,chunkY))
-        val pointExist = chunk?.getNoncollisionObject(Point(rndX,rndY)) != null
+        val chunk = Chunks.instance().chunks.get(SimplePoint(chunkX,chunkY))
+        val pointExist = chunk?.getNoncollisionObject(MapPoint(rndX,rndY, chunk)) != null
         if (chunk != null && pointExist){
             val objects = ArrayList<IDrawableObject>()
             Chunks.instance().chunks.forEach{
                 objects.addAll(it.value.objects)
             }
       //      mob.move(
-     //           SimpleMob.ChunkAndPoint(chunk, Point(rndX,rndY)),
+     //           SimpleMob.ChunkAndPoint(chunk, world.Point(rndX,rndY)),
     //            Chunks.instance().chunks, objects , this, activity)
         } else {
             performActivity(mob)

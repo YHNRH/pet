@@ -1,4 +1,4 @@
-import world.ChunkAndPoint
+import world.MapPoint
 import world.objects.IDrawableObject
 import kotlin.math.abs
 import kotlin.math.pow
@@ -8,9 +8,9 @@ class AStar {
 
 
 
-    private fun reconstructPath(start: Node, goal: Node): ArrayList<ChunkAndPoint> {
+    private fun reconstructPath(start: Node, goal: Node): ArrayList<MapPoint> {
         var currentNode : Node? = goal // поиск начинается от финиша
-        val res = ArrayList<ChunkAndPoint>()
+        val res = ArrayList<MapPoint>()
         while (currentNode != start && currentNode != null){
             res.add(currentNode.point) // Добавить вершину в карту
             currentNode = currentNode.cameFrom
@@ -23,27 +23,27 @@ class AStar {
         return 10
     }
 
-    private fun heuristicCostEstimate(start: Point, goal: Point): Double {
+    private fun heuristicCostEstimate(start: MapPoint, goal: MapPoint): Double {
         return sqrt( (abs(start.getX()-goal.getX()).toDouble()).pow(2) + (abs(start.getY()-goal.getY()).toDouble()).pow(2))
     }
 
     private fun unclosedNeighbors(x: Node, collisionObjects: List<Node>): ArrayList<Node> {
         val res = ArrayList<Node>()
-        res.add(Node(ChunkAndPoint(x.point.chunk,Point(x.point.point.getX()+1, x.point.point.getY()+1))))
-        res.add(Node(ChunkAndPoint(x.point.chunk,Point(x.point.point.getX()+1, x.point.point.getY()))))
-        res.add(Node(ChunkAndPoint(x.point.chunk,Point(x.point.point.getX()+1, x.point.point.getY()-1))))
-        res.add(Node(ChunkAndPoint(x.point.chunk,Point(x.point.point.getX(), x.point.point.getY()+1))))
-        res.add(Node(ChunkAndPoint(x.point.chunk,Point(x.point.point.getX(), x.point.point.getY()-1))))
-        res.add(Node(ChunkAndPoint(x.point.chunk,Point(x.point.point.getX()-1, x.point.point.getY()+1))))
-        res.add(Node(ChunkAndPoint(x.point.chunk,Point(x.point.point.getX()-1, x.point.point.getY()))))
-        res.add(Node(ChunkAndPoint(x.point.chunk,Point(x.point.point.getX()-1, x.point.point.getY()-1))))
+        res.add(Node(MapPoint(x.point.getX()+1, x.point.getY()+1, x.point.chunk)))
+        res.add(Node(MapPoint(x.point.getX()+1, x.point.getY(), x.point.chunk)))
+        res.add(Node(MapPoint(x.point.getX()+1, x.point.getY()-1, x.point.chunk)))
+        res.add(Node(MapPoint(x.point.getX(), x.point.getY()+1, x.point.chunk)))
+        res.add(Node(MapPoint(x.point.getX(), x.point.getY()-1, x.point.chunk)))
+        res.add(Node(MapPoint(x.point.getX()-1, x.point.getY()+1, x.point.chunk)))
+        res.add(Node(MapPoint(x.point.getX()-1, x.point.getY(), x.point.chunk)))
+        res.add(Node(MapPoint(x.point.getX()-1, x.point.getY()-1, x.point.chunk)))
 
         res.removeAll(collisionObjects)
 
         return res
     }
 
-    fun astar(s :ChunkAndPoint, g : ChunkAndPoint, collisionObjects: ArrayList<IDrawableObject>): ArrayList<ChunkAndPoint> {
+    fun astar(s :MapPoint, g : MapPoint, collisionObjects: ArrayList<IDrawableObject>): ArrayList<MapPoint> {
 
 
         val start = Node(s)
@@ -57,7 +57,7 @@ class AStar {
 
         //Заполняем свойства вершины start
         start.g = 0.0   // g(x). Стоимость пути от начальной вершины. У start g(x) = 0
-        start.h = heuristicCostEstimate(start.point.point, goal.point.point) // Эвристическая оценка расстояние до цели. h(x)
+        start.h = heuristicCostEstimate(start.point, goal.point) // Эвристическая оценка расстояние до цели. h(x)
         start.f = start.g + start.h      // f(x) = g(x) + h(x)
 
         val open = ArrayList<Node>()
@@ -66,7 +66,7 @@ class AStar {
 
         while (open.size > 0) {
             val x = minF(open)
-            if (x.point.point == goal.point.point){
+            if (x.point == goal.point){
                 return reconstructPath(start, x) //заполняем карту path_map
             }
 
@@ -91,7 +91,7 @@ class AStar {
                      if (tentativeIsBetter){
                             it.cameFrom  = x //Вершина с которой мы пришли. Используется для реконструкции пути.
                             it.g  = tentativeGScore
-                            it.h  = heuristicCostEstimate(it.point.point, goal.point.point)
+                            it.h  = heuristicCostEstimate(it.point, goal.point)
                             it.f  = it.g+it.h
                     }
                         // Обратите внимание, что если происходит обновление свойств - значит it(сосед x)
@@ -128,7 +128,7 @@ class AStar {
     }
 
 
-    class Node(var point: ChunkAndPoint) {
+    class Node(var point: MapPoint) {
         var g: Double = 0.0
         var h: Double = 0.0
         var f: Double = 0.0
@@ -141,7 +141,7 @@ class AStar {
             if (other !is Node) {
                 return false
             }
-            return this.point.point.getX() == other.point.point.getX() && this.point.point.getY() == other.point.point.getY();
+            return this.point.getX() == other.point.getX() && this.point.getY() == other.point.getY();
         }
 
     }

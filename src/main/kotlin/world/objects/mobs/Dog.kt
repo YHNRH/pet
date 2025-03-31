@@ -20,14 +20,14 @@ import ImageHelper.Companion.dog_walk_right_bottom
 import ImageHelper.Companion.dog_walk_right_top
 import ImageHelper.Companion.dog_walk_top
 import objects.Activity
-import world.ChunkAndPoint
+import world.MapPoint
 import world.objects.Direction
 import world.objects.mobs.activityBehaviors.ActivityBehavior
 import java.awt.Image
 import java.awt.event.ActionListener
 import javax.swing.Timer
 
-class Dog(chunkAndPoint: ChunkAndPoint, width: Int = 2, height: Double = 4.0, override var direction: Direction = Direction.BOTTOM,
+class Dog(chunkAndPoint: MapPoint, width: Int = 2, height: Double = 4.0, override var direction: Direction = Direction.BOTTOM,
           override var activity: Activity = Activity.STAND,
 //             override val stepsForBlock: Int = 8,
           override var step: Int = 0

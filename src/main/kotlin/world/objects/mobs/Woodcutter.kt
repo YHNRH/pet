@@ -30,13 +30,13 @@ import ImageHelper.Companion.woodcutter_walk_right_bottom
 import ImageHelper.Companion.woodcutter_walk_right_top
 import ImageHelper.Companion.woodcutter_walk_top
 import objects.Activity
-import world.ChunkAndPoint
+import world.MapPoint
 import world.objects.Direction
 import world.objects.mobs.activityBehaviors.ActivityBehavior
 import world.objects.trees.ITree
 import java.awt.Image
 
-class Woodcutter(chunkAndPoint: ChunkAndPoint, width: Int = 3, height: Double = 6.0, override var direction: Direction = Direction.BOTTOM,
+class Woodcutter(chunkAndPoint: MapPoint, width: Int = 3, height: Double = 6.0, override var direction: Direction = Direction.BOTTOM,
                  override var activity: Activity = Activity.STAND,
                  override var step: Int = 0
 ) : SimpleMob(chunkAndPoint, width, height) {

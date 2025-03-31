@@ -1,7 +1,5 @@
 package world
 
-import Point
-
 class Chunks {
     val chunks = HashMap<Point, Chunk>()
 

@@ -15,7 +15,7 @@ class ChopTreeBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavi
     override fun performActivity(mob: IMob) {
         mob as Woodcutter
         if (mob.tree == null){
-            mob.tree = Chunks.instance().chunks.get(mob.chunkAndPoint.chunk.point)!!.getTrees()[0]
+           mob.tree = Chunks.instance().chunks.get(mob.point.chunk)!!.getTrees()[0]
             if (mob.tree != null){
                 val chop = ChopBehavior(nextActivityBehavior!!, mob.tree!!)
           //      WalkBehavior(chop, mob.tree!!.chunkAndPoint, {false}, Activity.WALK, {  }, 1).performActivity(mob)

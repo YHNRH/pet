@@ -3,23 +3,23 @@ package world.objects.buildings
 import AnimationHelper
 import GraphicsExtender
 import ImageHelper.Companion.campfire
-import world.ChunkAndPoint
+import world.MapPoint
 import world.objects.BuildingDirection
 import java.awt.Image
 
-class Campfire(override var chunkAndPoint: ChunkAndPoint, override var width: Int = 1, override var height: Double = 2.0,
+class Campfire(override var point: MapPoint, override var width: Int = 1, override var height: Double = 2.0,
 ) : IBuilding {
     override var direction: BuildingDirection = BuildingDirection.LEFT
 
     val animCount = 18
     override fun setOccupiedBlocks() {
-                this.occupiedBlocks.add(chunkAndPoint)
+                this.occupiedBlocks.add(point)
     }
 
     override fun draw(ge: GraphicsExtender) {
         ge.drawBuilding(this)
     }
-    override var occupiedBlocks: ArrayList<ChunkAndPoint> = ArrayList()
+    override var occupiedBlocks: ArrayList<MapPoint> = ArrayList()
 
 //    init {
 ////        for (x in (this.chunkAndPoint.point.getX())until (this.chunkAndPoint.point.getX()+width/2)){

@@ -6,7 +6,7 @@ import Consts.Companion.debugDraw
 import Consts.Companion.frameHeight
 import Consts.Companion.frameWidth
 import objects.Activity
-import world.ChunkAndPoint
+import world.MapPoint
 import world.objects.Direction
 import world.objects.IDrawableObject
 import world.objects.DrawableObjectPart
@@ -63,27 +63,27 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
         )
     }
 
-    fun drawPolyline(array: ArrayList<ArrayList<ChunkAndPoint>>){
+    fun drawPolyline(array: ArrayList<ArrayList<MapPoint>>){
         g.color = Color.GREEN
         g.stroke = BasicStroke(3f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
 
         array.forEach {
             for (i in 0..it.size-2){
                 drawLine(
-                    (it.get(i).chunk.point.getX()*chunkWidth/2) - (it.get(i).chunk.point.getY()* chunkWidth/2 )+ it.get(i).point.getX()*blockWidth-(it.get(i).point.getY() * blockWidth/2) -( it.get(i).point.getX() * blockWidth/2)+ blockWidth/2,
-                    (it.get(i).chunk.point.getX()*chunkHeight/2) + (it.get(i).chunk.point.getY()* chunkHeight/2 ) + it.get(i).point.getY()* blockHeight - (it.get(i).point.getY() * blockHeight/2) + blockHeight/2 + ( it.get(i).point.getX() * blockHeight/2) ,
-                    (it.get(i+1).chunk.point.getX()*chunkWidth/2) - (it.get(i + 1).chunk.point.getY()* chunkWidth/2 )+ it.get(i + 1).point.getX()*blockWidth-(it.get(i+1).point.getY() * blockWidth/2) -( it.get(i+1).point.getX() * blockWidth/2) + blockWidth/2,
-                    (it.get(i +1).chunk.point.getX()*chunkHeight/2) + (it.get(i + 1 ).chunk.point.getY()* chunkHeight/2 ) + it.get(i+1).point.getY()* blockHeight - (it.get(i+1).point.getY() * blockHeight/2) + blockHeight/2 + ( it.get(i+1).point.getX() * blockHeight/2),
+                    (it.get(i).chunk.getX()*chunkWidth/2) - (it.get(i).chunk.getY()* chunkWidth/2 )+ it.get(i).getX()*blockWidth-(it.get(i).getY() * blockWidth/2) -( it.get(i).getX() * blockWidth/2)+ blockWidth/2,
+                    (it.get(i).chunk.getX()*chunkHeight/2) + (it.get(i).chunk.getY()* chunkHeight/2 ) + it.get(i).getY()* blockHeight - (it.get(i).getY() * blockHeight/2) + blockHeight/2 + ( it.get(i).getX() * blockHeight/2) ,
+                    (it.get(i+1).chunk.getX()*chunkWidth/2) - (it.get(i + 1).chunk.getY()* chunkWidth/2 )+ it.get(i + 1).getX()*blockWidth-(it.get(i+1).getY() * blockWidth/2) -( it.get(i+1).getX() * blockWidth/2) + blockWidth/2,
+                    (it.get(i +1).chunk.getX()*chunkHeight/2) + (it.get(i + 1 ).chunk.getY()* chunkHeight/2 ) + it.get(i+1).getY()* blockHeight - (it.get(i+1).getY() * blockHeight/2) + blockHeight/2 + ( it.get(i+1).getX() * blockHeight/2),
                 )
             }
         }
     }
 
     fun drawBlock( obj: IDrawableObject){
-        val x = obj.chunkAndPoint.point.getX()
-        val y = obj.chunkAndPoint.point.getY()
-        val chunkX = obj.chunkAndPoint.chunk.point.getX()
-        val chunkY = obj.chunkAndPoint.chunk.point.getY()
+        val x = obj.point.getX()
+        val y = obj.point.getY()
+        val chunkX = obj.point.chunk.getX()
+        val chunkY = obj.point.chunk.getY()
 
         var drawx = -(blockWidth*obj.width)/2 + blockWidth /2 + (chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) -(x * blockWidth/2)
 //        var drawy = -blockHeight* obj.width/2 + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
@@ -151,10 +151,10 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
 
 
     fun drawBuilding(obj: IBuilding, drawParts: ArrayList<DrawableObjectPart>? = null){
-        val x = obj.chunkAndPoint.point.getX()
-        val y = obj.chunkAndPoint.point.getY()
-        val chunkX = obj.chunkAndPoint.chunk.point.getX()
-        val chunkY = obj.chunkAndPoint.chunk.point.getY()
+        val x = obj.point.getX()
+        val y = obj.point.getY()
+        val chunkX = obj.point.chunk.getX()
+        val chunkY = obj.point.chunk.getY()
 
         var drawx = -(blockWidth*obj.width)/2 + blockWidth /2 + (chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) -(x * blockWidth/2)
 //        var drawy = -blockHeight* obj.width/2 + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + blockHeight/2
@@ -189,10 +189,10 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
         if (debugDraw){
             g.color = Color.RED
             obj.occupiedBlocks.forEach {
-                val x = it.point.getX()
-                val y = it.point.getY()
-                val chunkX = it.chunk.point.getX()
-                val chunkY = it.chunk.point.getY()
+                val x = it.getX()
+                val y = it.getY()
+                val chunkX = it.chunk.getX()
+                val chunkY = it.chunk.getY()
                 drawLine((chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) -(x * blockWidth/2),
                     (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + y* blockHeight - (y * blockHeight/2) + blockHeight/2 + (x * blockHeight/2),
                     (chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) + blockWidth/2  -(x * blockWidth/2),
@@ -228,10 +228,10 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
     }
 
     fun drawTree( obj: IDrawableObject){
-        val x = obj.chunkAndPoint.point.getX()
-        val y = obj.chunkAndPoint.point.getY()
-        val chunkX = obj.chunkAndPoint.chunk.point.getX()
-        val chunkY = obj.chunkAndPoint.chunk.point.getY()
+        val x = obj.point.getX()
+        val y = obj.point.getY()
+        val chunkX = obj.point.chunk.getX()
+        val chunkY = obj.point.chunk.getY()
 
         var calcx = -(blockWidth* obj.width)/2 + blockWidth + (chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) -(x * blockWidth/2)
         var calcy = -blockHeight* obj.width/2 + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2) + (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 )
@@ -259,10 +259,10 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
         if (debugDraw){
             g.color = Color.RED
             obj.occupiedBlocks.forEach {
-                val x = it.point.getX()
-                val y = it.point.getY()
-                val chunkX = it.chunk.point.getX()
-                val chunkY = it.chunk.point.getY()
+                val x = it.getX()
+                val y = it.getY()
+                val chunkX = it.chunk.getX()
+                val chunkY = it.chunk.getY()
                 drawLine(
                     (chunkX * chunkWidth / 2) - (chunkY * chunkWidth / 2) + x * blockWidth - (y * blockWidth / 2) - (x * blockWidth / 2),
                     (chunkX * chunkHeight / 2) + (chunkY * chunkHeight / 2) + y * blockHeight - (y * blockHeight / 2) + blockHeight / 2 + (x * blockHeight / 2),
@@ -298,15 +298,15 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
 
 
     fun drawMob(mob: IMob){
-        val chunkX = mob.chunkAndPoint.chunk.point.getX()
-        val chunkY = mob.chunkAndPoint.chunk.point.getY()
-        val x = mob.chunkAndPoint.point.getX()
-        val y = mob.chunkAndPoint.point.getY()
+        val chunkX = mob.point.chunk.getX()
+        val chunkY = mob.point.chunk.getY()
+        val x = mob.point.getX()
+        val y = mob.point.getY()
         if (debugDraw){
             g.color = Color.BLACK
-            drawString(mob.chunkAndPoint.toString()
-                .plus("Occupied blocks ${mob.occupiedBlocks.first().point} - ${mob.occupiedBlocks.last().point}"),
-                mob.chunkAndPoint.chunk.point.getX()*chunkWidth + mob.chunkAndPoint.point.getX()*blockWidth - (blockWidth*mob.width)/2 , (mob.chunkAndPoint.chunk.point.getY()* chunkHeight + mob.chunkAndPoint.point.getY()* blockHeight - (blockHeight*mob.height)/2).toInt(), (blockHeight*mob.height).toInt())
+            drawString(mob.point.toString()
+                .plus("Occupied blocks ${mob.occupiedBlocks.first()} - ${mob.occupiedBlocks.last()}"),
+                mob.point.chunk.getX()*chunkWidth + mob.point.getX()*blockWidth - (blockWidth*mob.width)/2 , (mob.point.chunk.getY()* chunkHeight + mob.point.getY()* blockHeight - (blockHeight*mob.height)/2).toInt(), (blockHeight*mob.height).toInt())
             drawLine((chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) -(x * blockWidth/2),
                 (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + y* blockHeight - (y * blockHeight/2) + blockHeight/2 + (x * blockHeight/2),
                 (chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) + blockWidth/2  -(x * blockWidth/2),

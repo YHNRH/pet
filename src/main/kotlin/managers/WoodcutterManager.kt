@@ -1,8 +1,8 @@
 package managers
 
-import Point
-import world.ChunkAndPoint
 import world.Chunks
+import world.MapPoint
+import world.Point
 import world.objects.buildings.GenericBuilding
 import world.objects.mobs.Woodcutter
 import world.objects.mobs.activityBehaviors.ChopLogBehavior
@@ -12,12 +12,9 @@ import world.objects.mobs.activityBehaviors.RestContiniousBehavior
 class WoodcutterManager(val castleManager: CastleManager) {
     fun createWorker(hut: GenericBuilding) {
         val woodcutter = Woodcutter(
-            ChunkAndPoint(
-                castleManager.castle!!.chunkAndPoint.chunk, Point(
-                    castleManager.castle!!.chunkAndPoint.point.getX()-2,castleManager.castle!!.chunkAndPoint.point.getY()+2)
-            )
+            MapPoint(castleManager.castle!!.point.getX()-2,castleManager.castle!!.point.getY()+2, castleManager.castle!!.point.chunk)
         )
-        Chunks.instance().chunks.get(castleManager.castle?.chunkAndPoint?.chunk?.point)?.addMob(woodcutter)
+        Chunks.instance().chunks[castleManager.castle?.point?.chunk as Point]?.addMob(woodcutter)
         //val toHut =    WalkBehavior(null,hut.chunkAndPoint)
         //val toCastle =  WalkBehavior(toHut,castleManager.castle!!.chunkAndPoint)
 

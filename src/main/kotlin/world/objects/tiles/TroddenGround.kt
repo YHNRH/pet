@@ -2,18 +2,18 @@ package world.objects.tiles
 
 import GraphicsExtender
 import ImageHelper.Companion.trodden_ground
-import world.ChunkAndPoint
+import world.MapPoint
 import world.objects.IDrawableObject
 import java.awt.Image
 
-class TroddenGround(override var chunkAndPoint: ChunkAndPoint, override var height: Double = 6.0, override var width: Int = 6) :
+class TroddenGround(override var point: MapPoint, override var height: Double = 6.0, override var width: Int = 6) :
     IDrawableObject {
     //    override fun draw(g: Graphics) {
 //        g.drawImage(grass,x*blockWidth,frameHeight-y* blockHeight, null)
 //        g.color = Color.RED
 //        g.drawRect(x*Consts.blockWidth,frameHeight-y* blockHeight, blockWidth, blockHeight)
 //    }
-    override var occupiedBlocks: ArrayList<ChunkAndPoint> = ArrayList()
+    override var occupiedBlocks: ArrayList<MapPoint> = ArrayList()
 
 
     override fun draw(ge: GraphicsExtender) {

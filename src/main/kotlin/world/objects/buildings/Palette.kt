@@ -5,15 +5,14 @@ import Consts.Companion.blockWidth
 import GraphicsExtender
 import ImageHelper.Companion.goods_wheat
 import ImageHelper.Companion.palette
-import Point
-import world.ChunkAndPoint
+import world.MapPoint
 import world.objects.BuildingDirection
 import world.objects.DrawableObjectPart
 import java.awt.Image
 import java.awt.image.BufferedImage
 import java.lang.Exception
 
-class Palette(override var chunkAndPoint: ChunkAndPoint, override var width: Int = 4, override var height: Double = 4.0,
+class Palette(override var point: MapPoint, override var width: Int = 4, override var height: Double = 4.0,
 ) : IBuilding {
     override var direction: BuildingDirection = BuildingDirection.LEFT
     val drawParts = ArrayList<DrawableObjectPart>()
@@ -21,7 +20,7 @@ class Palette(override var chunkAndPoint: ChunkAndPoint, override var width: Int
     override fun draw(ge: GraphicsExtender) {
         ge.drawBuilding(this, drawParts)
     }
-    override var occupiedBlocks: ArrayList<ChunkAndPoint> = ArrayList()
+    override var occupiedBlocks: ArrayList<MapPoint> = ArrayList()
 
     init {
         goods.add(PalleteGood(Goods.WHEAT,3))
@@ -94,9 +93,9 @@ class Palette(override var chunkAndPoint: ChunkAndPoint, override var width: Int
     }
 
     override fun setOccupiedBlocks() {
-        for (x in (this.chunkAndPoint.point.getX())until (this.chunkAndPoint.point.getX()+width)){
-            for (y in (this.chunkAndPoint.point.getY())until (this.chunkAndPoint.point.getY()+width)){
-                this.occupiedBlocks.add(ChunkAndPoint(chunkAndPoint.chunk, Point(x,y)))
+        for (x in (this.point.getX())until (this.point.getX()+width)){
+            for (y in (this.point.getY())until (this.point.getY()+width)){
+                this.occupiedBlocks.add(MapPoint(x,y, point.chunk))
             }
         }
     }

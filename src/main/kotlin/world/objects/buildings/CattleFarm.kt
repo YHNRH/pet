@@ -2,17 +2,16 @@ package world.objects.buildings
 
 import GraphicsExtender
 import ImageHelper.Companion.cattlefarm
-import Point
-import world.ChunkAndPoint
+import world.MapPoint
 import world.objects.BuildingDirection
 import java.awt.image.BufferedImage
 
-class CattleFarm(override var chunkAndPoint: ChunkAndPoint, override var width: Int = 2, override var height: Double = 4.0,
+class CattleFarm(override var point: MapPoint, override var width: Int = 2, override var height: Double = 4.0,
 ) : IBuilding {
     override fun draw(ge: GraphicsExtender) {
         ge.drawBuilding(this)
     }
-    override var occupiedBlocks: ArrayList<ChunkAndPoint> = ArrayList()
+    override var occupiedBlocks: ArrayList<MapPoint> = ArrayList()
     override var direction: BuildingDirection = BuildingDirection.LEFT
 
 //    init {
@@ -20,9 +19,9 @@ class CattleFarm(override var chunkAndPoint: ChunkAndPoint, override var width: 
 //    }
 
     override fun setOccupiedBlocks() {
-        for (x in (this.chunkAndPoint.point.getX())until (this.chunkAndPoint.point.getX()+width)){
-            for (y in (this.chunkAndPoint.point.getY())until (this.chunkAndPoint.point.getY()+width)){
-                this.occupiedBlocks.add(ChunkAndPoint(chunkAndPoint.chunk, Point(x,y)))
+        for (x in (this.point.getX())until (this.point.getX()+width)){
+            for (y in (this.point.getY())until (this.point.getY()+width)){
+                this.occupiedBlocks.add(MapPoint(x,y, point.chunk))
             }
         }
     }

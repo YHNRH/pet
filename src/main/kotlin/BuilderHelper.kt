@@ -1,4 +1,4 @@
-import world.ChunkAndPoint
+import world.MapPoint
 import world.objects.BuildingDirection
 import world.objects.buildings.AdditionalBuilding
 import world.objects.buildings.IBuilding
@@ -16,8 +16,8 @@ class BuilderHelper {
         return additional
     }
 
-    fun setBuildingChunkAndPoint(cap: ChunkAndPoint){
-        this.obj?.chunkAndPoint = cap
+    fun setBuildingPoint(point: MapPoint){
+        this.obj?.point = point
     }
 
     fun setBuildingDirection(direction: BuildingDirection){

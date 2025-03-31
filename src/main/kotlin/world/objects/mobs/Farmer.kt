@@ -46,12 +46,12 @@ import ImageHelper.Companion.farmer_walk_right_top
 import ImageHelper.Companion.farmer_walk_top
 import ImageHelper.Companion.sow_size
 import objects.Activity
-import world.ChunkAndPoint
+import world.MapPoint
 import world.objects.Direction
 import world.objects.mobs.activityBehaviors.ActivityBehavior
 import java.awt.Image
 
-class Farmer(chunkAndPoint: ChunkAndPoint, width: Int = 3, height: Double = 6.0, override var direction: Direction = Direction.BOTTOM,
+class Farmer(chunkAndPoint: MapPoint, width: Int = 3, height: Double = 6.0, override var direction: Direction = Direction.BOTTOM,
              override var activity: Activity = Activity.STAND,
 //             override val stepsForBlock: Int = 8,
              override var step: Int = 0

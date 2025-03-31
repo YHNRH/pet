@@ -1,7 +1,7 @@
 import ImageHelper.Companion.woodcutter_hut
 import managers.CastleManager
-import world.ChunkAndPoint
 import world.Chunks
+import world.SimplePoint
 import world.objects.IDrawableObject
 import world.objects.buildings.IBuilding
 import world.objects.buildings.GenericBuilding
@@ -28,23 +28,23 @@ class MouseListener(private val drawer:Drawer, private val castleManager: Castle
                             objects.addAll(it.value.objects)
                         }
                         println("OBJECTS TO COLLISION CHECK SIZE ${objects.size}")
-                        val chunk = Chunks.instance().chunks.get(Point(0,0))//chunkX,chunkY))
+                        val chunk = Chunks.instance().chunks.get(SimplePoint(0,0))//chunkX,chunkY))
                         val pointExist = chunk?.getNoncollisionObject(point) != null
-                        (it as SimpleMob).addBehavior(WalkBehavior(null, ChunkAndPoint(chunk!!, point), objects))
+                        (it as SimpleMob).addBehavior(WalkBehavior(null, point, objects))
                         //  it.move(
-                        //       SimpleMob.ChunkAndPoint(chunk!!, Point(pointX,pointY)),
+                        //       SimpleMob.ChunkAndPoint(chunk!!, world.Point(pointX,pointY)),
                         //        Chunks.instance().chunks, objects, null, Activity.WALK)
                     }
 
                 }
                 Drawer.AppState.BUILD -> {
                     val obj = BuilderHelper.getInstance().getObj()!!
-                    Chunks.instance().chunks.get(obj.chunkAndPoint.chunk.point)?.addBuilding(obj)
+                    Chunks.instance().chunks.get(obj.point.chunk)?.addBuilding(obj)
                     BuilderHelper.getInstance().getAdditional()?.forEach {
                         if (it.obj is IBuilding){
-                            Chunks.instance().chunks.get(it.obj.chunkAndPoint.chunk.point)?.addBuilding(it.obj)
+                            Chunks.instance().chunks.get(it.obj.point.chunk)?.addBuilding(it.obj)
                         } else {
-                            Chunks.instance().chunks.get(it.obj.chunkAndPoint.chunk.point)?.addNonCollision(it.obj)
+                            Chunks.instance().chunks.get(it.obj.point.chunk)?.addNonCollision(it.obj)
                         }
                         when (obj){
                             is WheatFarm ->

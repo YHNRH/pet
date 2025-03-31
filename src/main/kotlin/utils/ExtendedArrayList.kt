@@ -1,12 +1,12 @@
 package utils
 
-import Point
+import world.MapPoint
 import world.objects.IDrawableObject
 
 class ExtendedArrayList<E> : ArrayList<E>() {
-    fun getByPoint(point: Point): E? {
+    fun getByPoint(point: MapPoint): E? {
         this.forEach{
-            if ((it as IDrawableObject).chunkAndPoint.point == point)
+            if ((it as IDrawableObject).point == point)
                 return it
         }
         return null

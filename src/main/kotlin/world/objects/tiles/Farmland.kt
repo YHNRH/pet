@@ -9,14 +9,14 @@ import ImageHelper.Companion.farmland_wheat_grown
 import ImageHelper.Companion.farmland_wheat_halfgrown
 import ImageHelper.Companion.farmland_wheat_seeded
 import ImageHelper.Companion.farmland_wheat_sheaf
-import world.ChunkAndPoint
+import world.MapPoint
 import world.objects.IDrawableObject
 import java.awt.Image
 import java.awt.event.ActionListener
 import javax.swing.Timer
 import kotlin.random.Random
 
-class Farmland (override var chunkAndPoint: ChunkAndPoint, override var height: Double = 1.0, override var width: Int = 1) :
+class Farmland (override var point: MapPoint, override var height: Double = 1.0, override var width: Int = 1) :
     IDrawableObject {
     //    override fun draw(g: Graphics) {
 //        g.drawImage(grass,x*blockWidth,frameHeight-y* blockHeight, null)
@@ -27,7 +27,7 @@ class Farmland (override var chunkAndPoint: ChunkAndPoint, override var height: 
     var growingPhase = 0
     private var growingPhases = arrayOf(farmland_unprepared, farmland_prepared, farmland_wheat_seeded, farmland_wheat_halfgrown, farmland_wheat_grown,
                 farmland_wheat_cutted, farmland_wheat_sheaf)
-    override var occupiedBlocks: ArrayList<ChunkAndPoint> = ArrayList()
+    override var occupiedBlocks: ArrayList<MapPoint> = ArrayList()
 
     private var img:Image = growingPhases[growingPhase][Random.nextInt(0, 4)]
 
