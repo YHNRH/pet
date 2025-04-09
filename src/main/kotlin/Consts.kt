@@ -17,6 +17,7 @@ class Consts{
         const val zoomStep = 1
 
         const val debugDraw = true
+        val timeScale = 30f // 1.0 - нормальная скорость
 
         const val walkSpeed = 700
         const val runSpeed = 400
