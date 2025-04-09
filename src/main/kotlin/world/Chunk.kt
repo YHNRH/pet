@@ -6,12 +6,14 @@ import GraphicsExtender
 import Point
 import utils.ExtendedArrayList
 import world.objects.DrawableObject
+import world.objects.ILightSource
 import world.objects.buildings.Building
 import world.objects.mobs.Mob
 import world.objects.tiles.Grass
 import world.objects.mobs.SimpleMob
 import world.objects.tiles.Farmland
 import world.objects.trees.Tree
+import java.awt.geom.Area
 
 class Chunk(val point: Point) {
     private var nonCollissionObjects = HashMap<Point, DrawableObject>()
@@ -70,6 +72,12 @@ class Chunk(val point: Point) {
         if (debugDraw){
 //            ge.g.color = Color.BLUE
 //            ge.drawRect(point.getX()*chunkWidth,point.getY()* chunkHeight , chunkWidth, chunkHeight)
+        }
+    }
+
+    fun getLightsShapes(ge: GraphicsExtender): List<Area> {
+        return objects.filterIsInstance<ILightSource>().map {
+            ge.getOvalShape(it.chunkAndPoint.point.getX(), it.chunkAndPoint.point.getY(), 3, 3)
         }
     }
 
