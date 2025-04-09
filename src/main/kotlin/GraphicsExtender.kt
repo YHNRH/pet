@@ -17,6 +17,8 @@ import java.awt.BasicStroke
 import java.awt.Color
 import java.awt.Graphics2D
 import java.awt.Image
+import java.awt.geom.Area
+import java.awt.geom.Ellipse2D
 import java.awt.image.BufferedImage
 
 
@@ -41,6 +43,31 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
     fun drawRect(x: Int, y: Int,
                          width: Int, height: Int){
         g.drawRect((x - camera.x)*camera.zoom + frameWidth/2,(frameHeight - y - height + camera.y)*camera.zoom - frameHeight/2,width*camera.zoom,height*camera.zoom)
+    }
+
+    fun fillOval(x: Int, y: Int,
+                 width: Int, height: Int){
+        val _width = width * blockWidth * camera.zoom
+        val _height = height * blockHeight * camera.zoom
+        g.fillOval(
+            (x *blockWidth-(y * blockWidth/2) -(x * blockWidth/2)+ blockWidth/2 - camera.x)*camera.zoom  - _width/2,
+            (frameHeight - (y * blockHeight - (y * blockHeight/2) + blockHeight/2 + ( x * blockHeight/2)) + camera.y) * camera.zoom - _height/2,
+            _width,
+            _height
+            )
+    }
+
+    fun getOvalShape(x: Int, y: Int,
+                 width: Int, height: Int): Area {
+        val _width = width * blockWidth * camera.zoom
+        val _height = height * blockHeight * camera.zoom
+
+        return Area(Ellipse2D.Double(
+            ((x *blockWidth-(y * blockWidth/2) -(x * blockWidth/2)+ blockWidth/2 - camera.x)*camera.zoom  - _width/2).toDouble(),
+            ((frameHeight - (y * blockHeight - (y * blockHeight/2) + blockHeight/2 + ( x * blockHeight/2)) + camera.y) * camera.zoom - _height/2).toDouble(),
+            _width.toDouble(),
+            _height.toDouble()
+        ))
     }
 
     fun drawString(string: String, x: Int, y: Int,
