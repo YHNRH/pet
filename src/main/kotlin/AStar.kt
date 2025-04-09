@@ -1,4 +1,5 @@
 import world.ChunkAndPoint
+import world.Chunks
 import world.objects.DrawableObject
 import kotlin.math.abs
 import kotlin.math.pow
@@ -43,7 +44,7 @@ class AStar {
         return res
     }
 
-    fun astar(s :ChunkAndPoint, g : ChunkAndPoint, collisionObjects: ArrayList<DrawableObject>): ArrayList<ChunkAndPoint> {
+    fun astar(s :ChunkAndPoint, g : ChunkAndPoint): ArrayList<ChunkAndPoint> {
 
 
         val start = Node(s)
@@ -51,9 +52,9 @@ class AStar {
         val closed = ArrayList<Node>()
 
 
-
+        val collisionObjects = Chunks.instance().chunks[Point(0,0)]?.objects?.toList()
         val occupiedNodes = ArrayList<Node>()
-        collisionObjects.forEach { t -> occupiedNodes.addAll(t.occupiedBlocks.map { Node(it) }) }
+        collisionObjects?.forEach { t -> occupiedNodes.addAll(t.occupiedBlocks.map { Node(it) }) }
 
         //Заполняем свойства вершины start
         start.g = 0.0   // g(x). Стоимость пути от начальной вершины. У start g(x) = 0

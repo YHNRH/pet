@@ -17,7 +17,6 @@ import javax.swing.Timer
 class WalkBehavior(
     nextActivityBehavior: ActivityBehavior?,
     var destination: ChunkAndPoint,
-    private val collisionObjects: ArrayList<DrawableObject>,
     var skip: () -> Boolean = { false },
     var activity: Activity = Activity.WALK,
     var afterFunction: () -> Unit = {},
@@ -61,7 +60,7 @@ class WalkBehavior(
             println("chunksToSearch size " + chunksToSearch.size)
             t = Thread {
                 try {
-                    val shortestPath = getShortestPath(destination, mob, removeLastElement, collisionObjects/*),chunksToSearch*/)
+                    val shortestPath = getShortestPath(destination, mob, removeLastElement/*),chunksToSearch*/)
 
                     mob.pathForDebugDraw.add(shortestPath)
                     var index = 0
@@ -202,10 +201,9 @@ class WalkBehavior(
     private fun getShortestPath(
         destination: ChunkAndPoint,
         mob: Mob,
-        removeLastElement: Int,
-        collisionObjects: ArrayList<DrawableObject>
+        removeLastElement: Int
     ): ArrayList<ChunkAndPoint> {
-        var path = AStar().astar(mob.chunkAndPoint, destination, collisionObjects)
+        var path = AStar().astar(mob.chunkAndPoint, destination)
         path = path.dropLast(removeLastElement) as ArrayList<ChunkAndPoint>
         val test = ArrayList<ArrayList<ChunkAndPoint>>()
         test.add(path)
