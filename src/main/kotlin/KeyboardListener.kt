@@ -38,6 +38,9 @@ class KeyboardListener(val camera: Camera): KeyListener {
         if (e?.keyCode == KeyEvent.VK_Q) {
             camera.setZoom(camera.zoom - zoomStep)
         }
+        if (e?.keyCode == KeyEvent.VK_SPACE) {
+            DayNightTimer.instance().togglePause()
+        }
 
         if (Drawer.instance().appState == Drawer.AppState.BUILD){
             if (e?.keyCode == KeyEvent.VK_R) {
