@@ -29,18 +29,18 @@ class FarmManager(val castleManager: CastleManager) {
         var buff : ActivityBehavior?  = null
         farm.farmlands.forEach {
             val cultivate = CultivateBehavior(null, it as Farmland) { it.growingPhase != 0 && it.growingPhase != 5  }
-//            val walk = WalkBehavior(cultivate, it.chunkAndPoint, afterFunction = { it.growingPhase != 0 && it.growingPhase != 5  })
-//
+            val walk = WalkBehavior(cultivate, it.chunkAndPoint, afterFunction = { it.growingPhase != 0 && it.growingPhase != 5  })
+
 //            // Внесение первого действия
-//            if (buff == null){
-//                farmer.addBehavior(walk)
+            if (buff == null){
+                farmer.addBehavior(walk)
 //                // Замыкаем
-//                rest.nextActivityBehavior = walk
+                rest.nextActivityBehavior = walk
 //                //toFarm.nextActivityBehavior = walk
-//            } else {
-//                buff?.nextActivityBehavior = walk
-//            }
-//            buff = cultivate
+            } else {
+                buff?.nextActivityBehavior = walk
+            }
+            buff = cultivate
 
         }
        // buff?.nextActivityBehavior = WalkBehavior(rest,farm.chunkAndPoint)
@@ -64,14 +64,14 @@ class FarmManager(val castleManager: CastleManager) {
 
         farm.farmlands.forEach {
             val cut = CutBehavior(null, it as Farmland) { it.growingPhase != 4 }
-//            val walk = WalkBehavior(cut, it.chunkAndPoint, { it.growingPhase != 4 })
-//
-//            if (sowBuff?.nextActivityBehavior == null){
-//                sowBuff?.nextActivityBehavior = walk
-//            } else {
-//                cutBuff?.nextActivityBehavior = walk
-//            }
-//            cutBuff = cut
+            val walk = WalkBehavior(cut, it.chunkAndPoint, { it.growingPhase != 4 })
+
+            if (sowBuff?.nextActivityBehavior == null){
+                sowBuff?.nextActivityBehavior = walk
+            } else {
+                cutBuff?.nextActivityBehavior = walk
+            }
+            cutBuff = cut
         }
 
         var bearBuff : ActivityBehavior?  = null
@@ -104,12 +104,13 @@ class FarmManager(val castleManager: CastleManager) {
         }
 
                                                                             // Пропускаем если уже на ферме. Это нужно, чтобы не менялось activity
-       // bearBuff?.nextActivityBehavior = WalkBehavior(rest,farm.chunkAndPoint, {farmer.chunkAndPoint == farm.chunkAndPoint})
+        bearBuff?.nextActivityBehavior = WalkBehavior(rest,farm.chunkAndPoint, {farmer.chunkAndPoint == farm.chunkAndPoint})
 
 
 
 
 
+        farmer.behavior = rest
 
 
         //sowBuff?.nextActivityBehavior = WalkBehavior(rest,farm.chunkAndPoint)
