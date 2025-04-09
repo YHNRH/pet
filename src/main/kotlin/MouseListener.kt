@@ -8,10 +8,7 @@ import managers.FarmManager
 import world.ChunkAndPoint
 import world.Chunks
 import world.objects.DrawableObject
-import world.objects.buildings.Building
-import world.objects.buildings.GenericBuilding
-import world.objects.buildings.Palette
-import world.objects.buildings.WheatFarm
+import world.objects.buildings.*
 import world.objects.buildings.castle.Castle
 import world.objects.mobs.SimpleMob
 import world.objects.mobs.activityBehaviors.WalkBehavior
@@ -21,60 +18,61 @@ class MouseListener(private val drawer:Drawer, private val castleManager: Castle
 
     override fun mouseClicked(e: MouseEvent?) {
         if (e != null) {
+            when (e.button){
+                1 -> { //ЛКМ
+                    val point = drawer.getPointByMouseXY(e.x, e.y)
+                    when (drawer.appState){
+                        Drawer.AppState.WALK -> {
 
-            val point = drawer.getPointByMouseXY(e.x, e.y)
+                            SelectionHandler.selectedMobs.forEach{
+                                val chunk = Chunks.instance().chunks.get(Point(0,0))//chunkX,chunkY))
+                                val pointExist = chunk?.getNoncollisionObject(point) != null
+                                (it as SimpleMob).addBehavior(WalkBehavior(null, ChunkAndPoint(chunk!!, point)))
+                                //  it.move(
+                                //       SimpleMob.ChunkAndPoint(chunk!!, Point(pointX,pointY)),
+                                //        Chunks.instance().chunks, objects, null, Activity.WALK)
+                            }
 
-            when (drawer.appState){
-                Drawer.AppState.WALK -> {
-
-                    SelectionHandler.selectedMobs.forEach{
-                        val objects = ArrayList<DrawableObject>()
-                        Chunks.instance().chunks.forEach{
-                            objects.addAll(it.value.objects)
                         }
-                        println("OBJECTS TO COLLISION CHECK SIZE ${objects.size}")
-                        val chunk = Chunks.instance().chunks.get(Point(0,0))//chunkX,chunkY))
-                        val pointExist = chunk?.getNoncollisionObject(point) != null
-                        (it as SimpleMob).addBehavior(WalkBehavior(null, ChunkAndPoint(chunk!!, point), objects))
-                        //  it.move(
-                        //       SimpleMob.ChunkAndPoint(chunk!!, Point(pointX,pointY)),
-                        //        Chunks.instance().chunks, objects, null, Activity.WALK)
-                    }
+                        Drawer.AppState.BUILD -> {
+                            val obj = BuilderHelper.getInstance().getObj()!!
+                            Chunks.instance().chunks[obj.chunkAndPoint.chunk.point]?.addBuilding(obj)
+                            BuilderHelper.getInstance().getAdditional()?.forEach {
+                                if (it.obj is Building){
+                                    Chunks.instance().chunks[it.obj.chunkAndPoint.chunk.point]?.addBuilding(it.obj)
+                                } else {
+                                    Chunks.instance().chunks[it.obj.chunkAndPoint.chunk.point]?.addNonCollision(it.obj)
+                                }
+                                when (obj){
+                                    is WheatFarm ->
+                                        obj.farmlands.add(it.obj)
 
+                                    is Castle ->{
+                                        if (it.obj is Palette)
+                                            obj.palettes.add(it.obj)
+                                    }
+                                }
+                            }
+                            when(obj){
+                                is Castle       -> castleManager.castle = obj
+                                is WheatFarm    -> castleManager.farmManager.createWorker(obj)
+                                is WoodcutterHut -> {
+                                    castleManager.woodcutterManager.createWorker(obj)
+                                }
+                                is Palette      -> castleManager.castle!!.palettes.add(obj)
+                            }
+                            drawer.appState = Drawer.AppState.WALK
+                        }
+                    }
                 }
-                Drawer.AppState.BUILD -> {
-                    val obj = BuilderHelper.getInstance().getObj()!!
-                    Chunks.instance().chunks.get(obj.chunkAndPoint.chunk.point)?.addBuilding(obj)
-                    BuilderHelper.getInstance().getAdditional()?.forEach {
-                        if (it.obj is Building){
-                            Chunks.instance().chunks.get(it.obj.chunkAndPoint.chunk.point)?.addBuilding(it.obj)
-                        } else {
-                            Chunks.instance().chunks.get(it.obj.chunkAndPoint.chunk.point)?.addNonCollision(it.obj)
-                        }
-                        when (obj){
-                            is WheatFarm ->
-                                obj.farmlands.add(it.obj)
-
-                            is Castle ->{
-                                if (it.obj is Palette)
-                                    obj.palettes.add(it.obj)
-                            }
+                3 -> { //ПКМ
+                    when (drawer.appState){
+                        Drawer.AppState.BUILD -> {
+                            drawer.appState = Drawer.AppState.WALK
                         }
                     }
-                    when(obj){
-                        is Castle       -> castleManager.castle = obj
-                        is WheatFarm    -> castleManager.farmManager.createWorker(obj)
-                        is GenericBuilding   -> {
-                            when(obj.image){
-                                woodcutter_hut -> castleManager.woodcutterManager.createWorker(obj)
-                            }
-                        }
-                        is Palette      -> castleManager.castle!!.palettes.add(obj)
-                    }
-                    drawer.appState = Drawer.AppState.WALK
                 }
             }
-
         }
     }
 
