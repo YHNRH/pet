@@ -107,8 +107,7 @@ class ToolbarButton(val drawer: Drawer,private val imgArray: Array<BufferedImage
 
                     toolbar_woodcutter_hut -> {
                         drawer.appState = Drawer.AppState.BUILD
-                        BuilderHelper.getInstance().setBuilding(GenericBuilding(ChunkAndPoint(Chunk(Point(0,0)), Point(0,0)),3,6.0,
-                            woodcutter_hut
+                        BuilderHelper.getInstance().setBuilding(WoodcutterHut(ChunkAndPoint(Chunk(Point(0,0)), Point(0,0)),3,6.0,
                         ))
                     }
 
