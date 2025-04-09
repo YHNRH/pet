@@ -1,8 +1,11 @@
 package world.objects.mobs.activityBehaviors
 
 import Consts.Companion.restAnimSpeed
+import Point
 import objects.Activity
+import world.ChunkAndPoint
 import world.Chunks
+import world.objects.Direction
 import world.objects.mobs.Mob
 import world.objects.mobs.Woodcutter
 import world.objects.trees.Tree
@@ -15,9 +18,10 @@ class ChopLogBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavio
     override fun performActivity(mob: Mob) {
         mob as Woodcutter
             if (mob.tree != null) {
-//                val chop =
-                    ChopBehavior(nextActivityBehavior!!, mob.tree!!).performActivity(mob)
-//                WalkBehavior(chop, mob.tree!!.chunkAndPoint, { false }, Activity.WALK, { }, 1).performActivity(mob)
+                val chop = ChopBehavior(nextActivityBehavior!!, mob.tree!!)//.performActivity(mob)
+                val pnt = Point(mob.tree!!.chunkAndPoint.point.getX(),mob.tree!!.chunkAndPoint.point.getY()+1)
+                val destination = ChunkAndPoint(mob.tree!!.chunkAndPoint.chunk, pnt)
+                WalkBehavior(chop, destination, afterFunction = {mob.direction = Direction.RIGHT_BOTTOM}).performActivity(mob)
             } else {
                 nextActivity(mob)
             }

@@ -1,7 +1,9 @@
 package world.objects.mobs.activityBehaviors
 
 import Consts.Companion.restAnimSpeed
+import Point
 import objects.Activity
+import world.ChunkAndPoint
 import world.Chunks
 import world.objects.mobs.Mob
 import world.objects.mobs.Woodcutter
@@ -20,7 +22,9 @@ class ChopTreeBehavior(nextActivityBehavior: ActivityBehavior?) : ActivityBehavi
             mob.tree = Chunks.instance().chunks.get(mob.chunkAndPoint.chunk.point)!!.getTrees()[0]
             if (mob.tree != null){
                 val chop = ChopBehavior(nextActivityBehavior!!, mob.tree!!)
-          //      WalkBehavior(chop, mob.tree!!.chunkAndPoint, {false}, Activity.WALK, {  }, 1).performActivity(mob)
+                val pnt = Point(mob.tree!!.chunkAndPoint.point.getX(),mob.tree!!.chunkAndPoint.point.getY()+1)
+                val destination = ChunkAndPoint(mob.tree!!.chunkAndPoint.chunk, pnt)
+                WalkBehavior(chop, destination, {false}, Activity.WALK, {  }).performActivity(mob)
             } else {
                 nextActivity(mob)
             }
