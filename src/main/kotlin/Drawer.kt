@@ -28,6 +28,7 @@ import ImageHelper.Companion.treasurer_right
 import managers.CastleManager
 import managers.FarmManager
 import toolbar.ToolbarButton
+import java.awt.geom.Area
 import world.Chunk
 import world.ChunkAndPoint
 import world.Chunks
@@ -43,11 +44,14 @@ import java.awt.event.MouseMotionListener
 import javax.swing.JComponent
 import javax.swing.SwingUtilities
 import javax.swing.Timer
+import kotlin.math.abs
+import kotlin.math.sin
 
 
 class Drawer : JComponent(), MouseMotionListener {
-var camera: Camera = Camera.instance()
-var appState: AppState = AppState.WALK
+    var camera: Camera = Camera.instance()
+    private val dayTimer  = DayNightTimer.instance()
+    var appState: AppState = AppState.WALK
     companion object {
         private var drawer: Drawer? = null
 
@@ -171,14 +175,14 @@ var appState: AppState = AppState.WALK
             if (appState == AppState.BUILD) {
                 val point = getPointByMouseXY(e.x, e.y)
                 val chunkPoint = Point(0,0)//mockup
-
+                val chunk = Chunks.instance().chunks[chunkPoint]!!
                 BuilderHelper.getInstance().setBuildingChunkAndPoint(
-                    ChunkAndPoint(Chunk(chunkPoint), point)
+                    ChunkAndPoint(chunk, point)
                 )
                 BuilderHelper.getInstance().getAdditional()?.forEach {
                     val offset = it.offset[BuilderHelper.getInstance().getObj()!!.direction]!!
                     it.obj.chunkAndPoint = ChunkAndPoint(
-                        Chunk(chunkPoint),
+                        chunk,
                         Point(point.getX() + offset.getX(), point.getY() + offset.getY())
                     )
                 }
@@ -199,6 +203,7 @@ var appState: AppState = AppState.WALK
         val ge = GraphicsExtender(g as Graphics2D, camera)
 //        ge.drawRect(camera.x - frameWidth/2, camera.y + frameHeight/2, 10,10)
 
+        dayTimer.update()
         Chunks.instance().chunks.forEach{
             it.value.draw(ge)
         }
@@ -209,15 +214,45 @@ var appState: AppState = AppState.WALK
             }
             BuilderHelper.getInstance().getObj()?.draw(ge)
         }
+        drawTimeVisuals(ge)
         drawToolbar(g)
 //        g.dispose()
-        if (Consts.debugDraw){
-            ge.drawLine(camera.x-10, camera.y, camera.x+10, camera.y) //??
-            ge.drawLine(camera.x, camera.y-10, camera.x, camera.y+10) //??
-        }
+//        if (Consts.debugDraw){
+//            ge.drawLine(camera.x-10, camera.y, camera.x+10, camera.y) //??
+//            ge.drawLine(camera.x, camera.y-10, camera.x, camera.y+10) //??
+//        }
         super.paintComponent(g)
     }
 
+    private fun drawTimeVisuals(ge: GraphicsExtender){
+
+        val progress = dayTimer.getDayProgress()
+        val lightIntensity = abs(sin(progress * Math.PI.toFloat())) // Синусоида для плавности
+        val alpha = 1f - lightIntensity // Ночь темнее
+        ge.g.color = Color(0f, 0f, 0f, alpha * 0.7f) // Затемнение
+
+        // Вырезаем овал из клипа
+        val area = Area(Rectangle(0, 0, frameWidth, frameHeight))
+        //area.subtract(Area(Ellipse2D.Double(100.0, 100.0, 100.0, 100.0)))
+
+        Chunks.instance().chunks.forEach{
+            it.value.getLightsShapes(ge).forEach {
+                area.subtract(it)
+            }
+        }
+
+        ge.g.clip = area
+
+        ge.g.fillRect(0, 0, frameHeight, frameHeight)
+        ge.g.clip = null
+
+        Chunks.instance().chunks.forEach{
+        //    it.value.drawLights(ge)
+        }
+
+        ge.g.color = Color(1f, 1f, 1f, 1f) // Сброс цвета
+        ge.g.drawString(dayTimer.currentTime, 10, 30)
+    }
     fun drawToolbar(g: Graphics){
         g.run {
             drawImage(edge, 0, frameHeight-128, 112, 128, null)
