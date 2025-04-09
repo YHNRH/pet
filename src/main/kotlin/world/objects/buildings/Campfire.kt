@@ -5,11 +5,12 @@ import GraphicsExtender
 import ImageHelper.Companion.campfire
 import world.ChunkAndPoint
 import world.objects.BuildingDirection
+import world.objects.ILightSource
 import world.objects.mobs.SimpleMob
 import java.awt.Image
 
 class Campfire(override var chunkAndPoint: ChunkAndPoint, override var width: Int = 1, override var height: Double = 2.0,
-) : Building {
+) : Building, ILightSource {
     override var direction: BuildingDirection = BuildingDirection.LEFT
 
     val animCount = 18
