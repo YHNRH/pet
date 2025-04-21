@@ -12,6 +12,8 @@ import ImageHelper.Companion.toolbar_woodcutter_hut
 import ImageHelper.Companion.woodcutter_hut
 import world.MapPoint
 import world.Chunk
+import world.Chunks
+import world.SimplePoint
 import world.objects.BuildingDirection
 import world.objects.buildings.*
 import world.objects.buildings.castle.Castle
@@ -89,7 +91,7 @@ class ToolbarButton(val drawer: Drawer,private val imgArray: Array<BufferedImage
                         val campfire = AdditionalBuilding(Campfire(MapPoint(0,0, Chunk(0,0))), offset_CF)
 
                         BuilderHelper.getInstance().setBuilding(
-                            Castle(MapPoint(0,0, Chunk(0,0))),
+                            Castle(MapPoint(0,0, Chunks.instance().chunks[SimplePoint(0,0)]!!)),
                             arrayListOf(pallete, troddenGround)//, campfire)
                         )
                     }

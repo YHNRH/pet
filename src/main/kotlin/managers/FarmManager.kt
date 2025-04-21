@@ -13,7 +13,7 @@ class FarmManager(val castleManager: CastleManager) {
         val farmer = Farmer(
             MapPoint(castleManager.castle!!.point.getX()-2,castleManager.castle!!.point.getY()+2, castleManager.castle!!.point.chunk)
         )
-        Chunks.instance().chunks.get(castleManager.castle?.point?.chunk as Point)?.addMob(farmer)
+        Chunks.instance().chunks[castleManager.castle?.point?.chunk as Point]?.addMob(farmer)
        // val toFarm =    WalkBehavior(null,farm.chunkAndPoint)
         //val toCastle =  WalkBehavior(toFarm,castle!!.chunkAndPoint)
         val rest =      RestBehavior(null)
