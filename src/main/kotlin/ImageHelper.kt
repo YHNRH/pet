@@ -10,6 +10,14 @@ class ImageHelper {
             ImageIO.read(javaClass.getResource("tiles/grass/$it.png"))
         }
 
+        val sand_tiles: Array<BufferedImage> = Array(16) {
+            ImageIO.read(javaClass.getResource("tiles/sand/$it.png"))
+        }
+
+        val sea_tiles: Array<BufferedImage> = Array(42) {
+            ImageIO.read(javaClass.getResource("tiles/sea/$it.png"))
+        }
+
         val farmland_unprepared: Array<BufferedImage> = Array(4) {
             ImageIO.read(javaClass.getResource("tiles/farmland/unprepared/${it+1}.png"))
         }

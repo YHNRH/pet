@@ -4,10 +4,13 @@ import GraphicsExtender
 import ImageHelper.Companion.trodden_ground
 import world.MapPoint
 import world.objects.IDrawableObject
+import java.awt.Color
 import java.awt.Image
 
 class TroddenGround(override var point: MapPoint, override var height: Double = 6.0, override var width: Int = 6) :
-    IDrawableObject {
+    ITile {
+
+    override val underlayColor: Color = Color(96,120,56)
     //    override fun draw(g: Graphics) {
 //        g.drawImage(grass,x*blockWidth,frameHeight-y* blockHeight, null)
 //        g.color = Color.RED
