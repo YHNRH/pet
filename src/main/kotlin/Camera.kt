@@ -1,10 +1,11 @@
+import Consts.Companion.cameraYInit
 import Consts.Companion.zoomInit
 import Consts.Companion.zoomMax
 import Consts.Companion.zoomMin
 
 class Camera {
     var x = 0
-    var y = 0
+    var y = cameraYInit
     var zoom = zoomInit
     //    private constructor(x:Int, y: Int, zoom:Int) {}
 

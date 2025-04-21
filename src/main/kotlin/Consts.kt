@@ -1,16 +1,18 @@
 class Consts{
     companion object {
         val blockWidth = 30 //50
-        val blockHeight = 15 //50
+        const val blockHeight = 15 //50
         val chunkSize = 100
         val chunkWidth = chunkSize* blockWidth
         val chunkHeight = chunkSize* blockHeight
 
         const val frameWidth = 1000
         const val frameHeight = 1000
-        const val cameraStep = 15
+        const val cameraSpeed = 2
+        const val cameraStep = blockHeight * cameraSpeed
+        const val cameraYInit = -600
 
-        const val zoomMax = 3
+        const val zoomMax = 10
         const val zoomMin = 1
         const val zoomInit = 2
 

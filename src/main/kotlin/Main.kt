@@ -1,3 +1,4 @@
+import toolbar.Console
 import java.awt.*
 import javax.swing.*
 
@@ -11,6 +12,7 @@ import javax.swing.*
 
                     frame.addKeyListener(KeyboardListener(Camera.instance()))
                     frame.add(Drawer.instance())
+                    Drawer.instance().add(Console())
 
                     frame.pack()
                     frame.isVisible = true
