@@ -4,10 +4,13 @@ import Consts.Companion.chunkSize
 import Consts.Companion.debugDraw
 import GraphicsExtender
 import utils.ExtendedArrayList
+import utils.PerlinNoise
 import world.objects.IDrawableObject
 import world.objects.buildings.IBuilding
 import world.objects.mobs.IMob
 import world.objects.tiles.Grass
+import world.objects.tiles.Sand
+import world.objects.tiles.Sea
 import world.objects.trees.ITree
 
 class Chunk(x: Int, y: Int) : Point(x, y) {
@@ -73,11 +76,22 @@ class Chunk(x: Int, y: Int) : Point(x, y) {
     companion object{
         fun grassChunk(x: Int,y: Int): Chunk {
             val c = Chunk(x,y)
+
+            val per = PerlinNoise(123)
+            val arr = ArrayList<Float>()
+
             for ( x in 0..chunkSize-1){
                 for (y in 0..chunkSize-1){
-                    if (x>=y){
-                        c.addNonCollision(Grass(MapPoint(x, y, c)))
-                    }
+                  //  if (x>=y){
+                        val p = per.calc((x / 102.4).toFloat(), (y  / 102.4).toFloat(), 20,0.55f)
+                        arr.add(p) // for debug
+                        if (p > 1)
+                            c.addNonCollision(Sea(MapPoint(x, y, c)))
+                        else if (p > 0)
+                            c.addNonCollision(Grass(MapPoint(x, y, c)))
+                        else
+                            c.addNonCollision(Sand(MapPoint(x, y, c)))
+                  //  }
                 }
             }
             return c
