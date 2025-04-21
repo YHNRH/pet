@@ -12,10 +12,12 @@ import world.objects.IDrawableObject
 import world.objects.DrawableObjectPart
 import world.objects.buildings.IBuilding
 import world.objects.mobs.IMob
+import world.objects.tiles.ITile
 import java.awt.BasicStroke
 import java.awt.Color
 import java.awt.Graphics2D
 import java.awt.Image
+import java.awt.Stroke
 import java.awt.image.BufferedImage
 
 
@@ -79,7 +81,7 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
         }
     }
 
-    fun drawBlock( obj: IDrawableObject){
+    fun drawBlock(obj: ITile){
         val x = obj.point.getX()
         val y = obj.point.getY()
         val chunkX = obj.point.chunk.getX()
@@ -99,6 +101,41 @@ class GraphicsExtender(val g: Graphics2D, val camera: Camera) {
 //        g.color = Color.YELLOW
 //        g.fillRect((drawx - camera.x)*camera.zoom + frameWidth/2,(frameHeight - drawy  - blockHeight * obj.height + camera.y)*camera.zoom - frameHeight/2,
 //            blockWidth * obj.width, blockHeight * obj.height)
+
+        // region
+        //Подложка
+        g.color = obj.underlayColor
+        g.stroke = BasicStroke(3f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
+
+        drawLine((chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) -(x * blockWidth/2),
+            (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + y* blockHeight - (y * blockHeight/2) + blockHeight/2 + (x * blockHeight/2),
+            (chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) + blockWidth/2  -(x * blockWidth/2),
+            (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2)
+        )
+
+        drawLine(
+            (chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) + blockWidth/2  -(x * blockWidth/2),
+            (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + y* blockHeight - (y * blockHeight/2) + (x * blockHeight/2),
+            (chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) + blockWidth  -(x * blockWidth/2),
+            (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + y* blockHeight - (y * blockHeight/2) + blockHeight/2 + (x * blockHeight/2)
+
+        )
+
+        drawLine(
+            (chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) + blockWidth  -(x * blockWidth/2),
+            (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 )+ y* blockHeight - (y * blockHeight/2) + blockHeight/2 + (x * blockHeight/2),
+            (chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) + blockWidth/2  -(x * blockWidth/2),
+            (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 )+ y* blockHeight - (y * blockHeight/2) + blockHeight + (x * blockHeight/2)
+        )
+
+        drawLine(
+            (chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2) + blockWidth/2  -(x * blockWidth/2),
+            (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 )+ y* blockHeight - (y * blockHeight/2) + blockHeight + (x * blockHeight/2),
+            (chunkX*chunkWidth/2) - (chunkY* chunkWidth/2 )+x*blockWidth-(y * blockWidth/2)  -(x * blockWidth/2),
+            (chunkX*chunkHeight/2) + (chunkY* chunkHeight/2 ) + y* blockHeight - (y * blockHeight/2) + blockHeight/2 + (x * blockHeight/2)
+        )
+        // endregion
+
         drawImage(obj.getImage(), drawx,
             drawy,
             blockWidth * obj.width, (blockHeight * obj.height).toInt())

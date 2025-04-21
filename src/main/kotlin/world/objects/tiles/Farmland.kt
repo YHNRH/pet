@@ -11,13 +11,16 @@ import ImageHelper.Companion.farmland_wheat_seeded
 import ImageHelper.Companion.farmland_wheat_sheaf
 import world.MapPoint
 import world.objects.IDrawableObject
+import java.awt.Color
 import java.awt.Image
 import java.awt.event.ActionListener
 import javax.swing.Timer
 import kotlin.random.Random
 
 class Farmland (override var point: MapPoint, override var height: Double = 1.0, override var width: Int = 1) :
-    IDrawableObject {
+    ITile {
+
+    override val underlayColor: Color = Color(96,120,56)
     //    override fun draw(g: Graphics) {
 //        g.drawImage(grass,x*blockWidth,frameHeight-y* blockHeight, null)
 //        g.color = Color.RED
