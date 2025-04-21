@@ -25,6 +25,7 @@ import ImageHelper.Companion.toolbar_woodcutter_hut
 import ImageHelper.Companion.treasurer_face_0
 import ImageHelper.Companion.treasurer_right
 import managers.CastleManager
+import toolbar.Console
 import toolbar.ToolbarButton
 import world.*
 import world.objects.buildings.AppleFarm
@@ -136,6 +137,8 @@ var appState: AppState = AppState.WALK
             add(ToolbarButton(this, sidebar_exit, 625, frameHeight - 26 - 32, 29, 21))
             add(ToolbarButton(this, sidebar_info, 625, frameHeight - 60 - 30, 29, 28))
             add(ToolbarButton(this, sidebar_key, 625, frameHeight-100-28, 29, 36))
+
+            add(Console())
 
             val btns = arrayOf(toolbar_woodcutter_hut, toolbar_applefarm, toolbar_wheatfarm, toolbar_cattlefarm, toolbar_hopsfarm, toolbar_castle, toolbar_palette)
             for (i in btns.indices){
@@ -255,16 +258,17 @@ var appState: AppState = AppState.WALK
     }
 
     fun getPointByMouseXY(x: Int,y: Int): MapPoint {
-        var calcY = -((y / camera.zoom - camera.y  - frameHeight))  // Вычитаем FrameHeight для того, чтобы инвертировать y
+        val calcY = -((y / camera.zoom - camera.y  - frameHeight))  // Вычитаем FrameHeight для того, чтобы инвертировать y
         val calcX = ((x + camera.x * camera.zoom ) - blockWidth*camera.zoom/2) / camera.zoom
         val myCoordSysX = calcX + calcY*(blockWidth/ blockHeight)
         val myCoordSysY =  -(calcX/2 - calcY)
         val chunkX = if (calcX / chunkSize < 0) 0 else myCoordSysX/ (blockWidth*camera.zoom) / chunkSize
-        val pointX = if (calcX % chunkSize < 0) 0 else myCoordSysX/ (blockWidth) % chunkSize
+        val pointX = //if (calcX % chunkSize < 0) 0 else
+            myCoordSysX/ (blockWidth) % chunkSize
         val chunkY = if (calcY / chunkSize < 0) 0 else myCoordSysY/ (blockHeight*camera.zoom) / chunkSize
         val pointY = if (calcY % chunkSize < 0) 0 else myCoordSysY/ (blockHeight) % chunkSize
 
-        return MapPoint(pointX, pointY, Chunk (chunkX, chunkY))
+        return MapPoint(pointX, pointY, Chunks.instance().chunks[SimplePoint(chunkX, chunkY)]!!)
     }
 
     enum class AppState {
